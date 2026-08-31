@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/img/brand/icon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/img/brand/icon-180.png">
 <title>Request a Consultation — Julio Clavijo Alvarez, MD, Miami</title>
 <meta name="description" content="Request a consultation with Dr. Julio Clavijo Alvarez, board-certified plastic surgeon in Miami. Three questions, about a minute. No medical history, no photographs.">
 <meta name="robots" content="noindex,nofollow"><!-- spec preview: never indexed (CLAUDE.md §3) -->
@@ -75,8 +78,11 @@
 
       <div class="bform__layout">
 
+      <!-- data-endpoint is deliberately empty: this is a mock for the pitch and nothing
+           is transmitted. The Cloudflare Worker at /api/consultation (D-073) is built and
+           tested; put the path back in both attributes to switch it on. -->
       <form id="bookForm" class="bform__form" novalidate
-            data-endpoint="/api/consultation"
+            data-endpoint=""
             action="/api/consultation" method="post">
 
         <ol class="bsteps" id="bSteps" aria-label="Progress">
@@ -295,16 +301,105 @@
 
       </div><!-- /.bform__layout -->
 
+      <!-- The confirmation. Its one job is that she answers the phone when his office
+           rings: a lead that will not pick up an unknown Miami number is a lost one. So
+           the number is stated before anything else, offered as a contact card, and then
+           evidenced — every quote below is a verified patient saying he calls personally.
+           That is the argument, and it happens to be true. -->
       <div class="bdone" id="bDone" hidden tabindex="-1">
-        <div class="bdone__grid">
-          <div>
-            <h2 class="p-h2">Request ready to send.</h2>
-            <p id="bDoneMsg"></p>
-            <a class="btn" href="tel:+17867952113">Call 786 795 2113 <span class="arw" aria-hidden="true">&rarr;</span></a>
+
+        <p class="bmock" id="bMock" hidden><b>Preview build.</b> Nothing was sent &mdash;
+          no destination is connected yet. This is the confirmation a real request produces.</p>
+
+        <div class="bdone__top">
+          <div class="bdone__say">
+            <p class="eyebrow">Request received</p>
+            <h2 class="bdone__h" id="bDoneH">Thank you.</h2>
+            <p class="bdone__lede" id="bDoneMsg"></p>
+            <dl class="bdone__sum" id="bDoneSum"></dl>
           </div>
+
           <figure class="bdone__fig">
-            <img src="/img/about/jc-office-600.jpg" alt="" loading="lazy" decoding="async">
+            <picture>
+              <source type="image/webp" srcset="/img/about/portrait-rail-320.webp" sizes="9rem">
+              <img src="/img/about/portrait-700.png" width="320" height="320"
+                   alt="Dr. Julio Clavijo Alvarez." loading="lazy" decoding="async">
+            </picture>
+            <figcaption>
+              <b>Julio Clavijo Alvarez, MD</b>
+              <span>Board-certified plastic surgeon &middot; Miami</span>
+              <span class="bdone__stat"><b>148,000</b> people follow his work</span>
+            </figcaption>
           </figure>
+        </div>
+
+        <!-- the call block -->
+        <div class="bcall">
+          <p class="bcall__k">His office will call you from</p>
+          <a class="bcall__n" href="tel:+17867952113">786 795 2113</a>
+          <p class="bcall__w">Usually within one working day. Save it now, so you know
+            who is ringing &mdash; and if you miss the call, ring the same number back.</p>
+          <div class="bcall__do">
+            <a class="btn" href="/jc-alvarez.vcf" download>Save the number
+              <span class="arw" aria-hidden="true">&darr;</span></a>
+            <a class="btn btn--ghost" href="tel:+17867952113">Call now instead
+              <span class="arw" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+
+        <!-- proof, chosen for this page specifically -->
+        <section class="bcar" aria-labelledby="car-h">
+          <div class="bcar__head">
+            <h3 class="bcar__t" id="car-h">Hear from patients who completed their surgery.</h3>
+            <div class="bcar__nav" hidden id="carNav">
+              <button type="button" class="bcar__b" data-car="prev" aria-label="Previous review">
+                <span aria-hidden="true">&larr;</span></button>
+              <button type="button" class="bcar__b" data-car="next" aria-label="Next review">
+                <span aria-hidden="true">&rarr;</span></button>
+            </div>
+          </div>
+          <div class="bcar__scroll" id="carTrack" tabindex="0" role="region"
+               aria-label="Patient reviews, horizontally scrollable">
+          <ul class="bcar__track">
+            <li class="bcar__i"><blockquote>
+              <p>He gave me his number after surgery. When I texted him with my
+                &ldquo;problem&rdquo;, he called INSTANTLY &hellip; I told him, I&rsquo;m a
+                mother of four, I don&rsquo;t want too big, I don&rsquo;t want too small
+                &hellip; He DEFINITELY understood the assignment.</p>
+              <footer><span>Breast augmentation</span><span>Bluestar33</span><span>November 2021</span></footer>
+            </blockquote></li>
+            <li class="bcar__i"><blockquote>
+              <p>I asked about getting implants and he was like NO, you are young and you
+                don&rsquo;t need it. Definitely the &ldquo;money&rdquo; is not his motor,
+                he&rsquo;s thinking about you &hellip; He called me 3 hours after my surgery
+                to check on me.</p>
+              <footer><span>Breast lift</span><span>KM46</span><span>March 2021</span></footer>
+            </blockquote></li>
+            <li class="bcar__i"><blockquote>
+              <p>All of the pain and discomfort has been absolutely worth it. He called me a
+                few hours after my surgery to check in on me and is always available to
+                answer questions.</p>
+              <footer><span>Septorhinoplasty</span><span>jaileen23</span><span>January 2019</span></footer>
+            </blockquote></li>
+            <li class="bcar__i"><blockquote>
+              <p>Dr. Alvarez took a great amount of time with me to discuss what I wanted and
+                how he would go about helping me achieve my goal &hellip; As usual he always
+                calls you in the evening to check up on you.</p>
+              <footer><span>Liposuction</span><span>the dashing olive</span><span>November 2019</span></footer>
+            </blockquote></li>
+          </ul>
+          </div>
+          <p class="bcar__src">Verbatim from <a href="https://www.realself.com/dr/julio-clavijo-alvarez-miami-fl" rel="noopener" target="_blank">his RealSelf profile</a>, with the reviewer&rsquo;s handle and the month they posted it.</p>
+        </section>
+
+        <div class="bwait">
+          <p class="bwait__h">While you wait</p>
+          <ul>
+            <li><a href="/results">See the results gallery <span class="arw" aria-hidden="true">&rarr;</span></a>
+              <span>Cases by procedure, no form in the way.</span></li>
+            <li><a href="/preparation">Read the preparation guide <span class="arw" aria-hidden="true">&rarr;</span></a>
+              <span>What the ninety days before surgery actually involve.</span></li>
+          </ul>
         </div>
       </div>
     </div>

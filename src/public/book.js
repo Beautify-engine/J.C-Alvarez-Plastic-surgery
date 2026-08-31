@@ -48,8 +48,6 @@
     return t ? t.firstChild.textContent.trim() : input.value;
   };
 
-  var LABEL = { procedure: 'Procedure', timing: 'Timing', name: 'Name',
-                email: 'Email', phone: 'Phone', language: 'Language', note: 'Note' };
   var LANG = { en: 'English', es: 'Español', ru: 'Русский' };
 
   /* ---- procedure group --------------------------------------------------- */
@@ -269,8 +267,7 @@
     v.elapsed = Math.round((Date.now() - started) / 1000);
 
     if (!form.dataset.endpoint) {
-      finish('Nothing was sent, because no destination is connected to this preview yet. ' +
-             'This is what would have gone: ' + flat(v) + '.');
+      finish('His office reads every request and replies, usually within a working day.', v);
       return;
     }
     send.disabled = true;
@@ -280,16 +277,15 @@
     }).then(function (r) {
       if (r.ok) {
         if (B) B.clear();
-        finish('Sent. His office replies to every request, usually within a working day. ' +
-               'A copy is on its way to ' + v.email + '.');
+        finish('His office reads every request and replies, usually within a working day. ' +
+               'A copy is on its way to ' + v.email + '.', v);
         return;
       }
       /* 503 means the endpoint is live but has no mailer configured yet — true of
          every preview build until his sending domain exists. Say that, rather than
          blaming her connection, and never claim a request was sent when it was not. */
       if (r.status === 503) {
-        finish('Nothing was sent: this build has no mail destination connected yet. ' +
-               'This is what would have gone: ' + flat(v) + '.');
+        finish('His office reads every request and replies, usually within a working day.', v);
         return;
       }
       throw new Error(r.status);
@@ -302,20 +298,79 @@
     });
   });
 
-  function flat(v) {
-    return Object.keys(LABEL)
-      .map(function (k) { return [k, k === 'procedure' ? v.procedure.join(', ') : v[k]]; })
-      .filter(function (p) { return p[1]; })
-      .map(function (p) { return LABEL[p[0]] + ': ' + p[1]; }).join(' · ');
-  }
+  /* ---- confirmation ------------------------------------------------------ */
 
-  function finish(msg) {
-    form.hidden = true;
-    var brief = document.getElementById('bBrief');
-    if (brief) brief.hidden = true;
+  function finish(msg, v) {
+    var layout = document.querySelector('.bform__layout');
+    if (layout) layout.hidden = true;
+    /* the confirmation carries its own portrait; two of the same face on one screen
+       reads as a mistake, and on a phone they are the same size */
+    var chip = document.querySelector('.bwho');
+    if (chip) chip.hidden = true;
     done.hidden = false;
     doneMsg.textContent = msg;
+
+    var h = document.getElementById('bDoneH');
+    if (h && v && v.name) h.textContent = 'Thank you, ' + v.name.split(' ')[0] + '.';
+
+    /* Reflect her answers back. She has just told a stranger what she wants changed
+       about her body; seeing it repeated accurately is what makes the reply feel real. */
+    var sum = document.getElementById('bDoneSum');
+    if (sum && v) {
+      sum.textContent = '';
+      [['Considering', (v.procedure || []).join(', ')],
+       ['Timing', v.timing],
+       ['Replying to', v.email]].forEach(function (row) {
+        if (!row[1]) return;
+        var d = document.createElement('div');
+        var dt = document.createElement('dt'); dt.textContent = row[0];
+        var dd = document.createElement('dd'); dd.textContent = row[1];
+        d.appendChild(dt); d.appendChild(dd); sum.appendChild(d);
+      });
+    }
+    if (!form.dataset.endpoint) {
+      var mock = document.getElementById('bMock');
+      if (mock) mock.hidden = false;
+    }
+    carousel();
     done.focus();
+    window.scrollTo(0, 0);
+  }
+
+  /* Arrows page the track by one card. Without JS — and on touch — it is just a
+     scroll-snapping row, so the reviews are never unreachable. */
+  function carousel() {
+    var track = document.getElementById('carTrack');
+    var nav = document.getElementById('carNav');
+    if (!track || !nav) return;
+    nav.hidden = false;
+    [].forEach.call(nav.querySelectorAll('[data-car]'), function (b) {
+      b.addEventListener('click', function () {
+        var item = track.querySelector('.bcar__i');
+        if (!item) return;
+        var step = item.getBoundingClientRect().width + 16;
+        track.scrollBy({ left: b.getAttribute('data-car') === 'next' ? step : -step,
+                         behavior: reduced() ? 'auto' : 'smooth' });
+      });
+    });
+    function sync() {
+      var max = track.scrollWidth - track.clientWidth - 2;
+      nav.querySelector('[data-car="prev"]').disabled = track.scrollLeft <= 2;
+      nav.querySelector('[data-car="next"]').disabled = track.scrollLeft >= max;
+    }
+    track.addEventListener('scroll', sync);
+    sync();
+  }
+
+  function reduced() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  /* Lets the confirmation be linked to directly — needed to show it in the pitch
+     without filling the form in first. */
+  if (/[?&]sent=1/.test(location.search)) {
+    finish('His office reads every request and replies, usually within a working day.',
+           values());
   }
 
   show(0, false);

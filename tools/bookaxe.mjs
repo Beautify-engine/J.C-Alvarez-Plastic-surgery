@@ -18,6 +18,14 @@ for (const w of [1440, 390, 320]) {
     r.violations.forEach(v=>{ console.log(`  [${v.impact}] ${v.id}`);
       v.nodes.slice(0,3).forEach(n=>console.log('     '+n.target.join(' ')+' | '+(n.failureSummary||'').split('\n')[1])); });
   }
+  // and the confirmation, which the step walk never reaches
+  await p.fill('#f-name','Marisol Reyes'); await p.fill('#f-email','m@example.com');
+  await p.waitForTimeout(3200); await p.click('#bSend'); await p.waitForTimeout(600);
+  const c = await p.evaluate(()=>axe.run(document,{runOnly:['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']}));
+  total += c.violations.length;
+  console.log(`${w}px confirmation: ${c.violations.length} violations`);
+  c.violations.forEach(v=>{ console.log(`  [${v.impact}] ${v.id}`);
+    v.nodes.slice(0,3).forEach(n=>console.log('     '+n.target.join(' ')+' | '+(n.failureSummary||'').split('\n')[1])); });
   await p.close();
 }
 console.log('\nTOTAL VIOLATIONS:', total);
