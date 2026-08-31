@@ -1,77 +1,103 @@
 #!/usr/bin/env python3
 """List what is still English on a built Spanish page.
 
-The build already applies _common, so this is the exact remaining work for that
-page's own map — not the whole source. It reads the BUILT file, so anything the
-shared map or a pattern rule already handles never appears here.
+    python3 tools/todo-es.py procedimientos/abdominoplastia
+    python3 tools/todo-es.py --all
 
-    python3 tools/todo-es.py dist-es/procedimientos/aumento-de-gluteos.html
+NOT A LANGUAGE HEURISTIC. Guessing the language by vocabulary kept missing things
+in both directions: finished Spanish with no accents read as English, and short
+English like "Request a consultation." — an H1 — scored zero in both lists and
+read as done.
+
+This compares the built page against the English source it was built from. A
+string in the build that is byte-identical to a string in the source has not been
+touched, which is exact rather than probable. Deliberate pass-throughs — proper
+nouns, the address, RealSelf usernames — are identical by design, so anything
+declared verbatim in a map (value None, or value == key) is excluded.
 """
-import re, sys, html
+import importlib.util, os, re, sys
 
-# Accents alone are not enough to tell the two apart: plenty of finished Spanish
-# lines carry none ("No se trata de", "La faja se coloca antes de que despierte").
-# Scoring both vocabularies and comparing is what stops those being reported as
-# unfinished work every time.
-EN = re.compile(r'\b(the|and|your|you|with|that|before|after|from|what|does|do|did|'
-                r'will|would|should|can|could|his|her|for|not|are|this|he|it|of|is|'
-                r'on|was|were|been|have|has|had|which|who|whom|whose|they|them|'
-                r'their|there|these|those|when|where|why|how|about|into|than|then|'
-                r'only|every|most|more|less|other|same|own|both|each|any|all|need|'
-                r'as|well|too|first|last|long|much|many|my|me|we|us|our|be|am|so|'
-                r'if|but|out|up|down|over|under|again|still|just|like|make|makes|'
-                r'take|takes|get|gets|go|goes|say|says|know|see|look|looks|in|at|to|an|'
-                r'or|by|its|day|days|week|weeks|month|months|hour|hours|year|'
-                r'years|left|right|under|above|through|around|between|without)\b', re.I)
-ES = re.compile(r'\b(el|la|los|las|un|una|unos|unas|de|del|al|que|se|con|por|para|'
-                r'su|sus|como|pero|cuando|donde|porque|desde|hasta|sobre|entre|'
-                r'este|esta|esto|eso|ese|esa|lo|le|les|ya|muy|mas|sin|antes|'
-                r'despues|siempre|nunca|cada|todo|toda|todos|todas|usted|no|es|'
-                r'son|est\u00e1|est\u00e1n|hay|ser|tiene|puede|va|vuelve)\b', re.I)
-ACC = re.compile(r'[\u00e1\u00e9\u00ed\u00f3\u00fa\u00fc\u00f1\u00bf\u00a1\u00ab\u00bb]|'
-                 r'&(a|e|i|o|u|n)?(acute|ntilde|eacute|aacute|oacute|iacute|uacute)')
+ARGS = [a for a in sys.argv[1:] if a != "--all"]
+
+spec = importlib.util.spec_from_file_location("b", "tools/build-es.py")
+B = importlib.util.module_from_spec(spec)
+sys.argv = sys.argv[:1]          # build-es reads argv; keep it out of this
+spec.loader.exec_module(B)
+
+TEXT = re.compile(r'>([^<>]{3,})<')
+STRIP = re.compile(r'<(script|style|svg)[^>]*>.*?</\1>', re.S | re.I)
+ATTR = re.compile(r'\b(alt|aria-label|title|content|placeholder)="([^"]{3,})"')
 
 
-def english(t):
-    """Compare vocabularies rather than look for accents. Accents alone miss
-    plenty of finished Spanish ("No se trata de"), and short English fragments
-    ("Small incisions, hidden in creases", "7 - 10 days") carry none of the long
-    function words — which is why the English list reaches down to in/at/to/or
-    and to the units a recovery timeline is written in."""
-    if ACC.search(t):
-        return False
-    en = len(EN.findall(t))
-    es = len(ES.findall(t))
-    return en > es
-
-
-def main(path):
-    s = open(path, encoding="utf-8").read()
+def strings(html):
+    """Every visible or announced string, plus JSON-LD values."""
     out = []
-
-    for tag, val in re.findall(r'\b(alt|aria-label|title|content|placeholder)="([^"]{6,})"', s):
-        if english(val) and val not in out:
-            out.append(val)
-
-    body = re.search(r'<main.*?</main>', s, re.S)
-    body = re.sub(r'<(script|style|svg)[^>]*>.*?</\1>', '', body.group(0), flags=re.S | re.I)
-    for m in re.finditer(r'>([^<>]{3,})<', body):
-        t = re.sub(r'\s+', ' ', m.group(1)).strip()
-        if t and english(t) and t not in out:
-            out.append(t)
-
-    for m in re.finditer(r'<script type="application/ld\+json">(.*?)</script>', s, re.S):
-        for t in re.findall(r'"(?:name|text|description|headline|howPerformed|preparation|followup|bodyLocation)":\s*"([^"]{6,})"', m.group(1)):
-            if english(t) and t not in out:
-                out.append("[LD] " + t)
-
-    t = re.search(r'<title>([^<]*)</title>', s)
-    if t and english(t.group(1)):
-        out.insert(0, "[TITLE] " + t.group(1))
-
-    print("%d still English in %s" % (len(out), path))
-    for x in out:
-        print(repr(x))
+    for _, v in ATTR.findall(html):
+        out.append(v)
+    for m in TEXT.finditer(STRIP.sub("", html)):
+        out.append(re.sub(r"\s+", " ", m.group(1)).strip())
+    for blk in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S):
+        out += re.findall(r'"(?:name|text|description|headline|howPerformed|'
+                          r'preparation|followup|bodyLocation)":\s*"([^"]{3,})"', blk)
+    return [s for s in out if s]
 
 
-main(sys.argv[1])
+def verbatim_keys(name):
+    """Strings a map deliberately leaves alone: value None, or value == key."""
+    keep = set()
+    for m in ("_common", name):
+        p = "content/es/%s.py" % m
+        if not os.path.exists(p):
+            continue
+        T = B.load_map(m)
+        keep |= {k for k, v in T.items() if v is None or v == k}
+        keep |= {str(v) for v in T.values() if v is not None}
+    return keep
+
+
+# Strings that are identical in both languages by nature rather than by decision:
+# entities, numbers, phone numbers, and the two meta values that are not prose.
+# A string that already carries Spanish orthography is Spanish in the source too
+# — his own video titles, the book title, quotes he published in Spanish. Those
+# are identical in both builds by nature, not by omission.
+ALREADY_ES = re.compile(r'[\u00e1\u00e9\u00ed\u00f3\u00fa\u00fc\u00f1\u00bf\u00a1]|'
+                        r'&(aacute|eacute|iacute|oacute|uacute|ntilde|uuml);', re.I)
+
+NOISE = re.compile(r'^(&[a-z]+;|[\s\d.,:+()&#;/-]+|width=device-width.*|noindex.*|'
+                   r'[\d\s\u2009,]+)$')
+
+
+def report(name, src, out):
+    built_p = os.path.join(B.OUT, out)
+    if not os.path.exists(built_p) or not os.path.exists(src):
+        return None
+    built = strings(open(built_p, encoding="utf-8").read())
+    source = set(strings(open(src, encoding="utf-8").read()))
+    keep = verbatim_keys(name)
+    left, seen = [], set()
+    for s in built:
+        if s in source and s not in keep and s not in seen and not NOISE.match(s) \
+           and not ALREADY_ES.search(s):
+            seen.add(s)
+            left.append(s)
+    return left
+
+
+def main():
+    args = ARGS or None
+    todo = {}
+    for name, (src, out) in B.PAGES.items():
+        if args and name not in args:
+            continue
+        r = report(name, src, out)
+        if r is not None:
+            todo[name] = r
+    for name in sorted(todo, key=lambda n: -len(todo[n])):
+        left = todo[name]
+        print("%-18s %d still English" % (name, len(left)))
+        if args or len(todo) == 1:
+            for s in left:
+                print("   %s" % s[:150])
+
+
+main()

@@ -32,6 +32,7 @@ T = {
 
 # ---- hero ----
 "HD lipo &middot; lipo 360": "Lipo HD &middot; lipo 360",
+"High-definition liposuction": "Liposucción de alta definición",
 "Conventional liposuction removes fat. This sculpts around the muscle underneath it, which is a different job.":
   "La liposucción convencional quita grasa. Esta esculpe alrededor del músculo que hay debajo, que es un trabajo distinto.",
 "Depends on the areas": "Según las zonas",
@@ -221,4 +222,9 @@ T = {
   "¿Se puede combinar una liposucción con una transferencia de grasa?",
 "Commonly. The fat removed during liposuction is the fat used in a Brazilian butt lift, so the two are often the same operation.":
   "Es común. La grasa que se retira en una liposucción es la que se usa en un aumento de glúteos, así que muchas veces son la misma operación.",
+
+# ---- risk names and treated areas ----------------------------------------
+"Fibrosis": "Fibrosis",
+"Prolonged swelling": "Inflamación prolongada",
+"Abdomen, flanks, back": "Abdomen, flancos, espalda",
 }

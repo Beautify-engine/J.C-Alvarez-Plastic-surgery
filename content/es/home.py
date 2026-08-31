@@ -212,4 +212,9 @@ T.update({
 # stays exactly as the person wrote it.
 ", with the reviewer&rsquo;s handle and the month they posted it.":
   ", con el usuario de quien lo escribió y el mes en que lo publicó.",
+
+# ---- Instagram stat rail --------------------------------------------------
+"posts": "publicaciones",
+"followers": "seguidores",
+"views per reel": "vistas por reel",
 })

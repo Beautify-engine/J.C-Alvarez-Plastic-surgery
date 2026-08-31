@@ -200,6 +200,7 @@ T = {
 "Compression full-time for at least eight weeks, then part-time for four to six weeks. Final result at approximately six months.":
   "Compresión a tiempo completo durante al menos ocho semanas, después parcial de cuatro a seis semanas. Resultado final aproximadamente a los seis meses.",
 "Abdomen": "Abdomen",
+"Tummy Tuck (Abdominoplasty)": "Abdominoplastia",
 
 "What is the difference between a full and a mini tummy tuck?":
   "¿Cuál es la diferencia entre una abdominoplastia completa y una mini?",

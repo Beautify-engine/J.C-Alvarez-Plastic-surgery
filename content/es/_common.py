@@ -31,6 +31,12 @@ T = {
 
 # ---- the fact rail ----
 "Operating time": "Duración de la cirugía",
+"Anaesthesia": "Anestesia",
+"General": "General",
+"Non-physical work": "Trabajo no físico",
+"Sitting": "Sentarse",
+"Settling": "Asentamiento",
+"Contour irregularity": "Irregularidad del contorno",
 "Back to desk work": "Vuelta al trabajo de oficina",
 "Final result": "Resultado final",
 "Most of it visible by 3": "La mayor parte visible a los 3",
@@ -103,8 +109,8 @@ T = {
 
 # ---- closing CTA and booking summary ----
 "Ask him whether you&rsquo;re a candidate.": "Pregúntele si es candidata.",
-"Four questions, about a minute. You are asking for an assessment, not committing to an operation &mdash; and if the answer is &ldquo;not yet,&rdquo; he will tell you that.":
-  "Cuatro preguntas, un minuto aproximadamente. Está pidiendo una valoración, no comprometiéndose a una operación &mdash; y si la respuesta es «todavía no», se lo dirá.",
+"Three questions, about a minute. You are asking for an assessment, not committing to an operation &mdash; and if the answer is &ldquo;not yet,&rdquo; he will tell you that.":
+  "Tres preguntas, un minuto aproximadamente. Está pidiendo una valoración, no comprometiéndose a una operación &mdash; y si la respuesta es «todavía no», se lo dirá.",
 "Or call 786 795 2113": "O llame al 786 795 2113",
 "What you&rsquo;re considering": "Lo que está considerando",
 "Roughly when": "Más o menos cuándo",
@@ -148,6 +154,10 @@ T.update({
 "Email": "Correo",
 "Consultations": "Consultas",
 "Legal": "Legal",
+"Close": "Cerrar",
+"EN &middot; ES &middot; RU": "ES &middot; EN &middot; RU",
+"&copy; 2026 J.C. Alvarez Plastic Surgery &middot; Julio Clavijo Alvarez, MD": None,
+"Signed, Dr. JC Alvarez": "Firmado, Dr. JC Alvarez",
 "Primary": "Principal",
 "Dr. JC Alvarez, Board Certified Plastic Surgeon": "Dr. JC Alvarez, cirujano plástico certificado",
 "Individual results vary. Nothing on this site is medical advice or a guarantee of outcome. Surgery carries risk; every procedure is discussed in person before it is planned.":

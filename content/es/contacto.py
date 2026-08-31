@@ -27,8 +27,8 @@ T = {
 # ---- the three channels ----
 "How to reach the practice": "Cómo contactar la consulta",
 "To ask about surgery": "Para preguntar por una cirugía",
-"Four questions, about a minute. You are asking for an assessment, not booking an operation, and nothing is charged. It goes to him with your procedure and timing already filled in, so the first reply you get is a real one.":
-  "Cuatro preguntas, un minuto aproximadamente. Está pidiendo una valoración, no reservando una operación, y no se le cobra nada. Le llega con su procedimiento y sus fechas ya incluidos, así que la primera respuesta que reciba es una respuesta de verdad.",
+"Three questions, about a minute. You are asking for an assessment, not booking an operation, and nothing is charged. It goes to him with your procedure and timing already filled in, so the first reply you get is a real one.":
+  "Tres preguntas, un minuto aproximadamente. Está pidiendo una valoración, no reservando una operación, y no se le cobra nada. Le llega con su procedimiento y sus fechas ya incluidos, así que la primera respuesta que reciba es una respuesta de verdad.",
 "To speak to someone": "Para hablar con alguien",
 "Rescheduling, directions, what to bring, or a question about an appointment you already have. If it involves a date, call &mdash; it is much faster than email.":
   "Cambiar una cita, cómo llegar, qué llevar, o una duda sobre una cita que ya tiene. Si tiene que ver con una fecha, llame &mdash; es mucho más rápido que el correo.",
@@ -54,8 +54,8 @@ T = {
   "El historial médico, los medicamentos, el peso y las fotografías pertenecen a la consulta",
 ", where they are covered by the same rules as the rest of your record.":
   ", donde están protegidos por las mismas normas que el resto de su expediente.",
-"The consultation form deliberately asks for none of it. Four questions, none of them clinical, and the clinical conversation happens with a surgeon in a room rather than in a marketing form.":
-  "El formulario de consulta no le pide nada de eso, a propósito. Cuatro preguntas, ninguna clínica, y la conversación clínica ocurre con un cirujano en una consulta, no en un formulario de marketing.",
+"The consultation form deliberately asks for none of it. Three questions, none of them clinical, and the clinical conversation happens with a surgeon in a room rather than in a marketing form.":
+  "El formulario de consulta no le pide nada de eso, a propósito. Tres preguntas, ninguna clínica, y la conversación clínica ocurre con un cirujano en una consulta, no en un formulario de marketing.",
 
 # ---- unchanged: NAP, proper nouns, book titles ----
 "8400 SW 8th St, 4th Floor": "8400 SW 8th St, 4th Floor",

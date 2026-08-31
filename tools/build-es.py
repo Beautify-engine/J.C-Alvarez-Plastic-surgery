@@ -224,7 +224,7 @@ def apply_copy(html, T):
         # run of whitespace in the key match any run in the markup.
         pat = r'(>)(\s*)%s(\s*)(?=<)' % flex_of(src)
         html = re.sub(pat, lambda m: m.group(1) + m.group(2) + dst + m.group(3), html)
-        for attr in ("alt", "aria-label", "title", "content"):
+        for attr in ("alt", "aria-label", "title", "content", "placeholder"):
             html = html.replace('%s="%s"' % (attr, src), '%s="%s"' % (attr, dst))
             # Video buttons label themselves "Play: <title>". Whole-value matching
             # never reached the title, so every reel on a Spanish page announced
@@ -273,6 +273,11 @@ def apply_patterns(html, T):
                        ("week", "semana"), ("days", "d&iacute;as"), ("day", "d&iacute;a")):
         html = re.sub(r'>(\s*)(\d+) %s(\s*)<' % en_u,
                       r'>\1\2 %s\3<' % es_u, html)
+
+    # The case selector buttons, "Case 1" ... "Case 11". Eleven per procedure
+    # page and they grow with the gallery, so a rule rather than 11 keys.
+    html = re.sub(r'>(\s*)Case (\d+)(\s*)<', r'>\1Caso \2\3<', html)
+    html = re.sub(r'="Case (\d+)"', r'="Caso \1"', html)
 
     # The case counter, "01 of 09". Numeric, so it cannot be a map key.
     html = re.sub(r'>(\d{2}) of (\d{2})<', r'>\1 de \2<', html)

@@ -36,6 +36,9 @@ T = {
 
 # ---- hero ----
 "Gluteal fat transfer": "Transferencia de grasa glútea",
+"Brazilian Butt Lift (Gluteal Fat Transfer)": "Aumento de glúteos (transferencia de grasa)",
+"Buttocks": "Glúteos",
+"Fat embolism": "Embolia grasa",
 "Your own fat, taken from where you do not want it and placed where you do. No implant goes in.":
   "Su propia grasa, tomada de donde no la quiere y colocada donde sí. No entra ningún implante.",
 

@@ -229,4 +229,12 @@ T = {
 "Can I breastfeed after breast augmentation?": "¿Puedo amamantar después de un aumento de senos?",
 "Most patients can, but it cannot be guaranteed. It influences the choice of incision and should be raised at consultation.":
   "La mayoría de las pacientes puede, pero no se puede garantizar. Influye en la elección de la incisión y conviene plantearlo en la consulta.",
+
+# ---- fact rail and risk names --------------------------------------------
+"30min &ndash; 2h": "30 min &ndash; 2 h",
+"Surgical bra": "Sostén quirúrgico",
+"Closed, no drains, supported": "Cerrado, sin drenajes, con sujeción",
+"Capsular contracture": "Contractura capsular",
+"Rupture": "Rotura",
+"Infection": "Infección",
 }
