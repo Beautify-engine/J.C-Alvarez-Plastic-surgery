@@ -13,10 +13,14 @@ import re, sys, html
 # lines carry none ("No se trata de", "La faja se coloca antes de que despierte").
 # Scoring both vocabularies and comparing is what stops those being reported as
 # unfinished work every time.
-EN = re.compile(r'\b(the|and|your|you|with|that|before|after|from|what|does|will|his|'
-                r'her|for|not|are|this|he|it|of|is|on|was|were|been|have|has|which|'
-                r'they|them|their|there|when|where|why|how|about|into|than|then|'
-                r'only|every|most|more|less|other|same|own|both|each|any|all)\b', re.I)
+EN = re.compile(r'\b(the|and|your|you|with|that|before|after|from|what|does|do|did|'
+                r'will|would|should|can|could|his|her|for|not|are|this|he|it|of|is|'
+                r'on|was|were|been|have|has|had|which|who|whom|whose|they|them|'
+                r'their|there|these|those|when|where|why|how|about|into|than|then|'
+                r'only|every|most|more|less|other|same|own|both|each|any|all|need|'
+                r'as|well|too|first|last|long|much|many|my|me|we|us|our|be|am|so|'
+                r'if|but|out|up|down|over|under|again|still|just|like|make|makes|'
+                r'take|takes|get|gets|go|goes|say|says|know|see|look|looks)\b', re.I)
 ES = re.compile(r'\b(el|la|los|las|un|una|unos|unas|de|del|al|que|se|con|por|para|'
                 r'su|sus|como|pero|cuando|donde|porque|desde|hasta|sobre|entre|'
                 r'este|esta|esto|eso|ese|esa|lo|le|les|ya|muy|mas|sin|antes|'

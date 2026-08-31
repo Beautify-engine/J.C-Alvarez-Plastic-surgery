@@ -64,6 +64,8 @@ T = {
 "Movement": "Movimiento",
 "Moving again": "Volver a moverse",
 "Driving": "Conducir",
+"Driving again": "Volver a conducir",
+"Low-impact training can usually begin.": "Normalmente se puede empezar entrenamiento de bajo impacto.",
 "Exercise": "Ejercicio",
 "Intimacy": "Intimidad",
 "Work": "Trabajo",
