@@ -1,0 +1,30 @@
+{
+  // Cloudflare Workers Static Assets config.
+  //
+  // Only needed for the "Create a Worker" flow. If the project is created as a
+  // Cloudflare PAGES project instead, this file is ignored — Pages just needs a
+  // build command and an output directory, and is the simpler route for a site
+  // with no server-side code.
+  //
+  // The build command that produces ./dist-es is:
+  //     python3 tools/build-es.py
+  // It uses only the Python standard library, so nothing needs installing.
+
+  "name": "j-c-alvarez-plastic-surgery",
+  "compatibility_date": "2026-08-30",
+
+  "assets": {
+    // The Spanish build output. Everything served comes from here.
+    "directory": "./dist-es",
+
+    // Serve /contacto from contacto.html and /procedimientos from
+    // procedimientos/index.html, without a trailing slash. This is what makes the
+    // clean URLs work — the whole site links to /procedimientos/rinoplastia, never
+    // to a .html file.
+    "html_handling": "auto-trailing-slash",
+
+    // Any unmatched path renders 404.html with a real 404 status, rather than
+    // Cloudflare's default error page.
+    "not_found_handling": "404-page"
+  }
+}
