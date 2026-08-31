@@ -184,6 +184,10 @@ def apply_patterns(html, T):
     html = re.sub(r'([A-Z][A-Za-z\- ]{2,40}), case (\d+): before and after',
                   lambda m: "%s, caso %s: antes y despu&eacute;s"
                             % (T.get(m.group(1), m.group(1)), m.group(2)), html)
+    # The gallery's 64 open-larger buttons.
+    html = re.sub(r'([A-Z][A-Za-z\- ]{2,40}), case (\d+) (?:&mdash;|—) open larger',
+                  lambda m: "%s, caso %s \u2014 ver m&aacute;s grande"
+                            % (T.get(m.group(1), m.group(1)), m.group(2)), html)
     # Any remaining "Play:" prefix — the title after it is a real YouTube title and
     # stays exactly as he published it.
     html = html.replace('aria-label="Play: ', 'aria-label="Reproducir: ')
@@ -226,11 +230,33 @@ def main():
         if os.path.isdir(os.path.join("src/public", sub)):
             shutil.copytree(os.path.join("src/public", sub), os.path.join(OUT, sub))
     # hero-options.css is a parked exploration, referenced only in comments.
+    # JavaScript writes copy at runtime — the gallery count, the booking form's
+    # step announcements, the map's iframe title. None of it is in the built HTML,
+    # so it stayed English on the Spanish site with nothing to catch it.
+    JS_EDITS = {}
+    if os.path.exists("content/es/_js.py"):
+        spec = importlib.util.spec_from_file_location("es_js", "content/es/_js.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        JS_EDITS = mod.EDITS
+
     for f in (glob.glob("src/public/*.css") + glob.glob("src/public/*.js")):
-        if os.path.basename(f) == "hero-options.css":
+        base = os.path.basename(f)
+        if base == "hero-options.css":
             continue
         os.makedirs(OUT, exist_ok=True)
-        shutil.copy2(f, os.path.join(OUT, os.path.basename(f)))
+        if base in JS_EDITS:
+            src_js = open(f, encoding="utf-8").read()
+            for old_s, new_s in JS_EDITS[base]:
+                if src_js.count(old_s) != 1:
+                    raise SystemExit(
+                        "content/es/_js.py: %s — this no longer matches the English "
+                        "source exactly once (found %d):\n  %s"
+                        % (base, src_js.count(old_s), old_s.strip()[:90]))
+                src_js = src_js.replace(old_s, new_s)
+            open(os.path.join(OUT, base), "w", encoding="utf-8").write(src_js)
+        else:
+            shutil.copy2(f, os.path.join(OUT, base))
 
     COMMON = load_map("_common") if os.path.exists("content/es/_common.py") else {}
     done, todo = [], []

@@ -3183,3 +3183,80 @@ above-the-fold change.
 Verified: CLS passes on all nine measured routes; axe 0 at 1440 and 390 on ten routes;
 fonts confirmed loading all four faces from Google with correct family resolution.
 Asset count drops 356 → 352 since the fonts are no longer self-hosted.
+
+---
+
+## D-073 — The booking form gets a real selector, a live brief, and a destination
+
+The brief was "add a procedure selector and more." The form already had one — a flat
+list of twelve radios. What it did not have was any of the things that make a form on a
+surgeon's site worth more than the name/email/phone box on his current one.
+
+**Procedure is now a checkbox group, grouped Body / Breast / Face.** This is the change
+that matters. Combination cases — tummy tuck with liposuction, lift with augmentation —
+are the norm in this practice, and a radio group cannot express one. It forced her to
+pick the closest and explain the rest in the note, or leave. A square box means "several";
+a round one means "one"; shape is the only affordance that carries at a glance, so it
+does the work rather than a caption. "I'm not sure yet" is exclusive in both directions,
+so it can never arrive alongside three procedures.
+
+**A brief assembles beside the form as she answers** (above 74rem). It is not a progress
+toy — it is the answer to "what have I already told them," which is the question that
+makes people abandon a multi-step form. Below 74rem it is dropped rather than restacked:
+on a phone, step 04 *is* the brief, and a second copy would be noise.
+
+**Answers survive a reload**, in `localStorage` for two weeks, with a visible notice
+saying so and a "Start over". A surgical decision is not made in one sitting. A deep
+link from a procedure page (`?procedure=bbl`) beats a stored draft — it is what she
+just clicked.
+
+**Each review row edits in place** rather than sending her back through three Backs.
+A correction at the last moment is the most likely reason to abandon on that screen.
+
+**Requests now land somewhere.** `POST /api/consultation` is the site's only server-side
+code (`src/worker/index.js`): a Worker that mails the brief to his office with reply-to
+set to the patient, and a confirmation to her. Delivery is Resend — MailChannels withdrew
+its free Workers integration in 2024, so there is no longer a no-account path off a
+Worker. **Without its three secrets the endpoint answers 503 and the form says nothing
+was sent**, rather than showing a success screen over a request that went nowhere.
+
+**Rejected: asking more.** Considered and dropped — travelling-in vs. local, video vs.
+in-person, contact-method preference, budget. The page promises *no medical history, no
+medications, no weight or BMI, no photographs* and argues in its own closing section that
+health data does not belong in a marketing form. Depth was taken from craft, not from
+new questions. Budget was rejected outright: it qualifies hard and it reads as a mill,
+which repels exactly the nervous, high-intent patient this site is built for.
+
+**Four bugs found while building, three of them pre-existing:**
+
+- The page carried the **rhinoplasty JSON-LD** — `MedicalProcedure`, an FAQ about open
+  vs. closed technique, and breadcrumbs reading Home › Procedures › Rhinoplasty — copied
+  onto the booking page. Replaced with `ContactPage` + `Physician` + real breadcrumbs.
+- `.bfield__opt` (the "optional" tag) used `--rule-on-light`, a **hairline colour, at
+  1.48:1**. axe never caught it because it only renders on step 03, a panel the audit
+  could not see. The default audit visits one route and sees one panel; a stepped form
+  needs an audit that walks the steps. `tools/bookaxe.mjs` does, and I made the same
+  mistake myself in the brief's empty state on the way past.
+- The sticky `.cta-bar` said "Request a Consultation" and linked to `/book` **from
+  `/book`**, competing with Continue for the same tap and covering the answers on a
+  phone. Removed from this page; the form is the primary action here (§5.5).
+- A `<button>` sat as a direct child of a `<div>` in a `<dl>`, which the spec does not
+  allow. Moved inside the `<dd>`.
+
+**A note on §6's 200-line rule.** `book.js` is 296 lines. The brief, storage and source
+capture are already split into `book-brief.js`; what is left is one state machine, and
+cutting it further would trade a real seam for an arbitrary one. `main.js` (224) and
+`procedure.js` (338) are already over. The rule reads as written for components, and
+these page controllers are not components — worth settling explicitly rather than
+quietly breaching each time.
+
+Verified: axe **0 violations at 1440, 390 and 320 on all four steps**; CLS 0.0010; no
+horizontal overflow at 320px or at 200% zoom; animations off under `prefers-reduced-
+motion`; with JavaScript disabled all four panels render, all twelve procedures are
+reachable and the single submit is live; endpoint gates (method, cross-origin, malformed
+JSON, oversize, honeypot, time trap, incomplete, unconfigured) all exercised against a
+stubbed environment.
+
+**Open — needs him, not us.** Two `[[VERIFY]]` placeholders are visible on step 04: does
+he offer video consultations and is there a consultation fee, and does he conduct the
+initial consultation himself. Both change what "what happens next" is allowed to claim.

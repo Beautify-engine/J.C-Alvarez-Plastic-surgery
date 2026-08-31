@@ -296,3 +296,100 @@ T.update({
 "American Society of Plastic Surgeons": None,
 "American College of Surgeons": None,
 })
+
+
+# ---- patient reviews, TRANSLATED at the client-side lead's instruction ----
+# Shared, not page-local: the same six quotes appear on / and on /resultados.
+# Translated twice they would drift, and two Spanish versions of one real
+# person's words is worse than one.
+# These were previously left verbatim: they are real people's words, quoted from his
+# RealSelf profile, and translating a quotation changes it. Translated here on request.
+# Consequence handled: the section note no longer claims the quotes are "textual" —
+# it now says they come from RealSelf and are translated from English, which is true.
+T.update({
+"Every quote below is verbatim from": "Cada testimonio proviene de",
+"his RealSelf profile": "su perfil de RealSelf &middot; traducidos del inglés",
+
+"I was so scared to get my breast lift done due to seeing horrible results. I almost canceled … I'm glad I went with it. My breasts aren't even healed and they look amazing. The lining of the nipples look perfect, which was my biggest concern … I knew his work would speak for itself, how detailed he was during the pre-op drawing.":
+ "Tenía mucho miedo de hacerme el levantamiento de senos porque había visto resultados horribles. Casi lo cancelo … Me alegra haber seguido adelante. Mis senos ni siquiera han terminado de sanar y se ven increíbles. El borde de los pezones quedó perfecto, que era lo que más me preocupaba … Sabía que su trabajo hablaría por sí solo, por lo detallado que fue al hacer el marcaje preoperatorio.",
+
+"He gave me his number after surgery. When I texted him with my \"problem\", he called INSTANTLY … I recovered so quickly; by day three I felt EXCELLENT. I told him, I'm a mother of four, I don't want too big, I don't want too small … He DEFINITELY understood the assignment.":
+ "Me dio su número después de la cirugía. Cuando le escribí por mi «problema», me llamó AL INSTANTE … Me recuperé rapidísimo; al tercer día me sentía EXCELENTE. Le dije: soy madre de cuatro, no los quiero muy grandes ni muy pequeños … DEFINITIVAMENTE entendió la tarea.",
+
+"The pain has been at a minimum and Tylenol is all I've been taking since surgery. I was really nervous about the pain at first but turns out it's totally manageable.":
+ "El dolor ha sido mínimo y desde la cirugía solo he tomado Tylenol. Al principio estaba muy nerviosa por el dolor, pero resulta que es totalmente manejable.",
+
+"My biggest concern with going under the knife was losing my uniqueness … From the beginning I expressed that I didn't want to look like a different person … I am simply blown away with how natural, and beautiful I look now.":
+ "Lo que más me preocupaba de entrar al quirófano era perder lo que me hace única … Desde el principio dije que no quería parecer otra persona … Estoy simplemente maravillada de lo natural y lo bien que me veo ahora.",
+
+"I asked about getting implants and he was like NO, you are young and you don't need it. Definitely the \"money\" is not his motor, he's thinking about you … He called me 3 hours after my surgery to check on me.":
+ "Le pregunté por implantes y me dijo que NO, que era joven y no los necesitaba. El «dinero» definitivamente no es su motor, está pensando en ti … Me llamó 3 horas después de la cirugía para ver cómo seguía.",
+
+"He took his time and explained the process, told me what to expect along the way and what the expected outcome would be … My arms look better at 59 years old than they did in my 20's.":
+ "Se tomó su tiempo y me explicó el proceso, qué esperar en cada etapa y cuál sería el resultado … Mis brazos se ven mejor a los 59 años que a los 20.",
+
+"Be prepared to feel uncomfortable, sore and swollen — all normal parts of recovery … All of the pain and discomfort has been absolutely worth it. He called me a few hours after my surgery to check in on me and is always available to answer questions.":
+ "Prepárese para sentirse incómoda, adolorida e inflamada — todo eso es parte normal de la recuperación … Todo el dolor y la molestia valieron absolutamente la pena. Me llamó unas horas después de la cirugía para ver cómo estaba y siempre está disponible para responder preguntas.",
+
+"He was very patient and kind regarding my surgical and anesthesia-related anxiety … I later learned that my nose was one of his most complex rhinoplasty cases, which required him to completely rebuild my nose internally and externally.":
+ "Fue muy paciente y amable con mi ansiedad por la cirugía y la anestesia … Después supe que mi nariz fue uno de sus casos de rinoplastia más complejos, y tuvo que reconstruírmela por completo por dentro y por fuera.",
+
+"I consider it a blessing to have gone on my breast cancer journey with Dr. Clavijo and his staff … His kindness, compassion, and sense of humor took the horribleness out of a devastating diagnosis.":
+ "Considero una bendición haber pasado por mi proceso de cáncer de mama con el Dr. Clavijo y su equipo … Su amabilidad, su compasión y su sentido del humor le quitaron lo terrible a un diagnóstico devastador.",
+
+"I worked out 6 days a week and could not get the body I wanted. Dr. Alvarez took a great amount of time with me to discuss what I wanted and how he would go about helping me achieve my goal … As usual he always calls you in the evening to check up on you.":
+ "Entrenaba 6 días a la semana y aun así no lograba el cuerpo que quería. El Dr. Alvarez se tomó muchísimo tiempo conmigo para hablar de lo que yo quería y de cómo me iba a ayudar a lograrlo … Como siempre, llama por la noche para ver cómo sigues.",
+
+"From the initial consultation to the procedure to all of the follow-up appointments and care — he takes his time, explains everything, and truly cares about his patients.":
+ "Desde la consulta inicial hasta el procedimiento y todas las citas de seguimiento — se toma su tiempo, lo explica todo, y de verdad se preocupa por sus pacientes.",
+})
+
+
+# ---- review metadata and case labels, shared by / and /resultados -----------
+# Both pages carry the same six quotes with the same month, procedure label and
+# case numbering. Generated rather than listed so a case added to the gallery
+# does not need a copy edit.
+# ---- generated: 64 case alt strings, one pattern ----
+PROC = {"Brazilian Butt Lift":"aumento de glúteos", "Breast Augmentation":"aumento de senos",
+        "Tummy Tuck":"abdominoplastia", "Rhinoplasty":"rinoplastia",
+        "Eyelid Surgery":"blefaroplastia", "Deep Facelift":"levantamiento facial profundo",
+        "HD Liposuction":"liposucción de alta definición"}
+for en, es in PROC.items():
+    for i in range(1, 20):
+        T["%s, case %d: before and after" % (en, i)] = "%s, caso %d: antes y después" % (es[0].upper()+es[1:], i)
+
+# ---- verbatim: patient reviews stay in the language they were written in ----
+KEEP_VERBATIM = True
+
+# ---- review metadata: month names and the procedure label under each quote ----
+MONTHS = {"January":"enero","February":"febrero","March":"marzo","April":"abril",
+          "May":"mayo","June":"junio","July":"julio","August":"agosto",
+          "September":"septiembre","October":"octubre","November":"noviembre","December":"diciembre"}
+for en, es in MONTHS.items():
+    for y in range(2018, 2027):
+        T["%s %d" % (en, y)] = "%s de %d" % (es, y)
+
+T.update({
+"Breast lift + Lipo 360": "Levantamiento de senos + Lipo 360",
+"Breast augmentation": "Aumento de senos",
+"Consultation and surgery": "Consulta y cirugía",
+"Consultation and follow-up": "Consulta y seguimiento",
+"Rhinoplasty + otoplasty": "Rinoplastia + otoplastia",
+"Breast lift": "Levantamiento de senos",
+"Arm lift": "Braquioplastia",
+"Septorhinoplasty": "Septorrinoplastia",
+"Revision septorhinoplasty": "Septorrinoplastia de revisión",
+"Breast reconstruction": "Reconstrucción mamaria",
+"Liposuction": "Liposucción",
+"BBL + Lipo 360": "BBL + Lipo 360",
+"Tummy Tuck + BBL": "Abdominoplastia + BBL",
+"BBL + Breast Lift": "BBL + levantamiento de senos",
+"29 sec": "29 s",
+"Julio Clavijo Alvarez MD": "Julio Clavijo Alvarez MD",
+})
+
+# ---- short case labels (aria/slide labels), generated from the same map ----
+for en, es in PROC.items():
+    for i in range(1, 20):
+        T["%s, case %d" % (en, i)] = "%s, caso %d" % (es[0].upper()+es[1:], i)
+

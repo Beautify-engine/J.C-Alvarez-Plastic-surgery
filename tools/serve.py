@@ -32,6 +32,26 @@ class H(SimpleHTTPRequestHandler):
                 return candidate
         return p
 
+    def do_POST(self):
+        """The booking form posts to /api/consultation, which in production is a
+        Worker (D-073). There is no Worker here, so answer exactly the way a
+        deployed-but-unconfigured one does: 503 {"error":"unconfigured"}. The form
+        knows that code and shows "nothing was sent, here is what would have gone"
+        instead of a red failure — a local preview should not look broken when the
+        only missing piece is a mail key. Any other POST is a 501, as before."""
+        if urlsplit(self.path).path != "/api/consultation":
+            return super().send_error(501, "Unsupported method ('POST')")
+        try:
+            self.rfile.read(int(self.headers.get("Content-Length") or 0))
+        except (ValueError, OSError):
+            pass
+        payload = b'{"error":"unconfigured"}'
+        self.send_response(503)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(payload)))
+        self.end_headers()
+        self.wfile.write(payload)
+
     def send_error(self, code, message=None, explain=None):
         # a 404 on a clean URL is almost always a broken internal link, so name it
         if code == 404:
