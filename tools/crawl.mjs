@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 const BASE = process.argv[2] || 'http://localhost:8787';
 const b = await chromium.launch();
 const ctx = await b.newContext({viewport:{width:1280,height:900}});
+const downloads = new Set();
 const seen = new Set(), queue = ['/'], badLinks = new Map(), badAssets = new Map(), consoleErrs = new Map();
 const status = async u => (await ctx.request.get(BASE+u, {maxRedirects:5})).status();
 
@@ -26,10 +27,18 @@ while (queue.length) {
   for (const h of hrefs) {
     if (!h || h.startsWith('#') || /^(https?:|mailto:|tel:|javascript:)/.test(h)) continue;
     const u = new URL(h, BASE+path).pathname;
+    // A download is not a page. Playwright cannot navigate to one, so queueing
+    // the vCard reported it as a dead route while it served a perfectly good
+    // 200. Fetch it instead, so a genuine 404 is still caught.
+    if (/\.(vcf|pdf|zip|ics|csv)$/i.test(u)) { downloads.add(u); continue; }
     if (!seen.has(u) && !queue.includes(u)) queue.push(u);
   }
 }
-console.log(`crawled ${seen.size} pages\n`);
+for (const u of downloads) {
+  const r = await fetch(BASE+u).catch(() => null);
+  if (!r || r.status >= 400) badLinks.set(u, String(r ? r.status : 'FETCH FAIL'));
+}
+console.log(`crawled ${seen.size} pages, ${downloads.size} downloads\n`);
 const dump = (t,m) => { if (!m.size) return console.log(`✓ ${t}: none`);
   console.log(`✗ ${t}:`); for (const [k,v] of m) console.log(`   ${k}\n      ${[].concat(v).join('\n      ')}`); };
 // which pages link to each dead route

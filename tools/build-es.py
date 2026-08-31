@@ -328,6 +328,12 @@ def main():
         spec.loader.exec_module(mod)
         JS_EDITS = mod.EDITS
 
+    # Root-level static files the pages reference by absolute path. Without this
+    # the favicon 404s on every route: the copy list only ever knew about css/js.
+    for f in glob.glob("src/public/*.ico") + glob.glob("src/public/*.vcf"):
+        os.makedirs(OUT, exist_ok=True)
+        shutil.copy2(f, os.path.join(OUT, os.path.basename(f)))
+
     for f in (glob.glob("src/public/*.css") + glob.glob("src/public/*.js")):
         base = os.path.basename(f)
         if base == "hero-options.css":
@@ -335,13 +341,22 @@ def main():
         os.makedirs(OUT, exist_ok=True)
         if base in JS_EDITS:
             src_js = open(f, encoding="utf-8").read()
+            drift = []
             for old_s, new_s in JS_EDITS[base]:
-                if src_js.count(old_s) != 1:
-                    raise SystemExit(
-                        "content/es/_js.py: %s — this no longer matches the English "
-                        "source exactly once (found %d):\n  %s"
-                        % (base, src_js.count(old_s), old_s.strip()[:90]))
+                n = src_js.count(old_s)
+                if n != 1:
+                    drift.append((n, old_s))
+                    continue
                 src_js = src_js.replace(old_s, new_s)
+            if drift:
+                # Report every stale edit in one run rather than dying on the
+                # first. book.js is under active edit and re-syncing it one
+                # failure at a time costs a build each time.
+                msg = ["content/es/_js.py: %s — %d edit(s) no longer match the "
+                       "English source exactly once:" % (base, len(drift))]
+                for n, old_s in drift:
+                    msg.append("  found %d: %s" % (n, " ".join(old_s.split())[:88]))
+                raise SystemExit("\n".join(msg))
             open(os.path.join(OUT, base), "w", encoding="utf-8").write(src_js)
         else:
             shutil.copy2(f, os.path.join(OUT, base))

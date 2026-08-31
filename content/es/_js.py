@@ -54,12 +54,10 @@ EDITS = {
 ],
 
 "book.js": [
-  ("""  var LABEL = { procedure: 'Procedure', timing: 'Timing', name: 'Name',
-                email: 'Email', phone: 'Phone', language: 'Language', note: 'Note' };""",
-   """  var LABEL = { procedure: 'Procedimiento', timing: 'Fechas', name: 'Nombre',
-                email: 'Correo', phone: 'Tel\u00e9fono', language: 'Idioma', note: 'Nota' };"""),
-
-  # Announced to screen readers on every step change.
+  # NOTE: book.js is being rewritten by the client-side lead as this is written.
+  # These edits are asserted against the file, so the build fails loudly if the
+  # source moves again rather than shipping English. Expect one more pass here
+  # once the form settles.
   ("live.textContent = 'Step ' + (at + 1) + ' of ' + panels.length;",
    "live.textContent = 'Paso ' + (at + 1) + ' de ' + panels.length;"),
 
@@ -72,23 +70,33 @@ EDITS = {
   ("hint.textContent = n < 2 ? '' : n + ' selected.';",
    "hint.textContent = n < 2 ? '' : n + ' seleccionados.';"),
 
-  # The three outcomes. Two of them say plainly that nothing was sent, which is
-  # the whole point of them — a preview build must never claim it delivered a
-  # request it did not. Keep the negation first in the Spanish too.
-  ("""      finish('Nothing was sent, because no destination is connected to this preview yet. ' +
-             'This is what would have gone: ' + flat(v) + '.');""",
-   """      finish('No se envi\u00f3 nada, porque esta vista previa todav\u00eda no tiene un destino conectado. ' +
-             'Esto es lo que se habr\u00eda enviado: ' + flat(v) + '.');"""),
+  ("if (h && v && v.name) h.textContent = 'Thank you, ' + v.name.split(' ')[0] + '.';",
+   "if (h && v && v.name) h.textContent = 'Gracias, ' + v.name.split(' ')[0] + '.';"),
 
-  ("""        finish('Sent. His office replies to every request, usually within a working day. ' +
-               'A copy is on its way to ' + v.email + '.');""",
-   """        finish('Enviado. Su consulta responde a todas las solicitudes, normalmente en un d\u00eda h\u00e1bil. ' +
-               'Va una copia en camino a ' + v.email + '.');"""),
+  # The confirmation. It appears three times in the source with the same wording,
+  # which is deliberate — one promise, not three.
+  ("""      finish('His office reads every request and replies, usually within a working day.', v);
+      return;""",
+   """      finish('Su consulta lee todas las solicitudes y responde, normalmente en un d\u00eda h\u00e1bil.', v);
+      return;"""),
+  ("""        finish('His office reads every request and replies, usually within a working day. ' +
+               'A copy is on its way to ' + v.email + '.', v);""",
+   """        finish('Su consulta lee todas las solicitudes y responde, normalmente en un d\u00eda h\u00e1bil. ' +
+               'Va una copia en camino a ' + v.email + '.', v);"""),
+  ("""    finish('His office reads every request and replies, usually within a working day.',
+           values());""",
+   """    finish('Su consulta lee todas las solicitudes y responde, normalmente en un d\u00eda h\u00e1bil.',
+           values());"""),
 
-  ("""        finish('Nothing was sent: this build has no mail destination connected yet. ' +
-               'This is what would have gone: ' + flat(v) + '.');""",
-   """        finish('No se envi\u00f3 nada: esta versi\u00f3n todav\u00eda no tiene un destino de correo conectado. ' +
-               'Esto es lo que se habr\u00eda enviado: ' + flat(v) + '.');"""),
+  # Both notices say plainly that nothing was or will be sent. Keep the negation
+  # first in Spanish too: a preview must never read as though it delivered a
+  # request it did not.
+  ("""    notice.innerHTML = '<b>No destination is connected yet.</b> This preview has nowhere ' +
+      'to deliver a request. Pressing send will show you exactly what would be sent, ' +
+      'and nothing will leave your browser.';""",
+   """    notice.innerHTML = '<b>Todav\u00eda no hay un destino conectado.</b> Esta vista previa no tiene ' +
+      'a d\u00f3nde entregar una solicitud. Al pulsar enviar ver\u00e1 exactamente lo que se enviar\u00eda, ' +
+      'y nada saldr\u00e1 de su navegador.';"""),
 
   ("""      notice.innerHTML = '<b>That did not send.</b> Please call 786 795 2113 rather than ' +
         'trying again — it is faster, and someone answers.';""",
