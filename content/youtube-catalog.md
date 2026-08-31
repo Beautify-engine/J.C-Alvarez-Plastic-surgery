@@ -15,25 +15,29 @@ procedure explainer for all eleven procedures, plus 26 preparation and recovery 
 
 ---
 
-## ⚠ One conflict to resolve before the tummy tuck page ships
+## Resolved by decision — `lfUDnaabfEM` is not used
 
 `lfUDnaabfEM` — **"Por qué prohíbo la faja el primer mes post abdominoplastia"**
 ("Why I prohibit the compression garment for the first month after abdominoplasty"),
 517 views.
 
-**His website says the opposite.** The recovery timeline we built on
-`/procedures/tummy-tuck` came from his own site, which states: binder on before you wake
-up · binder full-time · **binder for the first month, then a faja for two more** ·
-full-time compression for at least eight weeks.
+It contradicted his own website, which is where the `/procedures/tummy-tuck` recovery
+timeline came from: binder on before you wake up · binder full-time · binder for the
+first month, then a faja for two more · full-time compression for at least eight weeks.
 
-His YouTube says he *prohibits* the garment for that first month. Two of his own channels
-give a patient opposite post-operative instructions, and ours currently publishes the
-website version.
+**Decision (client-side lead, 2026-08-31): drop the video.** It is not embedded on any
+page and will not be. The site follows his website's post-operative instructions, which
+is what the Spanish `/procedimientos/abdominoplastia` timeline now publishes.
 
-**This is his call, not ours.** Until he says which is current, the compression rows in
-the Day 1 / Day 5 / Week 4 / Week 8 panels are unsafe to ship. Related clips worth
-watching with him in the room: `KDWFuDsIMTM` (boards and foams in recovery),
-`Ap0X3m14Y9M` (why massages start the next day).
+**What this does and does not settle.** It removes the contradiction from our site. It
+does not remove it from his — the video is still public on his channel, so a patient can
+still find one instruction here and the opposite one there. Worth one question to him at
+the pitch: which is current. Everything else on the page depends on the answer being the
+website's, and this is the only place on the site where being wrong reaches a patient's
+body rather than their expectations.
+
+Related clips worth watching with him in the room: `KDWFuDsIMTM` (boards and foams in
+recovery), `Ap0X3m14Y9M` (why massages start the next day).
 
 ---
 
@@ -54,7 +58,7 @@ until someone presses play. See `docs/DECISIONS.md` D-029.
 | ↕ | `seOgh2o35zs` | — | What is a reverse tummy tuck and who is it for? | 197 |
 | ↕ | `xsy7GBFUAu8` | — | The mistake everyone makes in a Tummy Tuck #tummytuck | 28 |
 | ↕ | `8ZMxlfV9Q1I` | — | Can you tighten the muscles during a mini tummy tuck? #TummyTuckMiami #MiniTummyTuck #DrJCAlva | 913 |
-| ↕ | `lfUDnaabfEM` | — | Why I prohibit wearing a compression garment the first month after a tummy tuck #TummyTuck #Po | 517 |
+| ✗ | `lfUDnaabfEM` | — | NOT USED (contradicts his site) — Why I prohibit wearing a compression garment the first month after a tummy tuck #TummyTuck #Po | 517 |
 | ↕ | `b49dQV4jR8U` | — | Mini vs. full abdominoplasty: the difference no one explains #TummyTuck #MommyMakeover #DrJCAl | 659 |
 | ↕ | `sSCvuKWbSL4` | — | In a tummy tuck, the skin from the navel down is removed. #drjcalvarez #tummytuck | 1K |
 | ↕ | `oemiok1vARc` | — | Esto puede pasar después de un tummy tuck #drjcalvarez #tummytuck | 1.2K |

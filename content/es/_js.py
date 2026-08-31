@@ -57,25 +57,43 @@ EDITS = {
   ("""  var LABEL = { procedure: 'Procedure', timing: 'Timing', name: 'Name',
                 email: 'Email', phone: 'Phone', language: 'Language', note: 'Note' };""",
    """  var LABEL = { procedure: 'Procedimiento', timing: 'Fechas', name: 'Nombre',
-                email: 'Correo', phone: 'Tel\\u00e9fono', language: 'Idioma', note: 'Nota' };"""),
+                email: 'Correo', phone: 'Tel\u00e9fono', language: 'Idioma', note: 'Nota' };"""),
 
   # Announced to screen readers on every step change.
   ("live.textContent = 'Step ' + (at + 1) + ' of ' + panels.length;",
    "live.textContent = 'Paso ' + (at + 1) + ' de ' + panels.length;"),
 
   ("if (!ok) live.textContent = 'Check the highlighted answer';",
-   "if (!ok) live.textContent = 'Revise la respuesta se\\u00f1alada';"),
+   "if (!ok) live.textContent = 'Revise la respuesta se\u00f1alada';"),
 
-  ("ed.textContent = 'Edit';",
-   "ed.textContent = 'Editar';"),
+  ("live.textContent = 'Sending\u2026';",
+   "live.textContent = 'Enviando\u2026';"),
 
-  # 'Edit ' + LABEL[k].toLowerCase() -> 'Editar ' + ... reads correctly in Spanish
-  # for all seven labels ("editar procedimiento", "editar correo").
-  ("ed.setAttribute('aria-label', 'Edit ' + LABEL[k].toLowerCase());",
-   "ed.setAttribute('aria-label', 'Editar ' + LABEL[k].toLowerCase());"),
+  ("hint.textContent = n < 2 ? '' : n + ' selected.';",
+   "hint.textContent = n < 2 ? '' : n + ' seleccionados.';"),
 
-  ("live.textContent = 'Sending…';",
-   "live.textContent = 'Enviando…';"),
+  # The three outcomes. Two of them say plainly that nothing was sent, which is
+  # the whole point of them — a preview build must never claim it delivered a
+  # request it did not. Keep the negation first in the Spanish too.
+  ("""      finish('Nothing was sent, because no destination is connected to this preview yet. ' +
+             'This is what would have gone: ' + flat(v) + '.');""",
+   """      finish('No se envi\u00f3 nada, porque esta vista previa todav\u00eda no tiene un destino conectado. ' +
+             'Esto es lo que se habr\u00eda enviado: ' + flat(v) + '.');"""),
+
+  ("""        finish('Sent. His office replies to every request, usually within a working day. ' +
+               'A copy is on its way to ' + v.email + '.');""",
+   """        finish('Enviado. Su consulta responde a todas las solicitudes, normalmente en un d\u00eda h\u00e1bil. ' +
+               'Va una copia en camino a ' + v.email + '.');"""),
+
+  ("""        finish('Nothing was sent: this build has no mail destination connected yet. ' +
+               'This is what would have gone: ' + flat(v) + '.');""",
+   """        finish('No se envi\u00f3 nada: esta versi\u00f3n todav\u00eda no tiene un destino de correo conectado. ' +
+               'Esto es lo que se habr\u00eda enviado: ' + flat(v) + '.');"""),
+
+  ("""      notice.innerHTML = '<b>That did not send.</b> Please call 786 795 2113 rather than ' +
+        'trying again — it is faster, and someone answers.';""",
+   """      notice.innerHTML = '<b>Eso no se envi\u00f3.</b> Por favor llame al 786 795 2113 en vez de ' +
+        'volver a intentarlo — es m\u00e1s r\u00e1pido, y alguien contesta.';"""),
 ],
 
 "book-brief.js": [

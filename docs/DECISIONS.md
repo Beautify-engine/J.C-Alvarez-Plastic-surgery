@@ -3449,3 +3449,43 @@ JavaScript off the bar is still sticky and the single submit still works.
 
 **New tool: `tools/stickynav.mjs`** — checks both halves: the button stays on screen while
 scrolling, and nothing ends up behind it when tabbing.
+
+---
+
+## D-077 — The review step comes off, and the one bug that hides in doing it
+
+Step 04, "Check it over", is gone. The form is now Procedure → Timing → Contact, and
+**Send request** sits on the contact step. Same reasoning as D-075: a review step is
+insurance against a long form, and this one is three questions. It also had the worst
+ratio on the page — a whole step, a full screen, and a tap, to re-read four lines the
+person had just typed.
+
+The summary is not lost on desktop: the rail's *Your request* brief has assembled the
+same four rows since D-073, and it stays on screen while she fills in her name.
+
+**The bug this change hides.** The submit handler validated `i < panels.length - 1`,
+stopping one panel short. That was correct while the last panel was the review, which
+has nothing to validate — and silently wrong the moment Contact became last, because it
+would have let an **empty name and email post straight to the endpoint**. Removing a step
+quietly changed the meaning of a loop bound written for the old shape. Fixed to
+`i < panels.length`, and `tools/bookfn.mjs` now routes `/api/consultation` and asserts
+**zero requests posted** from an empty contact step, so a future edit cannot reintroduce it.
+
+Also moved: `#bNotice` lived inside the review panel and reported send failures. With no
+panel outliving the last answer it now sits above the nav, where a failure on any step
+can reach it.
+
+Removed with it: `fillReview()`, the `STEP_OF` edit-link map, `.breview*` and `.bnext*`
+(30 lines of CSS whose markup had already gone in D-075), and the fourth rail item. The
+header said **"Four questions"** — which had been wrong even before this, since it counted
+the review as a question. Now three, in the visible copy and the meta description.
+
+Verified: axe **0 violations at 1440, 390 and 320 across all three steps**; CLS 0.0004;
+no horizontal overflow at 320px; fold positions unchanged; sticky nav still pins at every
+scroll depth with nothing hidden behind it when tabbing; save-and-resume, deep links,
+contextual proof and the no-JS path all still pass.
+
+**Open, and worth a decision:** on a phone the rail is dropped, so there is now no summary
+between the last field and Send. That is normal for a three-question form, but if it
+matters, the cheapest fix is to show the brief above the nav on the contact step at
+narrow widths only.

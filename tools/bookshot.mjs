@@ -21,9 +21,7 @@ for (const [w,h,name] of [[1440,900,'desktop'],[390,844,'mobile']]) {
   await p.fill('#f-note','I had two children and the skin below my navel never went back.');
   await p.waitForTimeout(300);
   await p.screenshot({path:`design/shots/BK-3-${name}.png`, fullPage:true});
-  await p.click('#bNext'); await p.waitForTimeout(500);
-  await p.screenshot({path:`design/shots/BK-4-${name}.png`, fullPage:true});
-  console.log(name, 'errors:', errs.length?errs:'none');
+    console.log(name, 'errors:', errs.length?errs:'none');
   await ctx.close();
 }
 await b.close();

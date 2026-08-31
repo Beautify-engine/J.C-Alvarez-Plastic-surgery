@@ -50,16 +50,19 @@ console.log('BLOCKED on empty procedure:', await p.locator('#e-procedure').isVis
 // --- 4. keyboard-only through the whole form ---
 await p.click('label:has(input[value=\"facelift\"])');
 await p.click('#bNext'); await p.click('label:has(input[value=\"asap\"])'); await p.click('#bNext');
-await p.fill('#f-name','Ana Duarte'); await p.fill('#f-email','ana@example.com');
-await p.keyboard.press('Enter');   // Enter should advance, not submit
-await p.waitForTimeout(300);
-console.log('ENTER advanced to review:', await p.locator('#p4').isVisible(),
-            '| form still present:', await p.locator('#bookForm').isVisible());
+console.log('LAST STEP is contact:', await p.locator('#p3').isVisible(),
+            '| Send shown:', await p.locator('#bSend').isVisible(),
+            '| Continue hidden:', !(await p.locator('#bNext').isVisible()));
 
-// --- 5. edit link jumps back ---
-await p.locator('.breview__edit').first().click();
-await p.waitForTimeout(250);
-console.log('EDIT jumped to step 1:', await p.locator('#p1').isVisible());
+// --- 5. an empty contact step must not reach the endpoint. The submit loop used to stop
+//        one panel short, which was only correct while the last panel was the review. ---
+let posted = 0;
+await p.route('**/api/consultation', r => { posted++; r.abort(); });
+await p.click('#bSend'); await p.waitForTimeout(500);
+console.log('EMPTY contact blocked:', await p.locator('#e-name').isVisible(),
+            '| requests posted:', posted);
+await p.fill('#f-name','Ana Duarte'); await p.fill('#f-email','ana@example.com');
+await p.waitForTimeout(200);
 
 // --- 6. save & resume across a reload ---
 await p.reload({waitUntil:'networkidle'});

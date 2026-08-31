@@ -1683,36 +1683,6 @@
 .berr{display:block;margin:var(--s-2) 0 0;color:#8c3a3a;font-size:var(--t--1);line-height:1.5}
 .berr[hidden]{display:none}
 
-/* review — every row is editable from where it is read, so a correction costs
-   one tap instead of three Backs */
-.breview{margin:0;padding:0;border-top:1px solid var(--rule-on-light)}
-.breview > div{display:grid;grid-template-columns:8rem minmax(0,1fr);gap:var(--s-2);
-  padding:var(--s-3) 0;border-bottom:1px solid var(--rule-on-light);align-items:baseline}
-.breview dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
-  text-transform:uppercase;color:var(--muted-on-light)}
-.breview dd{margin:0;display:flex;align-items:baseline;justify-content:space-between;
-  gap:var(--s-3);font-family:var(--font-display);font-size:var(--t-1);line-height:1.3}
-.breview__v{min-width:0;overflow-wrap:break-word}
-.breview__edit{appearance:none;-webkit-appearance:none;background:none;border:0;
-  padding:.35em .1em;margin:0;cursor:pointer;flex:none;
-  font:500 var(--t-eyebrow)/1 var(--font-body);letter-spacing:var(--track-eyebrow);
-  text-transform:uppercase;color:var(--accent-light)}
-.breview__edit:hover{text-decoration:underline}
-.breview__edit:focus-visible{outline:2px solid var(--accent-light);outline-offset:2px}
-
-/* what happens after send — expectation-setting is what stops a request going
-   cold between the form and the phone call */
-.bnext-wrap{margin-top:clamp(2rem,4vw,3rem)}
-.bnext{list-style:none;margin:var(--s-3) 0 0;padding:0;border-top:1px solid var(--rule-on-light)}
-.bnext li{display:grid;grid-template-columns:2.5rem minmax(0,1fr);gap:var(--s-2);
-  padding:var(--s-3) 0;border-bottom:1px solid var(--rule-on-light)}
-.bnext li:last-child{border-bottom:0}
-.bnext__n{font:400 var(--t-eyebrow)/1.6 var(--font-body);font-variant-numeric:tabular-nums;
-  letter-spacing:var(--track-eyebrow);color:var(--accent-light)}
-.bnext__b{font-size:var(--t--1);line-height:1.65;color:var(--muted-on-light)}
-.bnext__b b{display:block;font-weight:500;color:var(--ink);font-size:var(--t-0);
-  line-height:1.35;margin-bottom:.35em}
-
 .bnotice{margin:var(--s-4) 0 0;padding:var(--s-3);background:var(--paper-2);
   border-left:2px solid var(--accent-light);font-size:var(--t--1);line-height:1.65;
   color:var(--muted-on-light)}
@@ -1828,7 +1798,6 @@ html.bookpg{scroll-padding-bottom:7.5rem}
   .bsteps li{justify-content:center}
   /* the sticky bar stays one row on a phone; the number is already in the header */
   .bnav__alt{display:none}
-  .breview > div{grid-template-columns:minmax(0,1fr);row-gap:.35em}
   .bopt{padding:.9rem 0}
 }
 
