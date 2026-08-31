@@ -1,0 +1,21 @@
+# The old English URLs, in case anything already points at them.
+# Cloudflare serves /contacto from contacto.html natively — no rules needed for that.
+/results              /resultados                                        301
+/procedures           /procedimientos                                    301
+/preparation          /preparacion                                       301
+/about                /sobre-el-dr-alvarez                               301
+/contact              /contacto                                          301
+/book                 /consulta                                          301
+/privacy              /privacidad                                        301
+/accessibility        /accesibilidad                                     301
+/procedures/tummy-tuck            /procedimientos/abdominoplastia                    301
+/procedures/bbl                   /procedimientos/aumento-de-gluteos                 301
+/procedures/skinny-bbl            /procedimientos/skinny-bbl                         301
+/procedures/hd-liposuction        /procedimientos/liposuccion-alta-definicion        301
+/procedures/breast-augmentation   /procedimientos/aumento-de-senos                   301
+/procedures/breast-lift           /procedimientos/levantamiento-de-senos             301
+/procedures/breast-lift-aug       /procedimientos/levantamiento-y-aumento-de-senos   301
+/procedures/facelift              /procedimientos/levantamiento-facial-profundo      301
+/procedures/rhinoplasty           /procedimientos/rinoplastia                        301
+/procedures/eyelid-surgery        /procedimientos/blefaroplastia                     301
+/procedures/scarless-eyelid       /procedimientos/parpados-sin-cicatrices            301

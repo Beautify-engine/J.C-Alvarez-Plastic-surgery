@@ -1,0 +1,17 @@
+# Cases withheld from the published gallery. One "slug-NN" per line.
+# tools/gen-results.py excludes these and recounts.
+#
+# CLEARED 2026-08-25. The previous entries (bbl-01/03/05/08) referred to the OLD
+# split-half set, which the client replaced with 64 whole slide compositions on
+# 2026-08-25. The numbering does not carry over, so those rejects were meaningless
+# against the new files and keeping them would have withheld the wrong cases.
+#
+# The original finding still stands and still needs re-checking against this set:
+# some of his slides pair a BEFORE and an AFTER shot from materially different
+# angles. Verified against the source slides — it is his layout, not our extraction.
+# For a BBL an oblique "after" against a straight lateral "before" exaggerates
+# projection, which is the pattern FTC 16 CFR 255 and state medical-board
+# advertising rules treat as misleading regardless of intent.
+#
+# Re-audit here: design/case-audit/all-pairs.jpg (all 64, labelled).
+# Add a line to withhold a case. This is his call, not ours (CLAUDE.md §2).

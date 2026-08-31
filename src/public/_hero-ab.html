@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hero A/B</title>
+<meta name="robots" content="noindex,nofollow">
+<!-- Scratch comparison page. Not part of the site; delete before any deploy. -->
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/procedure.css">
+<style>
+.lbl{background:var(--paper-3);color:var(--ink);padding:var(--s-2) var(--gutter);
+  font:500 var(--t-eyebrow)/1 var(--font-body);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase}
+
+/* ══════════ A — editorial. The drawing is the art. No photograph. ══════════ */
+.hA{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+.hA__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(2rem,5vw,4rem);align-items:center;
+  padding-block:clamp(3.5rem,7vw,7rem) clamp(3rem,5vw,5rem)}
+.hA__meta{display:flex;align-items:center;gap:.9em;margin:0 0 var(--s-6);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark)}
+.hA__meta b{color:var(--accent-dark);font-weight:400;font-variant-numeric:tabular-nums}
+.hA__meta::after{content:'';flex:1;height:1px;background:var(--rule-on-dark);max-width:7rem}
+.hA h1{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(3.4rem,1.4rem + 7.4vw,8.5rem);line-height:.86;letter-spacing:-.035em;
+  margin:0;text-wrap:balance}
+.hA h1 i{font-style:italic;display:block;margin-left:.06em}
+.hA__sub{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6em 1.4em;
+  margin:var(--s-4) 0 0;padding-top:var(--s-3);border-top:1px solid var(--rule-on-dark);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark)}
+.hA__def{font-size:var(--t-1);line-height:1.45;margin:var(--s-4) 0 0;max-width:34ch;color:var(--paper)}
+.hA__cta{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-3);align-items:center;margin-top:var(--s-6)}
+.hA__note{font-size:var(--t--1);color:var(--muted-on-dark)}
+
+.hA__art{position:relative}
+.hA__art svg{width:100%;height:auto;display:block;color:var(--accent-dark)}
+.hA__art .form{opacity:.5}
+.hA__art .lead{stroke-dasharray:2 4;opacity:.7}
+.hA__art text{font:400 9px/1 var(--font-body);letter-spacing:1.2px;
+  text-transform:uppercase;fill:var(--muted-on-dark);stroke:none}
+.hA__art svg *{vector-effect:non-scaling-stroke}
+
+.hA__rail{border-top:1px solid var(--rule-on-dark)}
+.hA__rail dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));
+  gap:var(--s-3) var(--s-4);margin:0;padding-block:var(--s-4)}
+.hA__rail dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--accent-dark);margin-bottom:.55em}
+.hA__rail dd{margin:0;font-family:var(--font-display);font-size:var(--t-1);line-height:1.1;
+  font-variant-numeric:tabular-nums}
+.hA__rail dd small{display:block;font-family:var(--font-body);font-size:var(--t-eyebrow);
+  letter-spacing:normal;color:var(--muted-on-dark);margin-top:.45em}
+
+/* ══════════ B — full bleed, type over the image (homepage grammar) ══════════ */
+.hB{position:relative;background:var(--ink);color:var(--paper);isolation:isolate;
+  min-height:clamp(32rem,80svh,50rem);display:flex;flex-direction:column;justify-content:flex-end}
+.hB__media{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.hB__media img{width:100%;height:100%;object-fit:cover;object-position:64% 42%;
+  filter:saturate(.82) contrast(1.06) brightness(.94)}
+.hB__scrim{position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(102deg,var(--ink) 0%,rgba(22,35,42,.95) 30%,rgba(22,35,42,.62) 50%,
+                  rgba(22,35,42,.12) 74%,rgba(22,35,42,0) 100%),
+  linear-gradient(to top,rgba(22,35,42,.85) 0%,rgba(22,35,42,0) 40%)}
+.hB > .wrap,.hB__rail > .wrap{width:100%}
+.hB__inner{padding-block:clamp(4rem,9vw,7rem) clamp(2rem,4vw,3rem);max-width:40rem}
+.hB__meta{display:flex;align-items:center;gap:.9em;margin:0 0 var(--s-4);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark)}
+.hB__meta b{color:var(--accent-dark);font-weight:400;font-variant-numeric:tabular-nums}
+.hB h1{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(3.2rem,1.6rem + 6.4vw,7.5rem);line-height:.88;letter-spacing:-.035em;margin:0}
+.hB h1 i{font-style:italic;display:block;margin-left:.06em}
+.hB__sub{display:flex;flex-wrap:wrap;gap:.6em 1.4em;margin:var(--s-4) 0 0;
+  padding-top:var(--s-3);border-top:1px solid var(--rule-on-dark);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark)}
+.hB__def{font-size:var(--t-1);line-height:1.45;margin:var(--s-4) 0 0;max-width:32ch}
+.hB__cta{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-3);align-items:center;margin-top:var(--s-6)}
+.hB__rail{border-top:1px solid rgba(176,188,191,.22);
+  background:linear-gradient(to top,rgba(22,35,42,.7),rgba(22,35,42,.25))}
+.hB__rail dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));
+  gap:var(--s-3) var(--s-4);margin:0;padding-block:var(--s-4)}
+.hB__rail dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--accent-dark);margin-bottom:.55em}
+.hB__rail dd{margin:0;font-family:var(--font-display);font-size:var(--t-1);line-height:1.1;
+  font-variant-numeric:tabular-nums}
+.hB__rail dd small{display:block;font-family:var(--font-body);font-size:var(--t-eyebrow);
+  letter-spacing:normal;color:var(--muted-on-dark);margin-top:.45em}
+
+@media (max-width:64rem){
+  .hA__grid{grid-template-columns:1fr;padding-block:var(--s-6) var(--s-4)}
+  .hA__art{max-width:16rem;margin-inline:auto}
+  .hB{min-height:0}
+  .hB__media{position:relative;inset:auto;aspect-ratio:5/4}
+  .hB__scrim{inset:0 0 auto 0;height:0}
+  .hB__inner{max-width:none;padding-block:var(--s-4) var(--s-3)}
+  .hB__rail{background:none}
+}
+
+/* ══════════ C — full-bleed video. Him, not a body part. ══════════ */
+.hC{position:relative;background:var(--ink);color:var(--paper);isolation:isolate;
+  min-height:clamp(32rem,82svh,50rem);display:flex;flex-direction:column;justify-content:flex-end}
+.hC__media{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.hC__media img,.hC__media video{width:100%;height:100%;object-fit:cover;object-position:58% center}
+.hC__media video{position:absolute;inset:0}
+.hC__scrim{position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(100deg,var(--ink) 0%,rgba(22,35,42,.95) 28%,rgba(22,35,42,.66) 48%,
+                  rgba(22,35,42,.14) 72%,rgba(22,35,42,0) 100%),
+  linear-gradient(to top,rgba(22,35,42,.86) 0%,rgba(22,35,42,0) 42%)}
+.hC > .wrap,.hC__rail > .wrap{width:100%}
+.hC__inner{padding-block:clamp(4rem,9vw,7rem) clamp(2rem,4vw,3rem);max-width:40rem}
+.hC__rail{border-top:1px solid rgba(176,188,191,.22);
+  background:linear-gradient(to top,rgba(22,35,42,.72),rgba(22,35,42,.28))}
+
+/* ══════════ D — vertical reel as a plate, type beside it ══════════ */
+.hD{display:block;min-height:0;background:var(--ink);color:var(--paper);overflow:hidden}
+.hD > .wrap,.hD__rail > .wrap{width:100%}
+.hD__grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
+  gap:clamp(2rem,5vw,4.5rem);align-items:center;
+  padding-block:clamp(3rem,6vw,5.5rem) clamp(2.5rem,4vw,4rem)}
+/* margin-left:auto on a grid item cancels stretch and the figure collapses to
+   its 0px content width — same trap as .hero > .wrap. Use justify-self. */
+.hD__plate{position:relative;aspect-ratio:9/16;width:100%;max-width:19rem;
+  justify-self:end;margin:0;
+  background:#000;border:1px solid var(--rule-on-dark);overflow:hidden}
+.hD__plate img,.hD__plate video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hD__cap{position:absolute;left:0;right:0;bottom:0;padding:var(--s-3);
+  background:linear-gradient(to top,rgba(0,0,0,.8),transparent);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--paper)}
+.hD__rail{border-top:1px solid var(--rule-on-dark)}
+
+.hC__rail dl,.hD__rail dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));
+  gap:var(--s-3) var(--s-4);margin:0;padding-block:var(--s-4)}
+.hC__rail dt,.hD__rail dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--accent-dark);margin-bottom:.55em}
+.hC__rail dd,.hD__rail dd{margin:0;font-family:var(--font-display);font-size:var(--t-1);
+  line-height:1.1;font-variant-numeric:tabular-nums}
+.hC__rail dd small,.hD__rail dd small{display:block;font-family:var(--font-body);
+  font-size:var(--t-eyebrow);letter-spacing:normal;color:var(--muted-on-dark);margin-top:.45em}
+
+@media (max-width:64rem){
+  .hC{min-height:0}
+  .hC__media{position:relative;inset:auto;aspect-ratio:5/4}
+  .hC__scrim{inset:0 0 auto 0;height:0}
+  .hC__inner{max-width:none;padding-block:var(--s-4) var(--s-3)}
+  .hC__rail{background:none}
+  .hD__grid{grid-template-columns:1fr;padding-block:var(--s-4)}
+  .hD__plate{order:-1;justify-self:center;max-width:15rem}
+}
+@media (prefers-reduced-motion:reduce){.hC__media video,.hD__plate video{display:none}}
+</style></head>
+<body>
+
+<p class="lbl">Direction A — editorial. The drawing is the art; no photograph at all.</p>
+<section class="hA">
+  <div class="wrap"><div class="hA__grid">
+    <div>
+      <p class="hA__meta"><b>06</b> Body &middot; Miami, Florida</p>
+      <h1>Tummy<i>Tuck</i></h1>
+      <p class="hA__sub"><span>Abdominoplasty</span><span>American Board of Plastic Surgery</span><span>EN &middot; ES &middot; RU</span></p>
+      <p class="hA__def">Excess skin and fat removed; the abdominal wall underneath repaired.
+        A structural operation &mdash; not a weight-loss one.</p>
+      <div class="hA__cta">
+        <a class="btn btn--on-dark" href="/book">Request a Consultation <span class="arw" aria-hidden="true">&rarr;</span></a>
+        <a class="hA__note" href="#">See 7 documented cases &rarr;</a>
+      </div>
+    </div>
+    <figure class="hA__art">
+      <svg viewBox="0 0 360 300" fill="none" stroke="currentColor" stroke-width="1.25"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <g transform="translate(126,20) scale(1.2)">
+          <path class="form" d="M54,10 C47,42 45,70 54,98 C63,126 45,142 43,170 C64,198 116,198 137,170 C135,142 117,126 126,98 C135,70 133,42 126,10 C112,20 68,20 54,10 Z"/>
+          <path d="M43,170 C64,198 116,198 137,170" stroke-width="2.4"/>
+          <path d="M56,132 L124,132" stroke-dasharray="4 6" opacity=".45"/>
+          <path d="M52,146 L128,146" stroke-dasharray="4 6" opacity=".35"/>
+          <path d="M50,159 L128,159" stroke-dasharray="4 6" opacity=".25"/>
+          <circle cx="90" cy="118" r="4" stroke-width="1.4"/>
+        </g>
+        <g>
+          <path class="lead" d="M150,162 L178,162"/><circle cx="180" cy="162" r="1.5" fill="currentColor" stroke="none"/>
+          <text x="144" y="165" text-anchor="end">Navel reset</text>
+          <path class="lead" d="M150,196 L172,196"/><circle cx="174" cy="196" r="1.5" fill="currentColor" stroke="none"/>
+          <text x="144" y="199" text-anchor="end">Skin removed</text>
+          <path class="lead" d="M150,244 L176,244"/><circle cx="178" cy="244" r="1.5" fill="currentColor" stroke="none"/>
+          <text x="144" y="247" text-anchor="end">Incision, bikini line</text>
+        </g>
+      </svg>
+    </figure>
+  </div></div>
+  <div class="hA__rail"><div class="wrap"><dl>
+    <div><dt>Operating time</dt><dd>1h30 &ndash; 2h30<small>General anaesthesia</small></dd></div>
+    <div><dt>Back to desk work</dt><dd>10 &ndash; 14 days<small>Physical: up to 6 weeks</small></dd></div>
+    <div><dt>Compression</dt><dd>8 weeks<small>Then part-time</small></dd></div>
+    <div><dt>Final result</dt><dd>6 months<small>Most visible by 3</small></dd></div>
+    <div><dt>Cases on file</dt><dd>7<small>This procedure</small></dd></div>
+  </dl></div></div>
+</section>
+
+<p class="lbl">Direction B — full bleed, type over the image. Same grammar as the homepage.</p>
+<section class="hB">
+  <div class="hB__media">
+    <img src="/img/procedures/tummy-tuck-1200.jpg" width="1200" height="1500" alt="">
+  </div>
+  <div class="hB__scrim" aria-hidden="true"></div>
+  <div class="wrap"><div class="hB__inner">
+    <p class="hB__meta"><b>06</b> Body &middot; Miami, Florida</p>
+    <h1>Tummy<i>Tuck</i></h1>
+    <p class="hB__sub"><span>Abdominoplasty</span><span>American Board of Plastic Surgery</span><span>EN &middot; ES &middot; RU</span></p>
+    <p class="hB__def">Excess skin and fat removed; the abdominal wall underneath repaired.
+      A structural operation &mdash; not a weight-loss one.</p>
+    <div class="hB__cta">
+      <a class="btn btn--on-dark" href="/book">Request a Consultation <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="hA__note" href="#">See 7 documented cases &rarr;</a>
+    </div>
+  </div></div>
+  <div class="hB__rail"><div class="wrap"><dl>
+    <div><dt>Operating time</dt><dd>1h30 &ndash; 2h30<small>General anaesthesia</small></dd></div>
+    <div><dt>Back to desk work</dt><dd>10 &ndash; 14 days<small>Physical: up to 6 weeks</small></dd></div>
+    <div><dt>Compression</dt><dd>8 weeks<small>Then part-time</small></dd></div>
+    <div><dt>Final result</dt><dd>6 months<small>Most visible by 3</small></dd></div>
+    <div><dt>Cases on file</dt><dd>7<small>This procedure</small></dd></div>
+  </dl></div></div>
+</section>
+
+
+<p class="lbl">Direction C — full-bleed video of him. Now using the re-cut clip: 11.0–12.85s of the original, slowed 2×, the only window with no identifiable patient.</p>
+<section class="hC hB">
+  <div class="hC__media">
+    <img src="/img/hero-clean-poster.jpg" width="1920" height="1080" alt="">
+    <video autoplay muted loop playsinline poster="/img/hero-clean-poster.jpg" width="1920" height="1080" aria-hidden="true">
+      <source src="/video/hero-clean-1920.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hC__scrim" aria-hidden="true"></div>
+  <div class="wrap"><div class="hC__inner">
+    <p class="hB__meta"><b>06</b> Body &middot; Miami, Florida</p>
+    <h1>Tummy<i>Tuck</i></h1>
+    <p class="hB__sub"><span>Abdominoplasty</span><span>American Board of Plastic Surgery</span><span>EN &middot; ES &middot; RU</span></p>
+    <p class="hB__def">Excess skin and fat removed; the abdominal wall underneath repaired.
+      A structural operation &mdash; not a weight-loss one.</p>
+    <div class="hB__cta">
+      <a class="btn btn--on-dark" href="/book">Request a Consultation <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="hA__note" href="#">See 7 documented cases &rarr;</a>
+    </div>
+  </div></div>
+  <div class="hC__rail"><div class="wrap"><dl>
+    <div><dt>Operating time</dt><dd>1h30 &ndash; 2h30<small>General anaesthesia</small></dd></div>
+    <div><dt>Back to desk work</dt><dd>10 &ndash; 14 days<small>Physical: up to 6 weeks</small></dd></div>
+    <div><dt>Compression</dt><dd>8 weeks<small>Then part-time</small></dd></div>
+    <div><dt>Final result</dt><dd>6 months<small>Most visible by 3</small></dd></div>
+    <div><dt>Cases on file</dt><dd>7<small>This procedure</small></dd></div>
+  </dl></div></div>
+</section>
+
+<p class="lbl">Direction D — his vertical reel as a plate, type beside it. Uses the media he actually posts.</p>
+<section class="hD hB">
+  <div class="wrap"><div class="hD__grid">
+    <div><p class="hB__meta"><b>06</b> Body &middot; Miami, Florida</p>
+    <h1>Tummy<i>Tuck</i></h1>
+    <p class="hB__sub"><span>Abdominoplasty</span><span>American Board of Plastic Surgery</span><span>EN &middot; ES &middot; RU</span></p>
+    <p class="hB__def">Excess skin and fat removed; the abdominal wall underneath repaired.
+      A structural operation &mdash; not a weight-loss one.</p>
+    <div class="hB__cta">
+      <a class="btn btn--on-dark" href="/book">Request a Consultation <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="hA__note" href="#">See 7 documented cases &rarr;</a>
+    </div></div>
+    <figure class="hD__plate">
+      <img src="/img/reels/tummy-tuck-bbl.jpg" width="1080" height="1920" alt="">
+      <video autoplay muted loop playsinline poster="/img/reels/tummy-tuck-bbl.jpg" width="1080" height="1920" aria-hidden="true">
+        <source src="/video/reels/tummy-tuck-bbl.mp4" type="video/mp4">
+      </video>
+      <figcaption class="hD__cap">From his Instagram &middot; 148K followers</figcaption>
+    </figure>
+  </div></div>
+  <div class="hD__rail"><div class="wrap"><dl>
+    <div><dt>Operating time</dt><dd>1h30 &ndash; 2h30<small>General anaesthesia</small></dd></div>
+    <div><dt>Back to desk work</dt><dd>10 &ndash; 14 days<small>Physical: up to 6 weeks</small></dd></div>
+    <div><dt>Compression</dt><dd>8 weeks<small>Then part-time</small></dd></div>
+    <div><dt>Final result</dt><dd>6 months<small>Most visible by 3</small></dd></div>
+    <div><dt>Cases on file</dt><dd>7<small>This procedure</small></dd></div>
+  </dl></div></div>
+</section>
+
+</body></html>

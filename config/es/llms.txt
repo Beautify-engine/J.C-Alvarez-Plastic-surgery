@@ -1,0 +1,4 @@
+# SPEC PERIOD ONLY — remove on launch.
+# The gallery carries real patient photographs and the engagement is unsigned.
+User-agent: *
+Disallow: /

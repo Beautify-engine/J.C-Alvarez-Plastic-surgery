@@ -1,0 +1,25 @@
+# Raw extraction — reference only, never deployed
+content/_extracted/
+assets/_raw/
+
+# Build output — Cloudflare runs tools/build-es.py and produces dist-es itself.
+# If you'd rather commit the output and leave the build command empty, delete
+# the dist-es line.
+dist/
+dist-es/
+out/
+
+# Local previews and parked explorations
+src/public/_dep/
+src/public/_parked/
+src/public/_es-preview.html
+src/public/_es-build.html
+
+# Tooling and OS
+node_modules/
+.env*
+.DS_Store
+**/.DS_Store
+*.log
+__pycache__/
+*.pyc

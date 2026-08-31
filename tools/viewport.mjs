@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch();
+const ctx = await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2});
+const p = await ctx.newPage();
+await p.goto(process.argv[2],{waitUntil:'networkidle'});
+await p.waitForTimeout(1500);
+await p.screenshot({path:'design/shots/vp-top.png'});
+await p.evaluate(()=>window.scrollTo(0,1400));
+await p.waitForTimeout(900);
+await p.screenshot({path:'design/shots/vp-scrolled.png'});
+console.log('viewport shots');
+await b.close();

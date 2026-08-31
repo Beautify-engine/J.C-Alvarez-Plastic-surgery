@@ -1,0 +1,17 @@
+import { chromium } from 'playwright';
+const b=await chromium.launch();
+const p=await (await b.newContext({viewport:{width:1440,height:900}})).newPage();
+await p.goto('http://localhost:8787/',{waitUntil:'networkidle'});
+const before=await p.locator('#locMap iframe').count();
+await p.locator('#locLoad').scrollIntoViewIfNeeded();
+await p.locator('#locLoad').click();
+await p.waitForTimeout(2500);
+const after=await p.locator('#locMap iframe').count();
+const src=await p.locator('#locMap iframe').getAttribute('src').catch(()=>null);
+console.log('iframes before click:',before,'| after:',after);
+console.log('src:', (src||'').slice(0,72));
+const logo=await p.evaluate(()=>{const i=document.querySelector('.brand img');
+  return i?{w:i.naturalWidth,h:i.naturalHeight,vis:i.getBoundingClientRect().width>0}:null;});
+console.log('header logo:',JSON.stringify(logo));
+await p.locator('#locMap').screenshot({path:'design/shots/map-loaded.png'});
+await b.close();

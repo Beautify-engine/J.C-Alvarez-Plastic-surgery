@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch();
+const ctx = await b.newContext({viewport:{width:1440,height:920},deviceScaleFactor:2});
+const p = await ctx.newPage();
+await p.goto('http://localhost:8787/',{waitUntil:'networkidle'});
+await p.waitForTimeout(2500);
+await p.screenshot({path:'design/shots/hero-new.png'});
+const rev = p.locator('section.rev');
+await rev.scrollIntoViewIfNeeded(); await p.waitForTimeout(900);
+await rev.screenshot({path:'design/shots/reviews.png'});
+console.log('ok');
+await b.close();

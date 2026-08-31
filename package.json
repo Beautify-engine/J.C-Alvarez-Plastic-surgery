@@ -1,0 +1,25 @@
+{
+  "name": "jc-alvarez-plastic-surgery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "python3 -m http.server 8787 --directory src/public",
+    "shots": "node tools/shoot.mjs http://localhost:8787/ hero",
+    "probe": "node tools/probe.mjs",
+    "serve": "python3 tools/serve.py 8787 src/public",
+    "axe": "node tools/axe.mjs",
+    "overflow": "node tools/overflow.mjs"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "devDependencies": {
+    "axe-core": "^4.13.0",
+    "playwright": "^1.62.1"
+  },
+  "private": true
+}

@@ -1,0 +1,1706 @@
+/* ============================================================================
+   procedure.css — the shared template for all 11 procedure pages.
+   Loaded after styles.css; every class is prefixed p-/.p… so nothing can collide
+   with the homepage sheet (D-023). No literal values: tokens only.
+   ========================================================================= */
+
+/* ---------- shared section furniture ---------- */
+.p-sec{padding-block:var(--section)}
+.p-sec--paper{background:var(--paper);color:var(--ink)}
+.p-sec--paper2{background:var(--paper-2);color:var(--ink)}
+.p-sec--ink{background:var(--ink);color:var(--paper)}
+.p-sec--ink2{background:var(--ink-2);color:var(--paper)}
+
+/* section marker: hairline + index numeral + eyebrow, all on one baseline */
+.p-mark{display:flex;align-items:baseline;gap:var(--s-2);
+  padding-bottom:var(--s-3);margin-bottom:var(--s-4);
+  border-bottom:1px solid var(--rule-on-light)}
+.p-sec--ink .p-mark,.p-sec--ink2 .p-mark{border-bottom-color:var(--rule-on-dark)}
+.p-mark__n{font-family:var(--font-display);font-size:var(--t-1);line-height:1;
+  color:var(--accent-light);font-variant-numeric:tabular-nums}
+.p-sec--ink .p-mark__n,.p-sec--ink2 .p-mark__n{color:var(--accent-dark)}
+.p-mark .eyebrow{color:var(--muted-on-light)}
+.p-sec--ink .p-mark .eyebrow,.p-sec--ink2 .p-mark .eyebrow{color:var(--muted-on-dark)}
+
+.p-h2{font-family:var(--font-display);font-weight:400;font-size:var(--t-4);
+  line-height:var(--lead-display);letter-spacing:-.01em;margin:0;
+  max-width:18ch;text-wrap:balance}
+.p-lede{font-size:var(--t-1);line-height:1.45;margin:var(--s-3) 0 0;max-width:46ch;
+  color:var(--muted-on-light)}
+.p-sec--ink .p-lede,.p-sec--ink2 .p-lede{color:var(--muted-on-dark)}
+
+/* two-column section head: title left, supporting text right */
+.p-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:var(--s-4) clamp(2rem,6vw,5rem);align-items:end;margin-bottom:var(--s-6)}
+.p-head .p-lede{margin:0}
+@media (max-width:64rem){.p-head{grid-template-columns:1fr;align-items:start}}
+
+/* the verification placeholder, on both grounds */
+.p-verify{font-family:var(--font-body);font-size:var(--t--1);
+  color:var(--accent-light);background:var(--paper-3);
+  padding:.25em .5em;border-radius:var(--r-sm);
+  /* never nowrap: a long [[VERIFY:…]] string sets the min-content width of its
+     grid track and pushes the whole page into horizontal scroll at 320–390px */
+  overflow-wrap:anywhere}
+.p-sec--ink .p-verify,.p-sec--ink2 .p-verify{color:var(--ink);background:var(--accent-dark)}
+
+/* ---------- breadcrumb ---------- */
+.p-crumb{background:var(--paper);border-bottom:1px solid var(--rule-on-light)}
+.p-crumb ol{display:flex;flex-wrap:wrap;gap:.5em;list-style:none;margin:0;padding:var(--s-2) 0;
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-light)}
+.p-crumb a{text-decoration:none;color:var(--muted-on-light);
+  border-bottom:1px solid transparent;transition:border-color var(--m-fast) var(--ease-out)}
+.p-crumb a:hover{border-bottom-color:var(--accent-light);color:var(--ink)}
+.p-crumb li+li::before{content:'/';margin-right:.5em;color:var(--rule-on-light)}
+.p-crumb [aria-current]{color:var(--ink)}
+
+/* ============================================================================
+   HERO — editorial split. Type owns a column; the image is a tall plate, not a
+   full-bleed wash. Credentials (§5.4) sit under the sub; the procedure facts
+   patients actually search for sit on the bottom edge.
+   ========================================================================= */
+.phero{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+.phero__grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:clamp(2rem,5vw,4.5rem);align-items:center;
+  padding-block:clamp(3rem,6vw,5.5rem) clamp(2.5rem,5vw,4.5rem)}
+.phero .eyebrow{color:var(--accent-dark);margin:0 0 var(--s-3)}
+.phero h1{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(2.75rem,1.9rem + 3.9vw,5.25rem);line-height:.96;letter-spacing:-.02em;
+  margin:0;text-wrap:balance}
+.phero h1 em{font-style:italic}
+.phero__alt{display:block;font-family:var(--font-body);font-weight:400;
+  font-size:var(--t--1);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark);margin-top:var(--s-3)}
+.phero__def{font-size:var(--t-1);line-height:1.5;color:var(--paper);
+  margin:var(--s-4) 0 0;max-width:38ch}
+
+/* credential line — trust above the fold without a second rail of numbers */
+.phero__creds{display:flex;flex-wrap:wrap;gap:.5em clamp(1rem,2.4vw,1.9rem);list-style:none;
+  margin:var(--s-4) 0 0;padding:var(--s-3) 0 0;border-top:1px solid var(--rule-on-dark);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark)}
+/* separated by space, not by a dot: a pseudo-dot leads the wrapped line and
+   reads as a bullet list rather than a credential run */
+.phero__creds li{white-space:nowrap}
+
+.phero .hero__cta{margin-top:var(--s-4)}
+
+.phero__fig{position:relative;isolation:isolate}
+.phero__fig img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;
+  filter:saturate(.94) contrast(1.02)}
+/* a hairline plate offset behind the plate — depth without a drop shadow (D-006) */
+.phero__fig::before{content:'';position:absolute;z-index:-1;
+  inset:var(--s-3) var(--s-3) calc(var(--s-3) * -1) calc(var(--s-3) * -1);
+  border:1px solid var(--rule-on-dark)}
+
+/* bottom rail — the four things every abdominoplasty search asks first */
+.phero__rail{border-top:1px solid var(--rule-on-dark);
+  background:linear-gradient(to top,rgba(31,47,55,.85),rgba(31,47,55,0))}
+.phero__rail dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));
+  gap:var(--s-3) var(--s-4);margin:0;padding-block:var(--s-4)}
+.phero__rail dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--accent-dark);margin-bottom:.5em}
+.phero__rail dd{margin:0;font-family:var(--font-display);font-size:var(--t-1);
+  line-height:1.15;color:var(--paper);font-variant-numeric:tabular-nums}
+/* the dd carries tabular-nums for the figures; that also makes the comma and
+   period figure-width, which reads as a stray space in prose. Reset it here. */
+.phero__rail dd small{display:block;font-family:var(--font-body);font-size:var(--t-eyebrow);
+  letter-spacing:normal;font-variant-numeric:normal;color:var(--muted-on-dark);
+  margin-top:.4em;text-transform:none}
+
+@media (max-width:64rem){
+  .phero__grid{grid-template-columns:1fr;padding-block:var(--s-4) var(--s-4)}
+  .phero__fig{order:-1;margin-inline:calc(var(--gutter)*-1)}
+  .phero__fig img{aspect-ratio:5/4}
+  .phero__fig::before{display:none}
+  .phero h1{font-size:clamp(2.5rem,8vw,3.5rem)}
+}
+
+/* ============================================================================
+   PAGE INDEX — a navigator people actually use.
+   It was small uppercase links on a near-matching ground; nobody read it as
+   controls. Now: numbered items, real hit areas, a filled active state and a
+   reading-progress line across the whole bar.
+   ========================================================================= */
+.pidx{position:sticky;top:0;z-index:15;background:var(--paper);
+  border-bottom:1px solid var(--rule-on-light)}
+.pidx__prog{position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:transparent;pointer-events:none}
+.pidx__prog{height:3px;z-index:2}
+.pidx__prog i{display:block;height:100%;width:0;background:var(--accent-light);
+  transition:width 120ms linear}
+.pidx .wrap{display:flex;align-items:stretch;gap:var(--s-3)}
+.pidx__lead{display:none}
+.pidx ul{display:flex;gap:0;list-style:none;margin:0;padding:0;
+  overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex:1 1 auto}
+.pidx ul::-webkit-scrollbar{display:none}
+.pidx a{display:flex;align-items:center;gap:.6em;white-space:nowrap;text-decoration:none;
+  padding:var(--s-3) clamp(.7rem,1.4vw,1.1rem);
+  font:500 var(--t--1)/1 var(--font-body);color:var(--muted-on-light);
+  border-bottom:2px solid transparent;
+  transition:color var(--m-base) var(--ease-out),
+             background var(--m-base) var(--ease-out),
+             border-color var(--m-base) var(--ease-out)}
+.pidx li:first-child a{padding-left:0}
+.pidx__n{font-size:var(--t-eyebrow);letter-spacing:.06em;color:var(--muted-on-light);
+  font-variant-numeric:tabular-nums;transition:color var(--m-base) var(--ease-out)}
+.pidx a:hover{color:var(--ink);background:var(--paper-2)}
+.pidx a:hover .pidx__n{color:var(--accent-light)}
+.pidx a[aria-current]{color:var(--ink);border-bottom-color:var(--accent-light)}
+.pidx a[aria-current] .pidx__n{color:var(--accent-light)}
+/* .pidx a (0,1,1) out-specifies a lone class, so the CTA must be compound or its
+   colour never lands — it rendered dark-on-dark. */
+.pidx a.pidx__cta{flex:none;display:inline-flex;align-items:center;gap:.5em;
+  font:500 var(--t--1)/1 var(--font-body);color:var(--paper);text-decoration:none;
+  background:var(--accent-light);padding-inline:var(--s-4);border-bottom:0;
+  transition:background var(--m-base) var(--ease-out)}
+.pidx a.pidx__cta:hover{background:var(--ink);color:var(--paper)}
+@media (max-width:64rem){
+  .pidx__cta{display:none}
+  .pidx .wrap{position:relative}
+  /* the rail scrolls — fade the edge so that is discoverable */
+  .pidx .wrap::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2.5rem;
+    pointer-events:none;
+    background:linear-gradient(to right,rgba(247,246,243,0),var(--paper))}
+}
+@media (max-width:48rem){
+  .pidx a{padding-inline:.7rem;font-size:var(--t-eyebrow);letter-spacing:.04em}
+  .pidx__n{display:none}
+}
+
+/* ============================================================================
+   RESULTS — one procedure, so the stage shows one case large and lets you
+   swap which half you are looking at. Side-by-side is unreadable at 390px;
+   BEFORE / AFTER full-frame is how people actually study a result on a phone.
+   ========================================================================= */
+/* ---------- the case stage ----------
+   One whole slide, not two halves. The slides are 1:1, composed as a unit with
+   matching scale and their own Before/After labels, so splitting them (and then
+   letterboxing each half independently) was what made them stop being comparable.
+   Nothing is cropped: the box is square and so is the source. */
+.pcase__stage{position:relative;display:block;max-width:46rem;
+  background:#000;border:1px solid var(--rule-on-dark);overflow:hidden}
+.pcase__stage img{display:block;width:100%;height:auto;aspect-ratio:1/1;
+  object-fit:contain;background:#000}
+
+/* metadata rail beneath the stage */
+.pcase__bar{display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:var(--s-3) clamp(1.5rem,4vw,3rem);align-items:start;
+  margin-top:var(--s-3);padding-top:var(--s-3);border-top:1px solid var(--rule-on-dark)}
+.pcase__side{display:flex;align-items:flex-start;gap:clamp(1.5rem,3vw,2.5rem)}
+.pcase__meta{display:flex;flex-wrap:wrap;gap:var(--s-2) clamp(1.25rem,3vw,2.5rem);
+  margin:0;padding:0;border:0}
+.pcase__meta > div{display:flex;flex-direction:column;gap:.35em}
+.pcase__meta dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-dark)}
+.pcase__v{margin:0;font-family:var(--font-display);font-size:var(--t-1);line-height:1.2;
+  color:var(--paper)}
+
+/* filmstrip: sits inline in the rail under the stage, scrolls on narrow screens */
+.pcase__strip{display:flex;gap:var(--s-2);list-style:none;margin:0;padding:0;
+  overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.pcase__strip::-webkit-scrollbar{display:none}
+.pcase__strip li{flex:0 0 clamp(3.25rem,6vw,4.5rem)}
+.pcase__strip button{display:block;width:100%;padding:0;border:1px solid var(--rule-on-dark);
+  background:#000;cursor:pointer;position:relative;aspect-ratio:4/5;overflow:hidden;opacity:.5;
+  transition:border-color var(--m-base) var(--ease-out),opacity var(--m-base) var(--ease-out)}
+.pcase__strip button img{width:100%;height:100%;object-fit:cover;display:block}
+.pcase__strip button:hover{opacity:.85}
+.pcase__strip button[aria-current="true"]{opacity:1;border-color:var(--accent-dark)}
+.pcase__strip .n{position:absolute;left:0;bottom:0;background:rgba(0,0,0,.6);
+  color:var(--paper);font-size:var(--t-eyebrow);padding:.15em .4em;
+  font-variant-numeric:tabular-nums}
+
+.pcase__nav{display:flex;align-items:center;gap:var(--s-1);flex:none}
+.pcase__nav button{width:3rem;height:3rem;border:1px solid var(--rule-on-dark);background:none;
+  color:var(--paper);display:grid;place-items:center;cursor:pointer;padding:0;
+  transition:background var(--m-base) var(--ease-out),border-color var(--m-base) var(--ease-out)}
+.pcase__nav button:hover{background:var(--accent-dark);color:var(--ink);border-color:var(--accent-dark)}
+.pcase__nav svg{width:1rem;height:1rem;fill:none;stroke:currentColor;stroke-width:1.5}
+
+.pcase__note{display:block;margin:var(--s-4) 0 0;
+  font-size:var(--t-eyebrow);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted-on-dark);line-height:1.7}
+.pcase__note::before{content:'';display:inline-block;vertical-align:.15em;
+  width:.35rem;height:.35rem;border-radius:50%;background:var(--accent-dark);
+  margin-right:.7em}
+
+@media (max-width:64rem){
+  .pcase__bar{grid-template-columns:1fr}
+  .pcase__side{justify-content:space-between;width:100%}
+}
+@media (max-width:48rem){
+  /* still 4/5 on a phone — the source is 4/5, and cropping it here loses the same
+     20% the desktop rule used to. The stage simply gets narrower. */
+  .pcase__stage{max-width:none}
+}
+@media (prefers-reduced-motion:reduce){.pcase__stage{transition:none}}
+
+/* ============================================================================
+   WHAT IT ADDRESSES — three plain statements, numbered, no icons (§4 bars icon soup)
+   ========================================================================= */
+.padd{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--s-4) clamp(1.5rem,4vw,3.5rem);list-style:none;margin:0;padding:0}
+.padd li{padding-top:var(--s-3);border-top:1px solid var(--rule-on-light)}
+.padd h3{font-family:var(--font-display);font-weight:400;font-size:var(--t-2);
+  line-height:1.15;margin:0 0 var(--s-2);text-wrap:balance}
+.padd p{margin:0;color:var(--muted-on-light);font-size:var(--t--1);line-height:1.65}
+.padd .p-term{display:block;font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--accent-light);margin-bottom:.7em}
+@media (max-width:64rem){.padd{grid-template-columns:1fr}}
+
+
+
+/* ============================================================================
+   TECHNIQUE — sticky title column, numbered steps. Oversized serif numerals do
+   the work an icon set would otherwise be asked to do.
+   ========================================================================= */
+.ptech__grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start}
+.ptech__side{position:sticky;top:calc(var(--s-8) + var(--s-2))}
+.ptech__steps{list-style:none;margin:0;padding:0;counter-reset:step}
+.ptech__steps li{display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:var(--s-3);
+  padding:var(--s-4) 0;border-top:1px solid var(--rule-on-dark)}
+.ptech__steps li:first-child{border-top:0;padding-top:0}
+.ptech__steps li::before{counter-increment:step;content:counter(step,decimal-leading-zero);
+  font-family:var(--font-display);font-size:var(--t-3);line-height:.9;color:var(--accent-dark);
+  font-variant-numeric:tabular-nums}
+.ptech__steps h3{font-family:var(--font-display);font-weight:400;font-size:var(--t-2);
+  line-height:1.15;margin:0 0 var(--s-2);text-wrap:balance}
+.ptech__steps p{margin:0;color:var(--muted-on-dark);line-height:1.65;max-width:52ch}
+/* The active step is marked, not the others dimmed: fading body text to .42 drops
+   it to 2.46:1 and fails AA. The rule and the numeral carry the state instead. */
+.ptech__steps li{position:relative;transition:border-color var(--m-slow) var(--ease-out)}
+.ptech__steps li::after{content:'';position:absolute;left:0;top:-1px;width:0;height:1px;
+  background:var(--accent-dark);transition:width var(--m-slow) var(--ease-out)}
+.ptech__steps li.is-active::after{width:2.5rem}
+.ptech__steps li::before{color:var(--muted-on-dark);
+  transition:color var(--m-slow) var(--ease-out)}
+.ptech__steps li.is-active::before{color:var(--accent-dark)}
+
+/* ---------- talks: a typographic facade, not a YouTube thumbnail ----------
+   His packaged thumbnails are the vocabulary §4 rules out — bikini stock, Impact,
+   yellow slashes. So the card is built from type on our own ground and no
+   third-party asset is requested at all. The nocookie iframe loads on click:
+   zero cookies and zero KB from Google until someone actually asks to watch. */
+.pvid{margin-top:var(--s-4);border:1px solid var(--rule-on-dark)}
+.pvid__hd{display:flex;align-items:center;gap:.6em;padding:var(--s-3) var(--s-3) var(--s-2);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--accent-dark)}
+.pvid__hd::before{content:'';width:.35rem;height:.35rem;border-radius:50%;
+  background:var(--accent-dark);flex:none}
+.pvid__list{list-style:none;margin:0;padding:0}
+.pvid__row{display:grid;grid-template-columns:2.4rem minmax(0,1fr) auto;gap:var(--s-2);
+  align-items:center;width:100%;text-align:left;background:none;cursor:pointer;
+  border:0;border-top:1px solid var(--rule-on-dark);color:var(--paper);
+  padding:var(--s-3);font:inherit;
+  transition:background var(--m-base) var(--ease-out)}
+.pvid__row:hover{background:var(--ink)}
+.pvid__ico{width:2.4rem;height:2.4rem;border-radius:var(--r-pill);background:var(--accent-dark);
+  display:grid;place-items:center;flex:none;
+  transition:transform var(--m-base) var(--ease-out)}
+.pvid__ico svg{width:.95rem;height:.95rem;fill:var(--ink);margin-left:.1em}
+.pvid__row:hover .pvid__ico{transform:scale(1.08)}
+.pvid__t{font-family:var(--font-display);font-size:var(--t-1);line-height:1.2;min-width:0}
+.pvid__t small{display:block;font-family:var(--font-body);font-size:var(--t-eyebrow);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--muted-on-dark);
+  margin-top:.4em}
+.pvid__dur{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  color:var(--muted-on-dark);white-space:nowrap}
+
+/* the player replaces the list in place, at the video's own ratio */
+.pvid__frame{position:relative;aspect-ratio:16/9;background:#000}
+.pvid__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pvid__src{display:block;padding:var(--s-2) var(--s-3);
+  border-top:1px solid var(--rule-on-dark);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark);text-decoration:none}
+.pvid__src:hover{color:var(--accent-dark)}
+
+@media (max-width:64rem){
+  .ptech__grid{grid-template-columns:1fr}
+  .ptech__side{position:static}
+}
+@media (max-width:48rem){
+  .ptech__steps li{grid-template-columns:1fr;gap:var(--s-1)}
+  .ptech__steps li::before{font-size:var(--t-2)}
+}
+@media (prefers-reduced-motion:reduce){.pvid__row:hover .pvid__ico{transform:none}}
+
+/* ============================================================================
+   THE STATEMENT — the page's one purely typographic moment. Deliberately has no
+   numeral chip and no two-column head, so it cannot read as another section.
+   ========================================================================= */
+.pstmt{background:var(--paper-2);color:var(--ink);
+  padding-block:clamp(5rem,10vw,10rem)}
+.pstmt .eyebrow{color:var(--accent-light);margin:0 0 var(--s-4)}
+.pstmt__h{font-family:var(--font-display);font-weight:400;font-size:var(--t-6);
+  line-height:.98;letter-spacing:-.03em;margin:0;max-width:20ch;text-wrap:balance}
+.pstmt__h em{font-style:italic;color:var(--accent-light)}
+.pstmt__foot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--s-4) clamp(2rem,5vw,4rem);margin-top:clamp(2.5rem,5vw,4.5rem);
+  padding-top:var(--s-4);border-top:1px solid var(--rule-on-light);
+  max-width:58rem;margin-left:auto}
+.pstmt__foot p{margin:0;color:var(--muted-on-light);line-height:1.7;font-size:var(--t--1)}
+@media (max-width:64rem){
+  .pstmt__foot{grid-template-columns:1fr;margin-left:0}
+  .pstmt__h{max-width:none}
+}
+
+/* ============================================================================
+   CANDIDACY — including who is not a candidate (IA Part 2, §4)
+   ========================================================================= */
+.pcand{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--s-6) clamp(2rem,6vw,5rem)}
+.pcand h3{font-family:var(--font-display);font-weight:400;font-size:var(--t-2);
+  line-height:1.2;margin:0 0 var(--s-3)}
+.pcand ul{list-style:none;margin:0;padding:0}
+.pcand li{padding:var(--s-3) 0;border-top:1px solid var(--rule-on-light);line-height:1.6}
+.pcand li b{display:block;font-weight:500;margin-bottom:.3em}
+.pcand li span{color:var(--muted-on-light);font-size:var(--t--1)}
+.pcand__yes h3{color:var(--ink)}
+.pcand__yes li{border-top-color:var(--accent-light)}
+.pcand__no h3{color:var(--muted-on-light)}
+@media (max-width:64rem){.pcand{grid-template-columns:1fr}}
+
+/* ============================================================================
+   RECOVERY — a scrubbable timeline. Nine milestones on one axis; selecting one
+   swaps the panel. Real tab semantics, arrow keys, no motion required.
+   ========================================================================= */
+.ptime__axis{position:relative;margin:var(--s-6) 0 var(--s-6)}
+.ptime__axis::before{content:'';position:absolute;left:0;right:0;top:.5rem;height:1px;
+  background:var(--rule-on-light)}
+.ptime__list{display:flex;gap:0;list-style:none;margin:0;padding:0 0 var(--s-1);
+  overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.ptime__list::-webkit-scrollbar{display:none}
+.ptime__list li{flex:1 0 auto;min-width:5.5rem}
+.ptime__list button{position:relative;background:none;border:0;cursor:pointer;
+  padding:0 var(--s-2) 0 0;text-align:left;width:100%;
+  font:500 var(--t-eyebrow)/1.3 var(--font-body);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light);
+  transition:color var(--m-base) var(--ease-out)}
+.ptime__tick{display:block;width:1rem;height:1rem;border-radius:50%;
+  border:1px solid var(--rule-on-light);background:var(--paper);margin-bottom:var(--s-2);
+  transition:background var(--m-base) var(--ease-out),
+             border-color var(--m-base) var(--ease-out),
+             box-shadow var(--m-base) var(--ease-out)}
+.ptime__list button:hover{color:var(--ink)}
+.ptime__list button:hover .ptime__tick{border-color:var(--accent-light)}
+.ptime__list button[aria-selected="true"]{color:var(--ink)}
+/* filled rather than scaled: a scaled first tick clips against the scroller edge */
+.ptime__list button[aria-selected="true"] .ptime__tick{background:var(--accent-light);
+  border-color:var(--accent-light);box-shadow:0 0 0 1px var(--accent-light)}
+
+.ptime__panel[hidden]{display:none}
+.ptime__panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);
+  gap:clamp(1.5rem,5vw,4rem);align-items:start;
+  padding-top:var(--s-6);border-top:1px solid var(--rule-on-light)}
+.ptime__when{font-family:var(--font-display);font-size:var(--t-3);line-height:1.05;
+  letter-spacing:-.01em;margin:0;font-variant-numeric:tabular-nums}
+.ptime__when span{display:block;font-family:var(--font-body);font-size:var(--t-eyebrow);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--accent-light);
+  margin-bottom:var(--s-2)}
+.ptime__facts{list-style:none;margin:0;padding:0}
+.ptime__facts > div{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:var(--s-2);
+  padding:var(--s-3) 0;border-bottom:1px solid var(--rule-on-light);align-items:baseline}
+.ptime__facts > div:first-child{border-top:1px solid var(--rule-on-light)}
+.ptime__facts dt,.ptime__k{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light)}
+.ptime__v{margin:0;line-height:1.55}
+@media (max-width:64rem){
+  .ptime__panel{grid-template-columns:1fr}
+  .ptime__facts > div{grid-template-columns:9rem minmax(0,1fr)}
+}
+@media (max-width:48rem){
+  .ptime__facts > div{grid-template-columns:1fr;gap:.25em}
+}
+@media (prefers-reduced-motion:reduce){.ptime__tick{transition:none}}
+
+/* ============================================================================
+   RISKS + COST — quiet, unstyled, deliberately not a "warning" component
+   ========================================================================= */
+.prisk__grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start}
+.prisk ul{list-style:none;margin:0;padding:0}
+.prisk li{padding:var(--s-3) 0;border-top:1px solid var(--rule-on-light);line-height:1.6}
+.prisk li:last-child{border-bottom:1px solid var(--rule-on-light)}
+.prisk li b{font-weight:500}
+.prisk li > span{display:block;color:var(--muted-on-light);font-size:var(--t--1);margin-top:.25em}
+
+.pcost{margin-top:var(--section);padding-top:var(--s-6);border-top:1px solid var(--rule-on-light)}
+.pcost__grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start}
+.pcost__band{font-family:var(--font-display);font-size:var(--t-3);line-height:1.1;margin:0}
+.pcost ul{list-style:none;margin:var(--s-3) 0 0;padding:0}
+.pcost li{padding:var(--s-2) 0;border-top:1px solid var(--rule-on-light);
+  color:var(--muted-on-light);font-size:var(--t--1);line-height:1.6}
+@media (max-width:64rem){
+  .prisk__grid,.pcost__grid{grid-template-columns:1fr}
+}
+
+/* ============================================================================
+   FAQ — <details>, so it works with zero JS and is keyboard-native
+   ========================================================================= */
+.pfaq__list{columns:2;column-gap:clamp(2rem,6vw,4.5rem);margin:0}
+.pfaq details{break-inside:avoid;border-top:1px solid var(--rule-on-light);
+  padding:var(--s-3) 0}
+.pfaq summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;
+  gap:var(--s-2);font-family:var(--font-display);font-size:var(--t-1);line-height:1.3;
+  transition:color var(--m-base) var(--ease-out)}
+.pfaq summary::-webkit-details-marker{display:none}
+.pfaq summary:hover{color:var(--accent-light)}
+.pfaq summary::after{content:'';flex:none;width:.65rem;height:.65rem;margin-top:.45em;
+  margin-left:auto;border-right:1px solid currentColor;border-bottom:1px solid currentColor;
+  transform:rotate(45deg);transition:transform var(--m-base) var(--ease-out)}
+.pfaq details[open] summary::after{transform:rotate(-135deg)}
+.pfaq details p{margin:var(--s-2) 0 0;color:var(--muted-on-light);line-height:1.7;
+  max-width:52ch;font-size:var(--t--1)}
+@media (max-width:64rem){.pfaq__list{columns:1}}
+
+/* ============================================================================
+   RELATED + CLOSING
+   ========================================================================= */
+.prel__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(1rem,3vw,2rem);list-style:none;margin:0;padding:0}
+.prel a{display:block;text-decoration:none;color:inherit}
+.prel__fig{aspect-ratio:4/5;overflow:hidden;background:var(--ink);margin-bottom:var(--s-2)}
+.prel__fig img{width:100%;height:100%;object-fit:cover;
+  transition:transform var(--m-slow) var(--ease-out)}
+.prel a:hover .prel__fig img,.prel a:focus-visible .prel__fig img{transform:scale(1.04)}
+.prel__meta{display:flex;align-items:baseline;gap:var(--s-2);padding-top:var(--s-2);
+  border-top:1px solid var(--rule-on-dark)}
+.prel__n{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);color:var(--accent-dark)}
+.prel__name{font-family:var(--font-display);font-size:var(--t-1);line-height:1.2}
+@media (max-width:48rem){.prel__grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.prel a:hover .prel__fig img{transform:none}}
+
+.pend{background:var(--ink);color:var(--paper);padding-block:var(--section)}
+.pend__grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start}
+.pend h2{font-family:var(--font-display);font-weight:400;font-size:var(--t-4);
+  line-height:var(--lead-display);margin:0 0 var(--s-3);max-width:15ch;text-wrap:balance}
+.pend p{color:var(--muted-on-dark);margin:0 0 var(--s-4);max-width:42ch;line-height:1.65}
+.pend ol{list-style:none;margin:0;padding:0;counter-reset:s}
+.pend ol li{display:grid;grid-template-columns:2.5rem minmax(0,1fr);gap:var(--s-2);
+  padding:var(--s-3) 0;border-top:1px solid var(--rule-on-dark)}
+.pend ol li::before{counter-increment:s;content:counter(s,decimal-leading-zero);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);color:var(--accent-dark);
+  font-variant-numeric:tabular-nums;padding-top:.35em}
+.pend ol b{display:block;font-weight:500;margin-bottom:.25em}
+.pend ol span{color:var(--muted-on-dark);font-size:var(--t--1);line-height:1.6}
+@media (max-width:64rem){.pend__grid{grid-template-columns:1fr}}
+
+/* ============================================================================
+   REVEAL — 400ms, 12px. Anything more is the scroll-jacking §4 rules out.
+   The hidden state is gated on .js, so with scripting off nothing is invisible.
+   ========================================================================= */
+.js [data-reveal]{opacity:0;transform:translateY(12px);
+  transition:opacity var(--m-slow) var(--ease-out),transform var(--m-slow) var(--ease-out)}
+.js [data-reveal].is-in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .js [data-reveal]{opacity:1;transform:none;transition:none}
+}
+
+/* ---------- timeline on the dark ground ---------- */
+.p-sec--ink .ptime__axis::before{background:var(--rule-on-dark)}
+.p-sec--ink .ptime__list button{color:var(--muted-on-dark)}
+.p-sec--ink .ptime__list button:hover{color:var(--paper)}
+.p-sec--ink .ptime__list button[aria-selected="true"]{color:var(--paper)}
+.p-sec--ink .ptime__tick{background:var(--ink);border-color:var(--rule-on-dark)}
+.p-sec--ink .ptime__list button:hover .ptime__tick{border-color:var(--accent-dark)}
+.p-sec--ink .ptime__list button[aria-selected="true"] .ptime__tick{
+  background:var(--accent-dark);border-color:var(--accent-dark)}
+.p-sec--ink .ptime__panel{border-top-color:var(--rule-on-dark)}
+.p-sec--ink .ptime__when span{color:var(--accent-dark)}
+.p-sec--ink .ptime__facts > div{border-bottom-color:var(--rule-on-dark)}
+.p-sec--ink .ptime__facts > div:first-child{border-top-color:var(--rule-on-dark)}
+.p-sec--ink .ptime__facts dt{color:var(--muted-on-dark)}
+
+/* ---------- small utilities, so no component carries an inline style (§6) ---------- */
+.p-lede--sm{font-size:var(--t--1);line-height:1.65}
+.p-gap-6{margin-bottom:var(--s-6)}
+.pcost .eyebrow{color:var(--muted-on-light);margin-bottom:var(--s-2)}
+.pcost__intro{margin:0;color:var(--muted-on-light);max-width:var(--measure)}
+.pend .eyebrow{color:var(--accent-dark);margin:0 0 var(--s-2)}
+.pend p.pend__or{margin:var(--s-4) 0 0;font-size:var(--t-eyebrow);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted-on-dark)}
+.pend p.pend__nb{margin:var(--s-6) 0 0;color:var(--muted-on-dark);font-size:var(--t--1);
+  line-height:1.65;max-width:42ch}
+
+/* the milestone rail scrolls on a phone — fade the edge so that is discoverable */
+@media (max-width:64rem){
+  .ptime__axis{position:relative}
+  .ptime__axis::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2.5rem;
+    pointer-events:none;
+    background:linear-gradient(to right,rgba(247,246,243,0),var(--paper))}
+  .p-sec--ink .ptime__axis::after{
+    background:linear-gradient(to right,rgba(22,35,42,0),var(--ink))}
+}
+
+
+/* ============================================================================
+   DIAGRAMS — drawn for this project, one weight, currentColor, no fill.
+   §4 bars icon soup, so these are not icons: each one carries information a
+   paragraph would otherwise have to carry.
+   ========================================================================= */
+.pdia{display:block;width:100%;height:auto;color:var(--accent-light)}
+.p-sec--ink .pdia,.p-sec--ink2 .pdia{color:var(--accent-dark)}
+/* stroke is set in user units, so at 150px wide a 1.25 stroke renders sub-pixel
+   and the drawing greys out. Pin it to device pixels instead. */
+.pdia [stroke-width],.pdia path,.pdia circle{vector-effect:non-scaling-stroke}
+.pdia__form{opacity:.45}
+
+.padd__fig{margin:0 0 var(--s-4);max-width:9.5rem}
+.padd--figs li{padding-top:var(--s-4)}
+
+/* ============================================================================
+   THE STATEMENT — the page's one purely typographic moment. Deliberately has no
+   numeral chip and no two-column head, so it cannot read as another section.
+   ========================================================================= */
+.pstmt{background:var(--paper-2);color:var(--ink);
+  padding-block:clamp(5rem,10vw,10rem)}
+.pstmt .eyebrow{color:var(--accent-light);margin:0 0 var(--s-4)}
+.pstmt__h{font-family:var(--font-display);font-weight:400;font-size:var(--t-6);
+  line-height:.98;letter-spacing:-.03em;margin:0;max-width:20ch;text-wrap:balance}
+.pstmt__h em{font-style:italic;color:var(--accent-light)}
+.pstmt__foot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--s-4) clamp(2rem,5vw,4rem);margin-top:clamp(2.5rem,5vw,4.5rem);
+  padding-top:var(--s-4);border-top:1px solid var(--rule-on-light);
+  max-width:58rem;margin-left:auto}
+.pstmt__foot p{margin:0;color:var(--muted-on-light);line-height:1.7;font-size:var(--t--1)}
+@media (max-width:64rem){
+  .pstmt__foot{grid-template-columns:1fr;margin-left:0}
+  .pstmt__h{max-width:none}
+}
+
+/* ============================================================================
+   CANDIDACY — including who is not a candidate (IA Part 2, §4)
+   ========================================================================= */
+.pcand{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--s-6) clamp(2rem,6vw,5rem)}
+.pcand h3{font-family:var(--font-display);font-weight:400;font-size:var(--t-2);
+  line-height:1.2;margin:0 0 var(--s-3)}
+.pcand ul{list-style:none;margin:0;padding:0}
+.pcand li{padding:var(--s-3) 0;border-top:1px solid var(--rule-on-light);line-height:1.6}
+.pcand li b{display:block;font-weight:500;margin-bottom:.3em}
+.pcand li span{color:var(--muted-on-light);font-size:var(--t--1)}
+.pcand__yes h3{color:var(--ink)}
+.pcand__yes li{border-top-color:var(--accent-light)}
+.pcand__no h3{color:var(--muted-on-light)}
+@media (max-width:64rem){.pcand{grid-template-columns:1fr}}
+
+/* ============================================================================
+   RECOVERY — a scrubbable timeline. Nine milestones on one axis; selecting one
+   swaps the panel. Real tab semantics, arrow keys, no motion required.
+   ========================================================================= */
+.ptime__axis{position:relative;margin:var(--s-6) 0 var(--s-6)}
+.ptime__axis::before{content:'';position:absolute;left:0;right:0;top:.5rem;height:1px;
+  background:var(--rule-on-light)}
+.ptime__list{display:flex;gap:0;list-style:none;margin:0;padding:0 0 var(--s-1);
+  overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.ptime__list::-webkit-scrollbar{display:none}
+.ptime__list li{flex:1 0 auto;min-width:5.5rem}
+.ptime__list button{position:relative;background:none;border:0;cursor:pointer;
+  padding:0 var(--s-2) 0 0;text-align:left;width:100%;
+  font:500 var(--t-eyebrow)/1.3 var(--font-body);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light);
+  transition:color var(--m-base) var(--ease-out)}
+.ptime__tick{display:block;width:1rem;height:1rem;border-radius:50%;
+  border:1px solid var(--rule-on-light);background:var(--paper);margin-bottom:var(--s-2);
+  transition:background var(--m-base) var(--ease-out),
+             border-color var(--m-base) var(--ease-out),
+             box-shadow var(--m-base) var(--ease-out)}
+.ptime__list button:hover{color:var(--ink)}
+.ptime__list button:hover .ptime__tick{border-color:var(--accent-light)}
+.ptime__list button[aria-selected="true"]{color:var(--ink)}
+/* filled rather than scaled: a scaled first tick clips against the scroller edge */
+.ptime__list button[aria-selected="true"] .ptime__tick{background:var(--accent-light);
+  border-color:var(--accent-light);box-shadow:0 0 0 1px var(--accent-light)}
+
+.ptime__panel[hidden]{display:none}
+.ptime__panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);
+  gap:clamp(1.5rem,5vw,4rem);align-items:start;
+  padding-top:var(--s-6);border-top:1px solid var(--rule-on-light)}
+.ptime__when{font-family:var(--font-display);font-size:var(--t-3);line-height:1.05;
+  letter-spacing:-.01em;margin:0;font-variant-numeric:tabular-nums}
+.ptime__when span{display:block;font-family:var(--font-body);font-size:var(--t-eyebrow);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--accent-light);
+  margin-bottom:var(--s-2)}
+.ptime__facts{list-style:none;margin:0;padding:0}
+.ptime__facts > div{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:var(--s-2);
+  padding:var(--s-3) 0;border-bottom:1px solid var(--rule-on-light);align-items:baseline}
+.ptime__facts > div:first-child{border-top:1px solid var(--rule-on-light)}
+.ptime__facts dt,.ptime__k{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light)}
+.ptime__v{margin:0;line-height:1.55}
+@media (max-width:64rem){
+  .ptime__panel{grid-template-columns:1fr}
+  .ptime__facts > div{grid-template-columns:9rem minmax(0,1fr)}
+}
+@media (max-width:48rem){
+  .ptime__facts > div{grid-template-columns:1fr;gap:.25em}
+}
+@media (prefers-reduced-motion:reduce){.ptime__tick{transition:none}}
+
+/* ============================================================================
+   RISKS + COST — quiet, unstyled, deliberately not a "warning" component
+   ========================================================================= */
+.prisk__grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start}
+.prisk ul{list-style:none;margin:0;padding:0}
+.prisk li{padding:var(--s-3) 0;border-top:1px solid var(--rule-on-light);line-height:1.6}
+.prisk li:last-child{border-bottom:1px solid var(--rule-on-light)}
+.prisk li b{font-weight:500}
+.prisk li > span{display:block;color:var(--muted-on-light);font-size:var(--t--1);margin-top:.25em}
+
+.pcost{margin-top:var(--section);padding-top:var(--s-6);border-top:1px solid var(--rule-on-light)}
+.pcost__grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start}
+.pcost__band{font-family:var(--font-display);font-size:var(--t-3);line-height:1.1;margin:0}
+.pcost ul{list-style:none;margin:var(--s-3) 0 0;padding:0}
+.pcost li{padding:var(--s-2) 0;border-top:1px solid var(--rule-on-light);
+  color:var(--muted-on-light);font-size:var(--t--1);line-height:1.6}
+@media (max-width:64rem){
+  .prisk__grid,.pcost__grid{grid-template-columns:1fr}
+}
+
+/* ============================================================================
+   FAQ — <details>, so it works with zero JS and is keyboard-native
+   ========================================================================= */
+.pfaq__list{columns:2;column-gap:clamp(2rem,6vw,4.5rem);margin:0}
+.pfaq details{break-inside:avoid;border-top:1px solid var(--rule-on-light);
+  padding:var(--s-3) 0}
+.pfaq summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;
+  gap:var(--s-2);font-family:var(--font-display);font-size:var(--t-1);line-height:1.3;
+  transition:color var(--m-base) var(--ease-out)}
+.pfaq summary::-webkit-details-marker{display:none}
+.pfaq summary:hover{color:var(--accent-light)}
+.pfaq summary::after{content:'';flex:none;width:.65rem;height:.65rem;margin-top:.45em;
+  margin-left:auto;border-right:1px solid currentColor;border-bottom:1px solid currentColor;
+  transform:rotate(45deg);transition:transform var(--m-base) var(--ease-out)}
+.pfaq details[open] summary::after{transform:rotate(-135deg)}
+.pfaq details p{margin:var(--s-2) 0 0;color:var(--muted-on-light);line-height:1.7;
+  max-width:52ch;font-size:var(--t--1)}
+@media (max-width:64rem){.pfaq__list{columns:1}}
+
+/* ============================================================================
+   RELATED + CLOSING
+   ========================================================================= */
+.prel__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(1rem,3vw,2rem);list-style:none;margin:0;padding:0}
+.prel a{display:block;text-decoration:none;color:inherit}
+.prel__fig{aspect-ratio:4/5;overflow:hidden;background:var(--ink);margin-bottom:var(--s-2)}
+.prel__fig img{width:100%;height:100%;object-fit:cover;
+  transition:transform var(--m-slow) var(--ease-out)}
+.prel a:hover .prel__fig img,.prel a:focus-visible .prel__fig img{transform:scale(1.04)}
+.prel__meta{display:flex;align-items:baseline;gap:var(--s-2);padding-top:var(--s-2);
+  border-top:1px solid var(--rule-on-dark)}
+.prel__n{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);color:var(--accent-dark)}
+.prel__name{font-family:var(--font-display);font-size:var(--t-1);line-height:1.2}
+@media (max-width:48rem){.prel__grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.prel a:hover .prel__fig img{transform:none}}
+
+.pend{background:var(--ink);color:var(--paper);padding-block:var(--section)}
+.pend__grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start}
+.pend h2{font-family:var(--font-display);font-weight:400;font-size:var(--t-4);
+  line-height:var(--lead-display);margin:0 0 var(--s-3);max-width:15ch;text-wrap:balance}
+.pend p{color:var(--muted-on-dark);margin:0 0 var(--s-4);max-width:42ch;line-height:1.65}
+.pend ol{list-style:none;margin:0;padding:0;counter-reset:s}
+.pend ol li{display:grid;grid-template-columns:2.5rem minmax(0,1fr);gap:var(--s-2);
+  padding:var(--s-3) 0;border-top:1px solid var(--rule-on-dark)}
+.pend ol li::before{counter-increment:s;content:counter(s,decimal-leading-zero);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);color:var(--accent-dark);
+  font-variant-numeric:tabular-nums;padding-top:.35em}
+.pend ol b{display:block;font-weight:500;margin-bottom:.25em}
+.pend ol span{color:var(--muted-on-dark);font-size:var(--t--1);line-height:1.6}
+@media (max-width:64rem){.pend__grid{grid-template-columns:1fr}}
+
+/* ============================================================================
+   REVEAL — 400ms, 12px. Anything more is the scroll-jacking §4 rules out.
+   The hidden state is gated on .js, so with scripting off nothing is invisible.
+   ========================================================================= */
+.js [data-reveal]{opacity:0;transform:translateY(12px);
+  transition:opacity var(--m-slow) var(--ease-out),transform var(--m-slow) var(--ease-out)}
+.js [data-reveal].is-in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .js [data-reveal]{opacity:1;transform:none;transition:none}
+}
+
+/* ---------- timeline on the dark ground ---------- */
+.p-sec--ink .ptime__axis::before{background:var(--rule-on-dark)}
+.p-sec--ink .ptime__list button{color:var(--muted-on-dark)}
+.p-sec--ink .ptime__list button:hover{color:var(--paper)}
+.p-sec--ink .ptime__list button[aria-selected="true"]{color:var(--paper)}
+.p-sec--ink .ptime__tick{background:var(--ink);border-color:var(--rule-on-dark)}
+.p-sec--ink .ptime__list button:hover .ptime__tick{border-color:var(--accent-dark)}
+.p-sec--ink .ptime__list button[aria-selected="true"] .ptime__tick{
+  background:var(--accent-dark);border-color:var(--accent-dark)}
+.p-sec--ink .ptime__panel{border-top-color:var(--rule-on-dark)}
+.p-sec--ink .ptime__when span{color:var(--accent-dark)}
+.p-sec--ink .ptime__facts > div{border-bottom-color:var(--rule-on-dark)}
+.p-sec--ink .ptime__facts > div:first-child{border-top-color:var(--rule-on-dark)}
+.p-sec--ink .ptime__facts dt{color:var(--muted-on-dark)}
+
+/* ---------- small utilities, so no component carries an inline style (§6) ---------- */
+.p-lede--sm{font-size:var(--t--1);line-height:1.65}
+.p-gap-6{margin-bottom:var(--s-6)}
+.pcost .eyebrow{color:var(--muted-on-light);margin-bottom:var(--s-2)}
+.pcost__intro{margin:0;color:var(--muted-on-light);max-width:var(--measure)}
+.pend .eyebrow{color:var(--accent-dark);margin:0 0 var(--s-2)}
+.pend p.pend__or{margin:var(--s-4) 0 0;font-size:var(--t-eyebrow);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted-on-dark)}
+.pend p.pend__nb{margin:var(--s-6) 0 0;color:var(--muted-on-dark);font-size:var(--t--1);
+  line-height:1.65;max-width:42ch}
+
+/* the milestone rail scrolls on a phone — fade the edge so that is discoverable */
+@media (max-width:64rem){
+  .ptime__axis{position:relative}
+  .ptime__axis::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2.5rem;
+    pointer-events:none;
+    background:linear-gradient(to right,rgba(247,246,243,0),var(--paper))}
+  .p-sec--ink .ptime__axis::after{
+    background:linear-gradient(to right,rgba(22,35,42,0),var(--ink))}
+}
+
+
+/* ============================================================================
+   DIAGRAMS — drawn for this project, one weight, currentColor, no fill.
+   §4 bars icon soup, so these are not icons: each one carries information a
+   paragraph would otherwise have to carry.
+   ========================================================================= */
+.pdia{display:block;width:100%;height:auto;color:var(--accent-light)}
+.p-sec--ink .pdia,.p-sec--ink2 .pdia{color:var(--accent-dark)}
+/* stroke is set in user units, so at 150px wide a 1.25 stroke renders sub-pixel
+   and the drawing greys out. Pin it to device pixels instead. */
+.pdia [stroke-width],.pdia path,.pdia circle{vector-effect:non-scaling-stroke}
+.pdia__form{opacity:.45}
+
+.padd__fig{margin:0 0 var(--s-4);max-width:9.5rem}
+.padd--figs li{padding-top:var(--s-4)}
+
+/* ---------- the pinned plate ----------
+   Layers dim to .16 and the one being described comes up. Scroll position drives
+   it, but the page still scrolls normally — nothing is hijacked (§4). */
+.ptech__plate{margin:var(--s-6) 0 0;max-width:15rem}
+.ptech__plate .pdia [data-l]{opacity:.16;
+  transition:opacity var(--m-slow) var(--ease-out)}
+.ptech__plate[data-active=""] .pdia [data-l]{opacity:.5}
+.ptech__plate[data-active="incision"] [data-l="incision"],
+.ptech__plate[data-active="skin"] [data-l="skin"],
+.ptech__plate[data-active="muscle"] [data-l="muscle"],
+.ptech__plate[data-active="lipo"] [data-l="lipo"],
+.ptech__plate[data-active="navel"] [data-l="navel"]{opacity:1}
+.ptech__cap{margin-top:var(--s-3);font-size:var(--t--1);line-height:1.6;
+  color:var(--muted-on-dark);max-width:26ch;min-height:3.2em}
+
+/* ---------- the statement: one centred column, so no half of it can sit empty ---------- */
+.pstate{display:block;margin:var(--section) auto 0;padding-top:var(--s-6);max-width:46rem;
+  border-top:1px solid var(--rule-on-light);text-align:center}
+.pstate p{font-family:var(--font-display);font-size:var(--t-4);line-height:1.08;
+  letter-spacing:-.015em;margin:0 auto;max-width:16ch;text-wrap:balance}
+/* the supporting line is left-aligned: centred body copy is ragged on both
+   edges and reads as a poster, not as something a surgeon said */
+.pstate footer{margin:var(--s-4) auto 0;max-width:54ch;color:var(--muted-on-light);
+  line-height:1.7;font-size:var(--t--1);text-align:left}
+
+/* ---------- the talks band ---------- */
+.pvidsec .pvid{margin-top:0;max-width:44rem}
+.pvidsec .pvid__row:first-of-type,
+.pvidsec .pvid__list li:first-child .pvid__row{border-top:0}
+.pvidsec .pvid__row{padding:var(--s-4) var(--s-3)}
+.pvidsec .pcase__note{max-width:44rem}
+
+@media (max-width:64rem){
+  .ptech__fig{grid-template-columns:minmax(0,7rem) minmax(0,1fr);margin-top:var(--s-4)}
+  .pdia--lg{max-width:8rem}
+}
+@media (max-width:48rem){
+  .padd__fig{max-width:5.5rem}
+}
+
+/* ---------- risks: two columns, heading full width — no empty half ---------- */
+.prisk__list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(2rem,5vw,4rem);list-style:none;margin:0;padding:0}
+.prisk__list li{padding:var(--s-3) 0;border-top:1px solid var(--rule-on-light);line-height:1.6}
+.prisk__list li b{font-weight:500}
+.prisk__list li > span{display:block;color:var(--muted-on-light);font-size:var(--t--1);margin-top:.25em}
+@media (max-width:64rem){.prisk__list{grid-template-columns:1fr}}
+
+
+/* under reduced motion the plate shows everything and nothing fades */
+@media (prefers-reduced-motion:reduce){
+  .ptech__plate .pdia [data-l]{opacity:1!important;transition:none}
+  .ptech__steps li,.ptech__steps li::after,.ptech__steps li::before{transition:none}
+}
+
+
+/* ---------- candidacy on the dark ground ---------- */
+.p-sec--ink2 .pcand__yes h3{color:var(--paper)}
+.p-sec--ink2 .pcand__no h3{color:var(--muted-on-dark)}
+.p-sec--ink2 .pcand li{border-top-color:var(--rule-on-dark)}
+.p-sec--ink2 .pcand__yes li{border-top-color:var(--accent-dark)}
+.p-sec--ink2 .pcand li span{color:var(--muted-on-dark)}
+.p-sec--ink2 .pcand a{color:var(--accent-dark)}
+
+/* ---------- recovery panel: heading over full-width facts ----------
+   The old two-column panel left half the row empty on every milestone. */
+.ptime__panel--wide{display:block}
+.ptime__panel--wide .ptime__when{margin-bottom:var(--s-4);max-width:none}
+.ptime__panel--wide .ptime__facts{display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(2rem,5vw,4rem)}
+.ptime__panel--wide .ptime__facts > div{grid-template-columns:8.5rem minmax(0,1fr)}
+@media (max-width:64rem){
+  .ptime__panel--wide .ptime__facts{grid-template-columns:1fr}
+}
+@media (max-width:48rem){
+  .ptime__panel--wide .ptime__facts > div{grid-template-columns:1fr;gap:.25em}
+}
+
+
+/* ============================================================================
+   DOCUMENT, NOT DECK
+   The old shape — numeral chip, eyebrow, full-width rule, heading top-left —
+   repeated nine times read as a slide master. It is gone. Headings simply start,
+   and sections that make one argument now sit inside one <section>.
+   ========================================================================= */
+.p-intro{max-width:34rem;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.p-intro h2{margin-bottom:var(--s-3)}
+.p-intro .p-lede{margin:0}
+.p-intro--split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:var(--s-4) clamp(2rem,6vw,5rem);max-width:none;align-items:end}
+.p-intro--split h2{margin:0}
+@media (max-width:64rem){.p-intro--split{grid-template-columns:1fr;align-items:start}}
+
+/* a third level, so a long section can have internal structure without a new band */
+.p-h3{font-family:var(--font-display);font-weight:400;font-size:var(--t-2);
+  line-height:1.15;letter-spacing:-.01em;margin:0 0 var(--s-2);max-width:20ch;
+  text-wrap:balance}
+
+/* sub-blocks inside a section breathe less than sections do — that difference in
+   rhythm is most of what separates a page from a deck */
+.ptech__grid--tight{margin-top:clamp(3rem,6vw,5rem);
+  padding-top:clamp(2.5rem,5vw,4rem);border-top:1px solid var(--rule-on-dark)}
+.ptech__grid--tight .ptech__plate{margin-top:var(--s-4)}
+
+/* The talks card lives inside the pinned column, so it is on screen for the whole
+   six-step sequence instead of being an aside at the tail of the longest section —
+   which is where it kept getting lost. */
+.ptalks{margin-top:var(--s-6);padding-top:var(--s-4);
+  border-top:1px solid var(--rule-on-dark)}
+.ptalks__hd{margin:0 0 var(--s-3);font-size:var(--t-eyebrow);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--accent-dark)}
+.ptalks .pvid{margin:0;border:0}
+.ptalks .pvid__row{padding:var(--s-3) 0;grid-template-columns:7rem minmax(0,1fr) auto}
+.ptalks .pvid__row:hover{background:none}
+.ptalks .pvid__row:hover .pvid__t{color:var(--accent-dark)}
+/* a thumbnail, so the row reads as a video before anyone hovers it */
+.pvid__thumb{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;
+  background:#000;border:1px solid var(--rule-on-dark);
+  transition:border-color var(--m-base) var(--ease-out)}
+.pvid__thumb img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform var(--m-slow) var(--ease-out)}
+.pvid__row:hover .pvid__thumb{border-color:var(--accent-dark)}
+.pvid__row:hover .pvid__thumb img{transform:scale(1.05)}
+.pvid__ply{position:absolute;left:50%;top:50%;width:1.9rem;height:1.9rem;
+  margin:-.95rem 0 0 -.95rem;border-radius:var(--r-pill);background:rgba(22,35,42,.72);
+  display:grid;place-items:center;
+  transition:background var(--m-base) var(--ease-out)}
+.pvid__ply svg{width:.7rem;height:.7rem;fill:var(--paper);margin-left:.05em}
+.pvid__row:hover .pvid__ply{background:var(--accent-dark)}
+.pvid__row:hover .pvid__ply svg{fill:var(--ink)}
+@media (prefers-reduced-motion:reduce){
+  .pvid__row:hover .pvid__thumb img{transform:none}
+}
+.ptalks .pvid__t{font-size:var(--t--1);font-family:var(--font-body);font-weight:500;
+  transition:color var(--m-base) var(--ease-out)}
+.ptalks .pvid__list li:first-child .pvid__row{border-top:0}
+
+/* statements: the same component whether it interrupts a dark section or opens
+   a light one, so the page has a recognisable voice rather than two devices */
+.pstmt--inline,.pstmt--open{display:block;background:none;padding:0;text-align:left;
+  max-width:none;border:0}
+.pstmt--inline{margin:clamp(3rem,6vw,5rem) 0 0;padding-top:clamp(2.5rem,5vw,4rem);
+  border-top:1px solid var(--rule-on-dark)}
+.pstmt--open{margin:0 0 clamp(3rem,6vw,5rem);padding-bottom:clamp(2.5rem,5vw,4rem);
+  border-bottom:1px solid var(--rule-on-light)}
+.pstmt--inline p,.pstmt--open p{font-family:var(--font-display);font-size:var(--t-4);
+  line-height:1.02;letter-spacing:-.025em;margin:0;max-width:18ch;text-wrap:balance}
+.pstmt--inline p{color:var(--paper)}
+.pstmt--inline em,.pstmt--open em{font-style:italic;color:var(--accent-dark)}
+.pstmt--open em{color:var(--accent-light)}
+.pstmt--inline footer,.pstmt--open footer{margin:var(--s-4) 0 0;max-width:52ch;
+  line-height:1.7;font-size:var(--t--1);text-align:left;margin-left:auto}
+.pstmt--inline footer{color:var(--muted-on-dark)}
+.pstmt--open footer{color:var(--muted-on-light)}
+/* --close: the --inline placement (a rule above, closing the section) on a light
+   ground. Scarless Eyelid needed one; --inline alone is paper-on-paper at 1.1:1. */
+.pstmt--close{display:block;background:none;padding:0;text-align:left;max-width:none;
+  border:0;margin:clamp(3rem,6vw,5rem) 0 0;padding-top:clamp(2.5rem,5vw,4rem);
+  border-top:1px solid var(--rule-on-light)}
+.pstmt--close p{font-family:var(--font-display);font-size:var(--t-4);line-height:1.02;
+  letter-spacing:-.025em;margin:0;max-width:18ch;text-wrap:balance;color:var(--ink)}
+.pstmt--close em{font-style:italic;color:var(--accent-light)}
+.pstmt--close footer{margin:var(--s-4) 0 0 auto;max-width:52ch;line-height:1.7;
+  font-size:var(--t--1);text-align:left;color:var(--muted-on-light)}
+@media (max-width:64rem){
+  .pstmt--inline footer,.pstmt--open footer,.pstmt--close footer{margin-left:0}
+}
+
+/* risks / cost / questions are one section now, separated by rules not by bands */
+.prisk .pcost{margin-top:clamp(3rem,6vw,5rem)}
+.pfaq__block{margin-top:clamp(3rem,6vw,5rem);padding-top:clamp(2.5rem,5vw,4rem);
+  border-top:1px solid var(--rule-on-light)}
+.pfaq__block .p-h3{margin-bottom:var(--s-4)}
+
+/* ============================================================================
+   THE SURGEON — the page's second real photograph, placed where the reader has
+   just finished learning what he does to them (§5.3).
+   ========================================================================= */
+.psurg__grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:clamp(2rem,6vw,5.5rem);align-items:center}
+.psurg__media{position:relative;margin:0;padding-bottom:clamp(2rem,5vw,4rem)}
+.psurg__main{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;display:block}
+/* an offset second frame — depth from overlap, not from a drop shadow (D-006) */
+.psurg__inset{position:absolute;right:0;bottom:0;width:38%;height:auto;
+  aspect-ratio:4/5;object-fit:cover;display:block;
+  border:clamp(.35rem,.8vw,.6rem) solid var(--paper)}
+.psurg .eyebrow{color:var(--accent-light);margin:0 0 var(--s-3)}
+.psurg h2{margin-bottom:var(--s-3);max-width:16ch}
+.psurg .p-lede{margin:0 0 var(--s-4);max-width:44ch}
+.psurg .pull{margin:0 0 var(--s-4)}
+@media (max-width:64rem){
+  .psurg__grid{grid-template-columns:1fr}
+  .psurg__media{max-width:32rem}
+}
+@media (max-width:48rem){
+  .psurg__inset{width:44%}
+}
+
+/* ============================================================================
+   IN THEIR WORDS — three short quotes, set in the body sans. A testimonial in an
+   editorial serif reads staged (D-019). Placeholder until sources exist.
+   ========================================================================= */
+.pquote__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--s-4) clamp(1.5rem,4vw,3.5rem)}
+.pquote blockquote{margin:0;padding-top:var(--s-3);
+  border-top:1px solid var(--rule-on-dark)}
+.pquote blockquote p{font-family:var(--font-body);font-size:var(--t-1);line-height:1.45;
+  margin:0 0 var(--s-3);color:var(--paper);text-wrap:pretty}
+.pquote blockquote footer{display:flex;flex-wrap:wrap;gap:.5em;
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark)}
+.pquote blockquote footer span+span::before{content:'· ';color:var(--rule-on-dark)}
+.pquote__note{display:flex;align-items:baseline;gap:.6em;
+  margin:clamp(2.5rem,5vw,4rem) 0 0;padding-top:var(--s-3);
+  border-top:1px solid var(--rule-on-dark);
+  font-size:var(--t-eyebrow);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted-on-dark);line-height:1.7}
+.pquote__note::before{content:'';width:.35rem;height:.35rem;border-radius:50%;
+  background:var(--accent-dark);flex:none}
+@media (max-width:64rem){.pquote__grid{grid-template-columns:1fr}}
+
+/* ============================================================================
+   BAND — full-bleed breather. No container, so the page has at least one moment
+   that touches both edges of the screen.
+   ========================================================================= */
+.pband{position:relative;display:block;background:var(--ink);isolation:isolate}
+.pband img{width:100%;height:100%;object-fit:cover;object-position:36% 42%;
+  aspect-ratio:16/9;display:block}
+.pband__cap{position:absolute;inset:auto 0 0 0;padding-block:var(--s-4);
+  background:linear-gradient(to top,rgba(22,35,42,.9),rgba(22,35,42,0))}
+.pband__cap p{margin:0;max-width:34ch;color:var(--paper);
+  font-family:var(--font-display);font-size:var(--t-2);line-height:1.2;
+  text-wrap:balance}
+@media (min-width:64rem){ .pband img{aspect-ratio:32/11} }
+
+/* ---------- surgeon block on the dark ground ----------
+   .psurg sits ON the <section>, so these must be compound (.p-sec--ink2.psurg),
+   not descendant — a space here silently matches nothing. */
+.p-sec--ink2.psurg .psurg__inset{border-color:var(--ink-2)}
+.p-sec--ink2.psurg .eyebrow{color:var(--accent-dark)}
+.p-sec--ink2.psurg .pull{border-left-color:var(--accent-dark)}
+.p-sec--ink2.psurg .pull p{color:var(--paper)}
+.p-sec--ink2.psurg .pull cite{color:var(--muted-on-dark)}
+.p-sec--ink2.psurg .about__link{color:var(--accent-dark);border-bottom-color:var(--rule-on-dark)}
+.p-sec--ink2.psurg .about__link:hover{color:var(--paper);border-bottom-color:var(--paper)}
+.psurg__lede{margin:0 0 var(--s-4);max-width:46ch;color:var(--muted-on-dark);
+  line-height:1.7;font-size:var(--t--1)}
+.psurg__creds{display:flex;flex-wrap:wrap;gap:.5em clamp(1rem,2.4vw,1.9rem);
+  list-style:none;margin:0 0 var(--s-4);padding:var(--s-3) 0 0;
+  border-top:1px solid var(--rule-on-dark);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark)}
+.psurg__creds li{white-space:nowrap}
+
+/* ---------- the three-problem cards moved onto the dark ground when "what it
+   repairs" was merged into the operation section (D-031); their colours had not.
+   Caught only once tools/axe.mjs started forcing [data-reveal] visible. ---------- */
+.p-sec--ink2 .padd li{border-top-color:var(--rule-on-dark)}
+.p-sec--ink2 .padd .p-term{color:var(--accent-dark)}
+.p-sec--ink2 .padd h3{color:var(--paper)}
+.p-sec--ink2 .padd p{color:var(--muted-on-dark)}
+.p-sec--ink2 .padd a{color:var(--accent-dark)}
+
+
+/* ============================================================================
+   THE OPERATION — six moves.
+   Each mark is drawn for its own step and animates the motion it describes: the
+   incision draws itself, the skin band lifts, the muscle rules converge and are
+   stitched, the flanks come in, the navel travels up its guide, the line is closed.
+   Purpose-drawn geometry — not an icon library, and not hand-faked anatomy (D-035).
+   ========================================================================= */
+.pop__grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start}
+.pop__side{position:sticky;top:calc(var(--s-8) + var(--s-2))}
+.pop__side .p-lede{margin-top:var(--s-3)}
+
+/* progress: fills as the reader moves through the six */
+.pop__meter{display:flex;align-items:center;gap:var(--s-3);margin-top:var(--s-6)}
+.pop__bar{position:relative;flex:1;height:1px;background:var(--rule-on-dark)}
+.pop__bar i{position:absolute;inset:0 auto 0 0;width:0;background:var(--accent-dark);
+  transition:width var(--m-slow) var(--ease-out)}
+.pop__pos{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  color:var(--muted-on-dark);font-variant-numeric:tabular-nums;flex:none}
+
+.pop__steps{list-style:none;margin:0;padding:0}
+.pop__steps li{display:grid;grid-template-columns:4rem 2.5rem minmax(0,1fr);
+  gap:var(--s-3);align-items:start;padding:var(--s-4) 0;
+  border-top:1px solid var(--rule-on-dark);position:relative}
+.pop__steps li:first-child{border-top:0}
+.pop__steps li::after{content:'';position:absolute;left:0;top:-1px;height:1px;width:0;
+  background:var(--accent-dark);transition:width var(--m-slow) var(--ease-out)}
+.pop__steps li.is-active::after{width:4rem}
+.pop__steps h3{font-family:var(--font-display);font-weight:400;font-size:var(--t-2);
+  line-height:1.15;margin:0 0 var(--s-2);text-wrap:balance}
+.pop__steps p{margin:0;color:var(--muted-on-dark);line-height:1.65;max-width:50ch}
+.pstep__n{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  color:var(--muted-on-dark);font-variant-numeric:tabular-nums;padding-top:.55em;
+  transition:color var(--m-base) var(--ease-out)}
+.pop__steps li.is-active .pstep__n{color:var(--accent-dark)}
+
+/* ---------- the marks ---------- */
+.pstep__mk{display:block;width:4rem}
+.pmk{display:block;width:100%;height:auto;color:var(--muted-on-dark);opacity:.45;
+  transition:color var(--m-slow) var(--ease-out),opacity var(--m-slow) var(--ease-out)}
+.pmk *{vector-effect:non-scaling-stroke}
+.pop__steps li.is-active .pmk{color:var(--accent-dark);opacity:1}
+
+/* 01 the incision draws itself */
+.pmk .d{stroke-dasharray:40;stroke-dashoffset:40;
+  transition:stroke-dashoffset 700ms var(--ease-out)}
+.is-active .pmk .d{stroke-dashoffset:0}
+/* 02 the band lifts away */
+.pmk .up,.pmk .up2{transition:transform 640ms var(--ease-out),opacity 520ms var(--ease-out)}
+.is-active .pmk .up{transform:translateY(-7px);opacity:.35}
+.is-active .pmk .up2{transform:translateY(-5px);opacity:.2}
+/* 03 the rules converge, then the stitches appear */
+.pmk .cl,.pmk .cr{transition:transform 660ms var(--ease-out)}
+.is-active .pmk .cl{transform:translateX(4px)}
+.is-active .pmk .cr{transform:translateX(-4px)}
+.pmk .st{opacity:0;transition:opacity 400ms var(--ease-out) 420ms}
+.is-active .pmk .st{opacity:1}
+/* 04 the flanks come in */
+.pmk .inL,.pmk .inR{transition:transform 660ms var(--ease-out)}
+.is-active .pmk .inL{transform:translateX(5px)}
+.is-active .pmk .inR{transform:translateX(-5px)}
+/* 05 the navel travels up */
+.pmk .nv{transition:transform 700ms var(--ease-out)}
+.is-active .pmk .nv{transform:translateY(-16px)}
+/* 06 stitched closed */
+.pmk .tk{opacity:0;transition:opacity 420ms var(--ease-out) 260ms}
+.is-active .pmk .tk{opacity:1}
+
+@media (max-width:64rem){
+  .pop__grid{grid-template-columns:1fr}
+  .pop__side{position:static}
+  .pop__meter{display:none}
+}
+@media (max-width:48rem){
+  .pop__steps li{grid-template-columns:2.5rem minmax(0,1fr);gap:var(--s-2) var(--s-3)}
+  .pstep__mk{width:2.5rem}
+  .pstep__n{grid-row:1;grid-column:1;padding-top:0;font-size:var(--t-eyebrow)}
+  .pstep__mk{grid-row:1;grid-column:1;display:none}
+  .pstep__tx{grid-column:2}
+}
+@media (prefers-reduced-motion:reduce){
+  .pmk *,.pmk,.pop__bar i,.pop__steps li::after,.pstep__n{transition:none!important}
+  .pmk .d{stroke-dashoffset:0}
+  .pmk .st,.pmk .tk{opacity:1}
+}
+
+/* ============================================================================
+   VIDEO TESTIMONIALS — empty states at the real aspect and the real count.
+   Deliberately reads as an unfilled slot rather than a fake poster: a stock face
+   presented as a patient is barred outright (§3), and an honest empty frame is a
+   clearer ask than a mock-up he has to decode.
+   ========================================================================= */
+.pvt{display:grid;grid-template-columns:repeat(3,minmax(0,13.5rem));
+  gap:clamp(1rem,3vw,2.25rem);list-style:none;margin:0 0 var(--s-4);padding:0;
+  justify-content:start}
+.pvt__frame{position:relative;aspect-ratio:9/16;display:grid;place-items:center;
+  border:1px dashed var(--rule-on-dark);background:rgba(255,255,255,.015)}
+/* a faint grid, so an empty slot still reads as a considered frame */
+.pvt__frame::before{content:'';position:absolute;inset:0;opacity:.28;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 38px,var(--rule-on-dark) 38px 39px),
+    repeating-linear-gradient(90deg,transparent 0 38px,var(--rule-on-dark) 38px 39px)}
+.pvt__play{position:relative;width:2.25rem;height:2.25rem;color:var(--rule-on-dark)}
+.pvt__play svg{width:100%;height:100%}
+.pvt__slot{position:absolute;left:0;bottom:0;padding:var(--s-2);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--rule-on-dark)}
+.pvt__cap{margin:var(--s-3) 0 0}
+.pvt__cap b{display:block;font-family:var(--font-display);font-weight:400;
+  font-size:var(--t-1);line-height:1.25;color:var(--paper)}
+.pvt__cap span{display:block;margin-top:.5em;font-size:var(--t-eyebrow);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--muted-on-dark)}
+.pquote__note--ask{border-top:0;padding-top:0;margin-top:0;text-transform:none;
+  letter-spacing:normal;font-size:var(--t--1);max-width:60ch}
+.pquote__note--ask b{color:var(--paper);font-weight:500}
+.pquote .pquote__grid{margin-top:clamp(2.5rem,5vw,4rem);padding-top:var(--s-4);
+  border-top:1px solid var(--rule-on-dark)}
+@media (max-width:64rem){.pvt{grid-template-columns:repeat(2,minmax(0,11rem))}}
+@media (max-width:48rem){.pvt{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ============================================================================
+   RECOVERY TIMELINE — made obviously operable.
+   It was a row of small circles that read as decoration. Now it has a rail that
+   fills, a handle you can drag, and a hint. Drag is an enhancement layered over
+   the tablist: keyboard, click and screen-reader behaviour are unchanged.
+   ========================================================================= */
+.ptime__hint{display:flex;align-items:center;gap:.6em;margin:0 0 var(--s-3);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-light)}
+.ptime__hint::before{content:'';width:.35rem;height:.35rem;border-radius:50%;
+  background:var(--accent-light);flex:none}
+.p-sec--ink .ptime__hint{color:var(--muted-on-dark)}
+.p-sec--ink .ptime__hint::before{background:var(--accent-dark)}
+
+.ptime__axis{cursor:grab;touch-action:pan-y}
+.ptime__axis.is-drag{cursor:grabbing}
+.ptime__axis::before{display:none}
+
+.ptime__rail{position:absolute;left:0;right:0;top:.5rem;height:1px;
+  background:var(--rule-on-light);pointer-events:none;z-index:1}
+.ptime__fill{position:absolute;left:0;top:0;height:1px;width:0;
+  background:var(--accent-light);transition:width var(--m-base) var(--ease-out)}
+.ptime__thumb{position:absolute;top:50%;left:0;width:1.5rem;height:1.5rem;
+  margin:-.75rem 0 0 -.75rem;border-radius:50%;
+  background:var(--accent-light);border:3px solid var(--paper);
+  box-shadow:0 0 0 1px var(--accent-light);
+  transition:left var(--m-base) var(--ease-out),transform var(--m-fast) var(--ease-out)}
+.ptime__axis:hover .ptime__thumb{transform:scale(1.12)}
+.ptime__axis.is-drag .ptime__thumb{transform:scale(1.2)}
+
+/* ticks get bigger and gain a hit area, so they read as targets */
+.ptime__tick{width:1.05rem;height:1.05rem;position:relative;z-index:2}
+.ptime__list button{padding-top:.15rem}
+
+/* dark ground */
+.p-sec--ink .ptime__rail{background:var(--rule-on-dark)}
+.p-sec--ink .ptime__fill{background:var(--accent-dark)}
+.p-sec--ink .ptime__thumb{background:var(--accent-dark);border-color:var(--ink);
+  box-shadow:0 0 0 1px var(--accent-dark)}
+
+@media (prefers-reduced-motion:reduce){
+  .ptime__fill,.ptime__thumb{transition:none}
+}
+
+/* ---------- a filled slot: real footage, click to play ---------- */
+.pvt__frame--live{padding:0;border:1px solid var(--rule-on-dark);border-style:solid;
+  background:#000;cursor:pointer;overflow:hidden;display:block;width:100%;
+  transition:border-color var(--m-base) var(--ease-out)}
+.pvt__frame--live::before{display:none}
+.pvt__frame--live img,.pvt__frame--live video{position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;display:block}
+.pvt__frame--live:hover{border-color:var(--accent-dark)}
+.pvt__glow{position:absolute;left:50%;top:50%;width:2.75rem;height:2.75rem;
+  margin:-1.375rem 0 0 -1.375rem;color:var(--paper);
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.55));
+  transition:transform var(--m-base) var(--ease-out)}
+.pvt__glow svg{width:100%;height:100%}
+.pvt__frame--live:hover .pvt__glow{transform:scale(1.1)}
+.pvt__dur{position:absolute;right:var(--s-1);top:var(--s-1);
+  background:rgba(0,0,0,.6);color:var(--paper);padding:.2em .45em;
+  font-size:var(--t-eyebrow);letter-spacing:.06em}
+.pvt__card--live .pvt__cap b{color:var(--paper)}
+@media (prefers-reduced-motion:reduce){.pvt__frame--live:hover .pvt__glow{transform:none}}
+
+/* ---------- the result reel, alongside the cases ---------- */
+.pcase__reel{display:grid;grid-template-columns:11rem minmax(0,1fr);
+  gap:clamp(1.25rem,3vw,2.25rem);align-items:center;
+  margin-top:clamp(2rem,4vw,3rem);padding-top:var(--s-4);
+  border-top:1px solid var(--rule-on-dark);max-width:44rem}
+.pcase__reel .pvt__frame--live{position:relative;aspect-ratio:9/16}
+.pcase__reel-tx h3{margin-bottom:var(--s-2)}
+.pcase__reel-tx p{margin:0;color:var(--muted-on-dark);font-size:var(--t--1);
+  line-height:1.65;max-width:44ch}
+@media (max-width:48rem){
+  .pcase__reel{grid-template-columns:1fr;max-width:18rem}
+}
+
+/* ---------- cost: one column, no empty price ---------- */
+.pcost .eyebrow{color:var(--muted-on-light);margin:0 0 var(--s-2)}
+.pcost__list{list-style:none;margin:var(--s-3) 0 0;padding:0;
+  columns:2;column-gap:clamp(2rem,5vw,4rem)}
+.pcost__list li{padding:var(--s-2) 0;border-top:1px solid var(--rule-on-light);
+  color:var(--muted-on-light);font-size:var(--t--1);line-height:1.6;break-inside:avoid}
+@media (max-width:64rem){.pcost__list{columns:1}}
+
+/* ============================================================================
+   RECOVERY MARKS — one per fact label, drawn on the same 24px grid as the
+   operation marks so the page has a single symbol language.
+   ========================================================================= */
+.tmk-sprite{position:absolute;width:0;height:0;overflow:hidden}
+/* stroke lives on the source <g> as attributes — see the sprite markup */
+.tmk{width:1.15rem;height:1.15rem;flex:none;color:var(--accent-light);
+  overflow:visible}
+.tmk use{fill:none;stroke:currentColor}
+.tmk-sprite g *{vector-effect:non-scaling-stroke}
+.p-sec--ink .tmk{color:var(--accent-dark)}
+
+.ptime__facts dt{display:flex;align-items:center;gap:.6em}
+.ptime__facts dt span{display:block}
+
+/* marks on the hero rail, same set */
+.phero__rail dt{display:flex;align-items:center;gap:.55em}
+.phero__rail .tmk{width:1rem;height:1rem;color:var(--accent-dark)}
+
+/* ============================================================================
+   CANDIDACY — one check at a time.
+   Eleven prose items in two columns was the densest block on the page. Same
+   content, five cards, both sides of each on screen together.
+   ========================================================================= */
+.pchk{margin-top:clamp(2rem,4vw,3rem)}
+.pchk__dots{display:flex;gap:0;list-style:none;margin:0 0 var(--s-4);padding:0;
+  border-top:1px solid var(--rule-on-light)}
+.pchk__dots li{flex:1 1 0}
+.pchk__dots button{width:100%;background:none;border:0;cursor:pointer;
+  display:flex;align-items:center;gap:.6em;padding:var(--s-3) 0 var(--s-2);
+  font:500 var(--t-eyebrow)/1 var(--font-body);letter-spacing:var(--track-eyebrow);
+  color:var(--muted-on-light);position:relative;
+  transition:color var(--m-base) var(--ease-out)}
+.pchk__dots button::after{content:'';position:absolute;left:0;top:-1px;height:1px;width:0;
+  background:var(--accent-light);transition:width var(--m-slow) var(--ease-out)}
+.pchk__dots button:hover{color:var(--ink)}
+.pchk__dots button[aria-selected="true"]{color:var(--ink)}
+.pchk__dots button[aria-selected="true"]::after{width:100%}
+.pchk__dot{width:.55rem;height:.55rem;border-radius:50%;flex:none;
+  border:1px solid var(--rule-on-light);
+  transition:background var(--m-base) var(--ease-out),border-color var(--m-base) var(--ease-out)}
+.pchk__dots button[aria-selected="true"] .pchk__dot{background:var(--accent-light);
+  border-color:var(--accent-light)}
+
+.pchk__stage{min-height:15rem}
+.pchk__card[hidden]{display:none}
+.pchk__card{display:grid;grid-template-columns:3rem minmax(0,1fr);
+  gap:var(--s-3) var(--s-4);align-items:start}
+.pchk__mk{grid-row:1 / span 2}
+.pchk__mk .tmk{width:2.5rem;height:2.5rem;color:var(--accent-light)}
+.pchk__card h3{font-family:var(--font-display);font-weight:400;font-size:var(--t-3);
+  line-height:1.1;margin:0;max-width:18ch;text-wrap:balance}
+.pchk__pair{grid-column:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--s-4) clamp(1.5rem,4vw,3rem);margin-top:var(--s-2)}
+.pchk__pair p{margin:0;font-size:var(--t--1);line-height:1.7;color:var(--muted-on-light);
+  padding-top:var(--s-3);border-top:1px solid var(--rule-on-light)}
+.pchk__pair b{display:block;margin-bottom:.5em;font-weight:500;
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase}
+.pchk__yes{border-top-color:var(--accent-light)!important}
+.pchk__yes b{color:var(--accent-light)}
+.pchk__no b{color:var(--muted-on-light)}
+
+.pchk__nav{display:flex;align-items:center;gap:var(--s-2);margin-top:var(--s-6)}
+.pchk__nav button{width:3rem;height:3rem;border:1px solid var(--rule-on-light);
+  background:none;color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0;
+  transition:background var(--m-base) var(--ease-out),border-color var(--m-base) var(--ease-out)}
+.pchk__nav button:hover{background:var(--accent-light);color:var(--paper);
+  border-color:var(--accent-light)}
+.pchk__nav svg{width:1rem;height:1rem;fill:none;stroke:currentColor;stroke-width:1.5}
+.pchk__pos{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  color:var(--muted-on-light);font-variant-numeric:tabular-nums}
+
+@media (max-width:64rem){
+  .pchk__pair{grid-template-columns:1fr}
+  .pchk__stage{min-height:0}
+}
+@media (max-width:48rem){
+  .pchk__card{grid-template-columns:1fr}
+  .pchk__mk{grid-row:auto}
+  .pchk__dots button{justify-content:center;font-size:0;gap:0;padding-block:var(--s-3)}
+  .pchk__dot{width:.65rem;height:.65rem}
+}
+
+/* marks on the booking steps */
+.pend ol li{grid-template-columns:2.5rem 1.6rem minmax(0,1fr)}
+.pend__mk{display:block;padding-top:.15em}
+.pend__mk .tmk{width:1.15rem;height:1.15rem;color:var(--accent-dark)}
+@media (max-width:48rem){
+  .pend ol li{grid-template-columns:2.5rem minmax(0,1fr)}
+  .pend__mk{display:none}
+}
+
+/* ============================================================================
+   RESULTS ON THE LIGHT GROUND
+   The page opened with three dark bands running together. Results moves to cream,
+   which also suits the work better: his composites are black-backed, so on paper
+   they read as framed plates instead of dissolving into the band.
+   ========================================================================= */
+.p-sec--paper2.pcase .pcase__stage{border-color:var(--rule-on-light)}
+.p-sec--paper2.pcase .pcase__bar{border-top-color:var(--rule-on-light)}
+.p-sec--paper2.pcase .pcase__meta dt{color:var(--muted-on-light)}
+.p-sec--paper2.pcase .pcase__v{color:var(--ink)}
+.p-sec--paper2.pcase .pcase__strip button{border-color:var(--rule-on-light)}
+.p-sec--paper2.pcase .pcase__strip button[aria-current="true"]{border-color:var(--accent-light)}
+.p-sec--paper2.pcase .pcase__nav button{border-color:var(--rule-on-light);color:var(--ink)}
+.p-sec--paper2.pcase .pcase__nav button:hover{background:var(--accent-light);
+  color:var(--paper);border-color:var(--accent-light)}
+.p-sec--paper2.pcase .pcase__note{color:var(--muted-on-light)}
+.p-sec--paper2.pcase .pcase__note::before{background:var(--accent-light)}
+.p-sec--paper2.pcase .pcase__reel{border-top-color:var(--rule-on-light)}
+.p-sec--paper2.pcase .pcase__reel-tx p{color:var(--muted-on-light)}
+.p-sec--paper2.pcase .pvt__frame--live{border-color:var(--rule-on-light)}
+.p-sec--paper2.pcase .pvt__frame--live:hover{border-color:var(--accent-light)}
+
+/* ---------- BBL step marks ---------- */
+.pmk .hv,.pmk .hv2{transition:transform 660ms var(--ease-out),opacity 520ms var(--ease-out)}
+.is-active .pmk .hv{transform:translateY(6px)}
+.is-active .pmk .hv2{transform:translateY(4px);opacity:.25}
+.pmk .pf{opacity:0;transition:opacity 400ms var(--ease-out) 380ms}
+.is-active .pmk .pf{opacity:1}
+.pmk .pl{stroke-dasharray:60;stroke-dashoffset:60;
+  transition:stroke-dashoffset 760ms var(--ease-out)}
+.is-active .pmk .pl{stroke-dashoffset:0}
+.pmk .plArr{opacity:0;transform:translateY(4px);
+  transition:opacity 420ms var(--ease-out) 200ms,transform 520ms var(--ease-out) 200ms}
+.is-active .pmk .plArr{opacity:1;transform:none}
+.pmk .prL,.pmk .prR{transition:transform 660ms var(--ease-out)}
+.is-active .pmk .prL{transform:translateX(5px)}
+.is-active .pmk .prR{transform:translateX(-5px)}
+.pmk .cp1,.pmk .cp2,.pmk .cp3{transition:transform 620ms var(--ease-out)}
+.is-active .pmk .cp1{transform:translateY(2px)}
+.is-active .pmk .cp3{transform:translateY(-2px)}
+@media (prefers-reduced-motion:reduce){
+  .pmk .pl{stroke-dashoffset:0}
+  .pmk .pf,.pmk .plArr{opacity:1;transform:none}
+}
+
+/* ---------- facelift step marks ---------- */
+.pmk .dp{stroke-dasharray:40;stroke-dashoffset:40;transition:stroke-dashoffset 700ms var(--ease-out)}
+.is-active .pmk .dp{stroke-dashoffset:0}
+.pmk .dpArr{opacity:0;transform:translateY(4px);
+  transition:opacity 400ms var(--ease-out) 260ms,transform 500ms var(--ease-out) 260ms}
+.is-active .pmk .dpArr{opacity:1;transform:none}
+.pmk .rl,.pmk .rr{transition:transform 660ms var(--ease-out)}
+.is-active .pmk .rl{transform:translateX(-5px)}
+.is-active .pmk .rr{transform:translateX(5px)}
+.pmk .sl{stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset 720ms var(--ease-out)}
+.is-active .pmk .sl{stroke-dashoffset:0}
+@media (prefers-reduced-motion:reduce){
+  .pmk .dp,.pmk .sl{stroke-dashoffset:0}
+  .pmk .dpArr{opacity:1;transform:none}
+}
+
+/* ---------- related as a link row, for procedures whose neighbours have no imagery ---------- */
+.prelrow__list{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule-on-dark)}
+.prelrow__list a{display:flex;align-items:center;gap:var(--s-3);text-decoration:none;
+  color:var(--paper);padding:var(--s-4) 0;border-bottom:1px solid var(--rule-on-dark);
+  transition:color var(--m-base) var(--ease-out)}
+.prelrow__n{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  color:var(--muted-on-dark);font-variant-numeric:tabular-nums;
+  transition:color var(--m-base) var(--ease-out)}
+.prelrow__t{font-family:var(--font-display);font-size:var(--t-2);line-height:1.2;flex:1}
+.prelrow__list a .arw{transition:transform var(--m-base) var(--ease-out);color:var(--accent-dark)}
+.prelrow__list a:hover{color:var(--accent-dark)}
+.prelrow__list a:hover .prelrow__n{color:var(--accent-dark)}
+.prelrow__list a:hover .arw{transform:translateX(4px)}
+@media (prefers-reduced-motion:reduce){.prelrow__list a:hover .arw{transform:none}}
+
+/* ============================================================================
+   PROCEDURES HUB
+   ========================================================================= */
+.phero--hub{background:var(--ink)}
+.phero__grid--hub{grid-template-columns:minmax(0,1fr);max-width:52rem}
+.phero--hub h1{font-size:clamp(2.75rem,1.6rem + 4.6vw,5.5rem)}
+
+.phub__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(1.5rem,3.5vw,2.75rem);list-style:none;margin:0;padding:0}
+.phub__card a{display:block;text-decoration:none;color:inherit}
+.phub__fig{aspect-ratio:4/5;overflow:hidden;background:var(--ink);margin-bottom:var(--s-3)}
+.phub__fig img{width:100%;height:100%;object-fit:cover;
+  transition:transform var(--m-slow) var(--ease-out)}
+.phub__card a:hover .phub__fig img,
+.phub__card a:focus-visible .phub__fig img{transform:scale(1.04)}
+/* no photograph exists for this one — a typographic plate, not a placeholder frame */
+.phub__fig--none{display:grid;place-content:center;justify-items:center;gap:var(--s-4);
+  background:var(--ink-2);border:1px solid var(--rule-on-dark)}
+.phub__fig--none .phub__mk{width:2.75rem;height:2.75rem;color:var(--accent-dark)}
+.phub__fig--none span{font-family:var(--font-display);font-size:var(--t-4);
+  color:var(--muted-on-dark);letter-spacing:-.02em}
+
+.phub__meta{display:flex;align-items:baseline;gap:var(--s-2);
+  padding-top:var(--s-2);border-top:1px solid var(--rule-on-light)}
+.p-sec--ink2 .phub__meta{border-top-color:var(--rule-on-dark)}
+.phub__n{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  color:var(--accent-light);font-variant-numeric:tabular-nums}
+.p-sec--ink2 .phub__n{color:var(--accent-dark)}
+.phub__name{font-family:var(--font-display);font-size:var(--t-1);line-height:1.2;flex:1}
+.phub__name small{display:block;font-family:var(--font-body);font-size:var(--t-eyebrow);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--muted-on-light);
+  margin-top:.45em}
+.p-sec--ink2 .phub__name small{color:var(--muted-on-dark)}
+.phub__meta .arw{color:var(--accent-light);transition:transform var(--m-base) var(--ease-out)}
+.p-sec--ink2 .phub__meta .arw{color:var(--accent-dark)}
+.phub__card a:hover .arw{transform:translateX(4px)}
+.phub__line{margin:var(--s-3) 0 0;color:var(--muted-on-light);font-size:var(--t--1);
+  line-height:1.6;max-width:34ch}
+.p-sec--ink2 .phub__line{color:var(--muted-on-dark)}
+.phub__cases{margin:var(--s-2) 0 0;font-size:var(--t-eyebrow);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--muted-on-light)}
+.p-sec--ink2 .phub__cases{color:var(--muted-on-dark)}
+
+/* pages not built yet read as forthcoming rather than broken */
+.phub__card.is-soon a{cursor:default}
+.phub__card.is-soon .phub__cases::after{content:' · page in progress'}
+/* dim only a photograph, never the typographic plate — compositing the plate
+   toward its own background drops the text to 1.25:1 */
+.phub__card.is-soon .phub__fig:not(.phub__fig--none){opacity:.55}
+
+@media (max-width:64rem){.phub__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:48rem){.phub__grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){
+  .phub__card a:hover .phub__fig img,.phub__card a:hover .arw{transform:none}
+}
+
+/* ---------- cross-reference results block, for procedures whose cases are filed
+   under another procedure. Honest pointer rather than a fabricated case set. ---------- */
+.pxref__grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);
+  gap:clamp(2rem,5vw,4rem);align-items:center}
+.pxref__note{margin:var(--s-3) 0 var(--s-4);color:var(--muted-on-light);
+  font-size:var(--t--1);line-height:1.7;max-width:46ch}
+.pxref__reel{max-width:15rem;margin-left:auto}
+.pxref__reel .pvt__frame--live{position:relative;aspect-ratio:9/16;
+  border-color:var(--rule-on-light)}
+.pxref__reel .pvt__frame--live:hover{border-color:var(--accent-light)}
+.pxref__cap{margin:var(--s-3) 0 0}
+.pxref__cap b{display:block;font-family:var(--font-display);font-weight:400;
+  font-size:var(--t-1);line-height:1.25}
+.pxref__cap span{display:block;margin-top:.5em;font-size:var(--t-eyebrow);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--muted-on-light)}
+@media (max-width:64rem){
+  .pxref__grid{grid-template-columns:1fr}
+  .pxref__reel{margin-left:0;max-width:13rem}
+}
+
+/* ============================================================================
+   BOOK — the consultation request.
+   Multi-step with JS; a single scrollable form without it. Every panel ships
+   visible in the markup and JS hides all but the current one, so nothing is
+   unreachable when scripting fails (the D-027 lesson, applied from the start).
+   ========================================================================= */
+.visually-hidden,.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+.bhero{background:var(--ink);color:var(--paper);padding-block:clamp(3rem,6vw,5.5rem)}
+.bhero .eyebrow{color:var(--accent-dark);margin:0 0 var(--s-3)}
+.bhero h1{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(2.5rem,1.6rem + 3.6vw,4.5rem);line-height:.98;letter-spacing:-.025em;
+  margin:0 0 var(--s-4);max-width:16ch}
+.bhero__def{font-size:var(--t-1);line-height:1.5;margin:0 0 var(--s-5,2.5rem);max-width:44ch}
+.bhero__not{display:flex;flex-wrap:wrap;gap:.5em clamp(1rem,2.4vw,1.9rem);list-style:none;
+  margin:0 0 var(--s-3);padding:var(--s-3) 0 0;border-top:1px solid var(--rule-on-dark);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-dark)}
+.bhero__not li{white-space:nowrap}
+.bhero__why{margin:0;color:var(--muted-on-dark);font-size:var(--t--1);max-width:52ch}
+.bhero__why a{color:var(--accent-dark)}
+
+.bform{background:var(--paper);color:var(--ink);padding-block:var(--section)}
+.bform__form{max-width:46rem}
+
+/* progress */
+.bsteps{display:flex;gap:0;list-style:none;margin:0 0 clamp(2rem,4vw,3rem);padding:0;
+  border-top:1px solid var(--rule-on-light)}
+.bsteps li{flex:1 1 0;display:flex;align-items:center;gap:.6em;padding:var(--s-3) 0 var(--s-2);
+  font:500 var(--t-eyebrow)/1 var(--font-body);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light);position:relative}
+.bsteps li::after{content:'';position:absolute;left:0;top:-1px;height:1px;width:0;
+  background:var(--accent-light);transition:width var(--m-slow) var(--ease-out)}
+.bsteps li[aria-current]{color:var(--ink)}
+.bsteps li[aria-current]::after,.bsteps li.is-done::after{width:100%}
+.bsteps__n{font-variant-numeric:tabular-nums;color:var(--muted-on-light)}
+.bsteps li[aria-current] .bsteps__n,.bsteps li.is-done .bsteps__n{color:var(--accent-light)}
+.bform__live{margin:0 0 var(--s-3);font-size:var(--t-eyebrow);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--accent-light);
+  min-height:1.2em}
+
+.bform__hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+.bpanel{border:0;margin:0;padding:0;min-width:0}
+.bpanel[hidden]{display:none}
+.bpanel legend{display:block;padding:0;margin:0 0 var(--s-4);width:100%}
+.bpanel__q{display:block;font-family:var(--font-display);font-weight:400;
+  font-size:var(--t-3);line-height:1.1;letter-spacing:-.015em;text-wrap:balance}
+.bpanel__h{display:block;margin-top:var(--s-2);color:var(--muted-on-light);
+  font-size:var(--t--1);line-height:1.65;max-width:48ch}
+
+/* options */
+.bopts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--s-4)}
+.bopts--stack{grid-template-columns:1fr}
+.bopt{display:flex;align-items:flex-start;gap:var(--s-2);cursor:pointer;
+  padding:var(--s-3) 0;border-top:1px solid var(--rule-on-light);
+  transition:color var(--m-base) var(--ease-out)}
+.bopt input{position:absolute;opacity:0;width:1px;height:1px}
+.bopt__box{flex:none;width:1.05rem;height:1.05rem;margin-top:.15em;border-radius:50%;
+  border:1px solid var(--rule-on-light);
+  transition:border-color var(--m-base) var(--ease-out),box-shadow var(--m-base) var(--ease-out)}
+.bopt:hover .bopt__box{border-color:var(--accent-light)}
+.bopt input:checked ~ .bopt__box{border-color:var(--accent-light);
+  box-shadow:inset 0 0 0 4px var(--accent-light)}
+.bopt input:focus-visible ~ .bopt__box{outline:2px solid var(--accent-light);outline-offset:3px}
+.bopt__t{line-height:1.35}
+.bopt__t small{display:block;margin-top:.35em;color:var(--muted-on-light);
+  font-size:var(--t--1);line-height:1.55}
+.bopt input:checked ~ .bopt__t{font-weight:500}
+
+/* fields */
+.bfields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--s-4) clamp(1.5rem,3vw,2.5rem)}
+.bfield{margin:0}
+.bfield--wide{grid-column:1/-1}
+.bfield label{display:block;font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light);margin-bottom:var(--s-2)}
+.bfield__opt{text-transform:none;letter-spacing:normal;color:var(--rule-on-light)}
+.bfield input,.bfield select,.bfield textarea{width:100%;font:400 var(--t-0)/1.4 var(--font-body);
+  color:var(--ink);background:var(--paper-2);border:1px solid var(--rule-on-light);
+  border-radius:var(--r-sm);padding:.85em 1em;
+  transition:border-color var(--m-base) var(--ease-out),background var(--m-base) var(--ease-out)}
+.bfield textarea{resize:vertical;min-height:5.5rem}
+.bfield input:hover,.bfield select:hover,.bfield textarea:hover{border-color:var(--muted-on-light)}
+.bfield input:focus,.bfield select:focus,.bfield textarea:focus{outline:2px solid var(--accent-light);
+  outline-offset:2px;background:var(--paper)}
+.bfield input[aria-invalid="true"]{border-color:#8c3a3a}
+.bfield__hint{display:block;margin-top:var(--s-2);font-size:var(--t--1);
+  color:var(--muted-on-light);line-height:1.55}
+
+.berr{display:block;margin:var(--s-2) 0 0;color:#8c3a3a;font-size:var(--t--1);line-height:1.5}
+.berr[hidden]{display:none}
+
+/* review */
+.breview{margin:0;padding:0;border-top:1px solid var(--rule-on-light)}
+.breview > div{display:grid;grid-template-columns:10rem minmax(0,1fr);gap:var(--s-2);
+  padding:var(--s-3) 0;border-bottom:1px solid var(--rule-on-light);align-items:baseline}
+.breview dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light)}
+.breview dd{margin:0;font-family:var(--font-display);font-size:var(--t-1);line-height:1.3}
+.bnotice{margin:var(--s-4) 0 0;padding:var(--s-3);background:var(--paper-2);
+  border-left:2px solid var(--accent-light);font-size:var(--t--1);line-height:1.65;
+  color:var(--muted-on-light)}
+.bnotice[hidden]{display:none}
+.bnotice b{color:var(--ink);font-weight:500}
+
+/* nav */
+.bnav{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2) var(--s-3);
+  margin-top:clamp(2rem,4vw,3rem);padding-top:var(--s-4);
+  border-top:1px solid var(--rule-on-light)}
+.btn--ghost{background:none;color:var(--ink);border:1px solid var(--rule-on-light)}
+.btn--ghost:hover{background:var(--paper-2);color:var(--ink)}
+.bnav__alt{font-size:var(--t--1);color:var(--muted-on-light);margin-left:auto}
+.bnav__alt a{color:var(--accent-light)}
+.bnav [hidden]{display:none}
+
+.bdone{max-width:46rem}
+.bdone[hidden]{display:none}
+.bdone p{margin:var(--s-3) 0 var(--s-4);color:var(--muted-on-light);line-height:1.7;max-width:52ch}
+
+.bwhy__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(2rem,5vw,4rem);align-items:start}
+.bwhy__body p{margin:0 0 var(--s-3);color:var(--muted-on-dark);line-height:1.7;max-width:var(--measure)}
+.bwhy__body p:last-child{margin-bottom:0}
+
+@media (max-width:64rem){
+  .bwhy__grid{grid-template-columns:1fr}
+  .bopts{grid-template-columns:1fr}
+  .bfields{grid-template-columns:1fr}
+}
+@media (max-width:48rem){
+  .bsteps__t{display:none}
+  .bsteps li{justify-content:center}
+  .bnav__alt{margin-left:0;width:100%}
+}
+
+/* ============================================================================
+   HERO WITHOUT A PHOTOGRAPH  ·  .phero--plate
+   Scarless Eyelid is the one procedure with no header image (PP7 in
+   ASSET-REQUEST.md). Rather than borrow another procedure's photo — the only
+   candidate was an *upper*-lid marking for the operation this page exists to
+   distinguish itself from — the figure slot carries the page's argument
+   instead. It inherits the same offset hairline plate as .phero__fig so the
+   hero still reads as two objects, not one column of text.
+   ========================================================================= */
+.phero__plate{position:relative;isolation:isolate;
+  border:1px solid var(--rule-on-dark);padding:clamp(1.5rem,3.4vw,2.4rem)}
+.phero__plate .emk{display:block;width:3.5rem;height:3.5rem;color:var(--accent-dark)}
+.phero__plate .eyebrow{color:var(--muted-on-dark);margin:var(--s-3) 0 var(--s-3)}
+.phero__plate p{font-family:var(--font-display);font-weight:400;
+  font-size:var(--t-2);line-height:1.24;letter-spacing:-.01em;
+  color:var(--paper);margin:0;text-wrap:pretty}
+.phero__plate p em{font-style:italic;color:var(--accent-dark)}
+.phero__plate small{display:block;font-size:var(--t--1);line-height:1.5;
+  color:var(--muted-on-dark);margin-top:var(--s-3);
+  padding-top:var(--s-3);border-top:1px solid var(--rule-on-dark)}
+@media (max-width:64rem){
+  .phero__plate{margin-top:var(--s-4)}
+}
+
+/* ============================================================================
+   COMPARISON  ·  .pcmp
+   Two operations share a name and are not the same thing. His own page carries
+   this comparison as a bare table; here each row is one question asked of both
+   columns, so the reader can stop at whichever row is theirs. Semantics stay a
+   real <table> — it is tabular data and a screen reader should announce it as
+   one. On narrow screens the rows restack into per-question cards. `display:
+   block` is what makes that work and it silently strips the table roles, so the
+   markup re-declares every one of them explicitly (role="table"/"row"/"cell"…).
+   Without those the whole thing degrades to unlabelled prose in a screen reader.
+   ========================================================================= */
+.pcmp{width:100%;border-collapse:collapse;margin-top:clamp(2rem,4vw,3rem)}
+.pcmp caption{text-align:left;font-size:var(--t--1);line-height:1.5;
+  color:var(--muted-on-light);margin-bottom:var(--s-3);max-width:52ch}
+.pcmp th,.pcmp td{text-align:left;vertical-align:top;padding:var(--s-3) var(--s-4);
+  border-bottom:1px solid var(--rule-on-light)}
+.pcmp thead th{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light);font-weight:400;
+  border-bottom:1px solid var(--ink);padding-bottom:var(--s-3)}
+.pcmp thead th:first-child{width:13.5rem}
+/* the column this page is about, marked once and quietly */
+.pcmp thead th:last-child,.pcmp td:last-child{background:rgba(22,35,42,.045)}
+.pcmp thead th:last-child{color:var(--ink)}
+.pcmp tbody th{font-family:var(--font-body);font-weight:400;font-size:var(--t--1);
+  line-height:1.45;color:var(--muted-on-light)}
+.pcmp td{font-size:var(--t-0);line-height:1.5}
+.pcmp td:last-child{color:var(--ink)}
+.pcmp tbody tr:last-child th,.pcmp tbody tr:last-child td{border-bottom:0}
+
+@media (max-width:52rem){
+  /* one card per question; the <thead> labels have to be reprinted per cell,
+     stacked above each value rather than inset beside it — at eyebrow tracking
+     "BLEPHAROPLASTY" is wider than any indent worth giving it. */
+  .pcmp,.pcmp caption,.pcmp tbody,.pcmp tr,.pcmp th,.pcmp td{display:block}
+  .pcmp thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .pcmp caption{max-width:none}
+  .pcmp tr{padding-block:var(--s-4);border-bottom:1px solid var(--rule-on-light)}
+  .pcmp tbody tr:last-child{border-bottom:0}
+  .pcmp th,.pcmp td{border-bottom:0;padding:0}
+  .pcmp tbody th{font-size:var(--t-0);line-height:1.35;color:var(--ink);
+    letter-spacing:normal;text-transform:none;margin-bottom:var(--s-3)}
+  .pcmp td{margin-top:var(--s-3);padding-left:var(--s-3);
+    border-left:1px solid var(--rule-on-light)}
+  .pcmp td::before{content:attr(data-c);display:block;margin-bottom:.4em;
+    font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+    text-transform:uppercase;color:var(--muted-on-light)}
+  .pcmp td:last-child{background:none;border-left-color:var(--accent-light)}
+  .pcmp td:last-child::before{color:var(--accent-light)}
+}
+

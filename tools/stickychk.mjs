@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch();
+const p = await (await b.newContext({viewport:{width:390,height:844}})).newPage();
+await p.goto('http://localhost:8787/',{waitUntil:'networkidle'});
+await p.waitForTimeout(1000);
+const top = await p.evaluate(()=>document.querySelector('.cta-bar')?.classList.contains('is-shown'));
+await p.evaluate(()=>window.scrollTo(0,2200)); await p.waitForTimeout(700);
+const down = await p.evaluate(()=>document.querySelector('.cta-bar')?.classList.contains('is-shown'));
+console.log('sticky CTA hidden at hero:', top===false, '| shown after scroll:', down===true);
+await b.close();

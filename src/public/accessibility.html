@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accessibility — J.C. Alvarez Plastic Surgery</title>
+<meta name="description" content="How this site is built to be usable, what has been tested, and what is still not good enough.">
+<meta name="robots" content="noindex,nofollow"><!-- spec preview: never indexed (CLAUDE.md §3) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Schibsted+Grotesk:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/img/brand/logo-dark.png" width="560" height="130"
+        alt="Dr. JC Alvarez, Board Certified Plastic Surgeon"></a>
+    <div class="topbar-right">
+      <a class="tel" href="tel:+17867952113">786&thinsp;795&thinsp;2113</a>
+      <a class="btn" href="/book">Request a Consultation <span class="arw" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <div class="wrap">
+    <ul>
+      <li><a href="/results">Results</a></li>
+      <li><a href="/procedures">Procedures</a></li>
+      <li><a href="/preparation">Preparation</a></li>
+      <li><a href="/videos">Videos</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main">
+  <section class="legal">
+    <div class="wrap legal__wrap">
+      <p class="eyebrow">Legal</p>
+      <h1>Accessibility</h1>
+      <p class="legal__lede">A lot of people read a site like this one-handed, at night,
+        on a phone, worried. Some read it at 200% zoom, or with a screen reader, or without
+        using a mouse at all. It should work for all of them.</p>
+      <p class="legal__meta">Last updated 27 August 2026</p>
+
+      <h2>The standard</h2>
+      <p>This site targets <strong>WCAG 2.2 Level AA</strong>. That is a measurable bar, not a
+        statement of intent, and the checks below are run against every page rather than a
+        sample.</p>
+
+      <h2>What has been tested</h2>
+      <ul>
+        <li><strong>Automated checks on every page</strong>, at 1440px and 390px, using
+          axe-core against the WCAG 2.0, 2.1 and 2.2 A and AA rule sets. Every page currently
+          reports zero violations.</li>
+        <li><strong>Keyboard only.</strong> Every control can be reached and operated without a
+          mouse, including the results filters, the case viewer and the carousels. Focus is
+          always visible.</li>
+        <li><strong>Text over video.</strong> The homepage headline sits over moving footage,
+          which automated tools cannot evaluate at all. The contrast was measured by sampling
+          the actual composited pixels behind the text across the whole loop and taking the
+          brightest frame as the worst case. It passes at that frame, not just on average.</li>
+        <li><strong>Reduced motion.</strong> If your system asks for less movement, the hero
+          video does not load, carousels do not animate, and transitions are removed.</li>
+        <li><strong>320px and 200% zoom.</strong> No horizontal scrolling, no clipped text.</li>
+        <li><strong>Structure.</strong> One <span class="legal__mono">h1</span> per page, no
+          skipped heading levels, real landmarks, and a skip link.</li>
+      </ul>
+
+      <h2>What is not good enough yet</h2>
+      <p>Every site claiming to be accessible has gaps. These are ours.</p>
+      <ul>
+        <li><strong>The before-and-after images carry text inside the picture.</strong> The
+          procedure name and the &ldquo;Before&rdquo; and &ldquo;After&rdquo; labels are part
+          of the photograph rather than real text, so they cannot be resized or restyled.
+          Each image has alt text carrying the same information, but that is a workaround.</li>
+        <li><strong>The video talks are in Spanish with automatic captions only.</strong> They
+          have not been captioned by a person in either language, and automatic captions of
+          medical vocabulary are unreliable.</li>
+        <li><strong>The hero video has no captions or audio description.</strong> It carries no
+          speech and no information that is not repeated in the text beside it, but it has not
+          been described.</li>
+        <li><strong>Nothing here has been tested with real assistive technology by someone who
+          depends on it.</strong> Automated checks and keyboard testing catch a great deal and
+          are not the same thing.</li>
+      </ul>
+
+      <h2>If something does not work</h2>
+      <p>Tell us and it will be fixed. Please say what page you were on and what you were
+        using &mdash; that is usually enough to reproduce it.</p>
+      <address class="legal__addr">
+        <a href="mailto:drjcalvarez.plasticsurgery@gmail.com">drjcalvarez.plasticsurgery@gmail.com</a><br>
+        <a href="tel:+17867952113">786&thinsp;795&thinsp;2113</a>
+      </address>
+      <p>If you need any information on this site in another format, ask and it will be sent
+        to you.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="ft">
+  <div class="wrap">
+
+    <div class="ft__top">
+      <a class="ft__brand" href="/">
+        <img src="/img/brand/logo-light.png" width="560" height="130"
+             alt="Dr. JC Alvarez, Board Certified Plastic Surgeon">
+      </a>
+      <a class="btn btn--on-dark" href="/book">Request a Consultation
+        <span class="arw" aria-hidden="true">&rarr;</span></a>
+    </div>
+
+    <div class="ft__grid">
+
+      <div class="ft__col">
+        <h2 class="ft__h">Visit</h2>
+        <address class="ft__addr">
+          8400 SW 8th St, 4th Floor<br>
+          Miami, FL 33144
+        </address>
+        <p class="ft__line"><a href="tel:+17867952113">786&thinsp;795&thinsp;2113</a></p>
+        <p class="ft__line"><a href="mailto:drjcalvarez.plasticsurgery@gmail.com">drjcalvarez.plasticsurgery@gmail.com</a></p>
+      </div>
+
+      <nav class="ft__col" aria-labelledby="ft-explore">
+        <h2 class="ft__h" id="ft-explore">Explore</h2>
+        <ul>
+          <li><a href="/results">Results</a></li>
+          <li><a href="/procedures">Procedures</a></li>
+          <li><a href="/preparation">Preparation &amp; recovery</a></li>
+          <li><a href="/videos">Video library</a></li>
+          <li><a href="/about">About Dr. Alvarez</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <nav class="ft__col" aria-labelledby="ft-proc">
+        <h2 class="ft__h" id="ft-proc">Procedures</h2>
+        <ul>
+          <li><a href="/procedures/bbl">Brazilian Butt Lift</a></li>
+          <li><a href="/procedures/skinny-bbl">Skinny BBL</a></li>
+          <li><a href="/procedures/breast-augmentation">Breast Augmentation</a></li>
+          <li><a href="/procedures/tummy-tuck">Tummy Tuck</a></li>
+          <li><a href="/procedures/hd-liposuction">High-Definition Liposuction</a></li>
+          <li><a href="/procedures/facelift">Deep Facelift</a></li>
+          <li><a href="/procedures/rhinoplasty">Rhinoplasty</a></li>
+          <li><a href="/procedures/eyelid-surgery">Eyelid Surgery</a></li>
+        </ul>
+      </nav>
+
+      <div class="ft__col">
+        <h2 class="ft__h">Follow</h2>
+        <ul>
+          <li><a href="https://www.instagram.com/drjcalvarez_plasticsurgery/" rel="me noopener" target="_blank">Instagram <span class="ft__meta">148K</span></a></li>
+          <li><a href="https://www.youtube.com/@drjcalvarez" rel="me noopener" target="_blank">YouTube <span class="ft__meta">Espa&ntilde;ol</span></a></li>
+        </ul>
+        <h2 class="ft__h ft__h--gap">His book</h2>
+        <ul>
+          <li><a href="https://www.amazon.com/dp/B0DMWMFVZ4" rel="noopener" target="_blank">Behind the Mirror <span class="ft__meta">EN</span></a></li>
+          <li><a href="https://www.amazon.com/dp/B0DMTH25Q5" rel="noopener" target="_blank">Detr&aacute;s del Espejo <span class="ft__meta">ES</span></a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="ft__base">
+      <p class="ft__legal">Individual results vary. Nothing on this site is medical advice
+        or a guarantee of outcome. Surgery carries risk; every procedure is discussed in
+        person before it is planned.</p>
+      <div class="ft__baserow">
+        <p class="ft__copy">&copy; 2026 J.C. Alvarez Plastic Surgery &middot;
+          Julio Clavijo Alvarez, MD</p>
+        <nav aria-label="Legal">
+          <ul class="ft__legalnav">
+            <li><a href="/privacy">Privacy</a></li>
+            <li><a href="/accessibility">Accessibility</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script src="/main.js" defer></script>
+</body>
+</html>
