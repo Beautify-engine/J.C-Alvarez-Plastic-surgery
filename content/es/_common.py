@@ -33,7 +33,6 @@ T = {
 "Operating time": "Duración de la cirugía",
 "Back to desk work": "Vuelta al trabajo de oficina",
 "Final result": "Resultado final",
-"Cases on file": "Casos documentados",
 "Most of it visible by 3": "La mayor parte visible a los 3",
 "6 months": "6 meses",
 
@@ -177,4 +176,123 @@ T.update({
 "8400 SW 8th St, Miami": "8400 SW 8th St, Miami",
 "Map showing 8400 SW 8th St, 4th Floor, Miami, Florida":
   "Mapa que muestra 8400 SW 8th St, 4th Floor, Miami, Florida",
+})
+
+# ---- procedure-page template: furniture shared by all eleven ---------------
+T.update({
+# breadcrumb / hero eyebrow
+"Body &middot; Miami, Florida": "Cuerpo &middot; Miami, Florida",
+"Breast &middot; Miami, Florida": "Senos &middot; Miami, Florida",
+"Face &middot; Miami, Florida": "Rostro &middot; Miami, Florida",
+"General anaesthesia": "Anestesia general",
+"See his cases &rarr;": "Ver sus casos &rarr;",
+
+# the case stage
+"Case": "Caso",
+"A result, in motion.": "Un resultado, en movimiento.",
+"Private preview &mdash; these cases are not cleared for public display.":
+  "Vista privada &mdash; estos casos no están autorizados para publicación.",
+
+# recovery section
+"Six months, told honestly.": "Seis meses, contados con honestidad.",
+"Most of what people want to know is scheduling: when can I shower, drive, work, train, be seen.":
+  "Casi todo lo que la gente quiere saber es calendario: cuándo puedo ducharme, conducir, trabajar, entrenar, dejarme ver.",
+"Day 5": "Día 5",
+"Week 2": "Semana 2",
+"Week 6": "Semana 6",
+"Week 8": "Semana 8",
+"Month 3": "Mes 3",
+"Washing": "Higiene",
+"Sleeping": "Dormir",
+"Support": "Sujeción",
+"First shower": "Primera ducha",
+"Back to a desk": "Vuelta al escritorio",
+"Physical work": "Trabajo físico",
+"Compression": "Compresión",
+"Compression eases": "La compresión se reduce",
+"Training": "Entrenamiento",
+"What people see": "Lo que se nota",
+"Numbness": "Adormecimiento",
+"Scar": "Cicatriz",
+"Still maturing. Scars continue to fade well past a year.":
+  "Todavía madurando. Las cicatrices siguen aclarándose mucho después del año.",
+"Sensation is still returning. This is normal and it is slow.":
+  "La sensibilidad sigue volviendo. Es normal, y es lento.",
+
+# risks that recur across procedures
+"A permanent scar": "Una cicatriz permanente",
+"Bleeding and infection": "Sangrado e infección",
+"Managed with technique and monitoring, not eliminated.":
+  "Se manejan con técnica y seguimiento; no se eliminan.",
+"Deep vein thrombosis": "Trombosis venosa profunda",
+"An outcome that needs revision": "Un resultado que necesita revisión",
+"Some results need a second, smaller procedure. Ask what that costs before you book, not after.":
+  "Algunos resultados necesitan un segundo procedimiento, más pequeño. Pregunte cuánto cuesta antes de reservar, no después.",
+"Fluid collection (seroma)": "Acumulación de líquido (seroma)",
+
+# cost block
+"Every quote is built from the same six things. Ask for them itemised &mdash; a single number tells you nothing about what is in it.":
+  "Todo presupuesto se arma con las mismas seis cosas. Pídalo desglosado &mdash; una cifra sola no le dice nada de lo que incluye.",
+"Facility fee": "Costo del quirófano",
+"Garments, drains and the follow-up schedule": "Prendas de compresión, drenajes y las citas de seguimiento",
+
+# closing
+"Dr. Julio Clavijo Alvarez": "Dr. Julio Clavijo Alvarez",
+})
+
+# ---- alt text and announced labels -----------------------------------------
+# Alt text is the part of a page nobody screenshots, so it was the last English
+# left on a finished Spanish page. A screen-reader user on the Spanish site was
+# hearing every image described in English.
+T.update({
+"Choose a case": "Elija un caso",
+"Previous case": "Caso anterior",
+"Next case": "Caso siguiente",
+"Gloved hands marking the incision plan for a breast lift with augmentation":
+  "Manos con guantes marcando el plan de incisión para un levantamiento con aumento de senos",
+"Hands assessing abdominal skin laxity before an abdominoplasty":
+  "Manos evaluando la flacidez de la piel abdominal antes de una abdominoplastia",
+"Profile view of a marked waist and hip before body contouring":
+  "Vista de perfil de una cintura y una cadera marcadas antes de un contorno corporal",
+"A surgeon holding two breast implants, one smooth and one textured":
+  "Un cirujano sosteniendo dos implantes mamarios, uno liso y uno texturizado",
+"A hand resting at the d&eacute;colletage before a breast lift consultation":
+  "Una mano apoyada en el escote antes de una consulta de levantamiento de senos",
+"A surgeon marking contour lines before a Brazilian butt lift":
+  "Un cirujano marcando líneas de contorno antes de un aumento de glúteos",
+"A surgeon marking contour lines for a Brazilian butt lift":
+  "Un cirujano marcando líneas de contorno para un aumento de glúteos",
+"A surgeon marking definition lines for high-definition liposuction":
+  "Un cirujano marcando líneas de definición para una liposucción de alta definición",
+"A surgeon marking muscle definition lines for high-definition liposuction":
+  "Un cirujano marcando líneas de definición muscular para una liposucción de alta definición",
+"A surgeon marking the upper eyelid crease before blepharoplasty":
+  "Un cirujano marcando el pliegue del párpado superior antes de una blefaroplastia",
+"A gloved hand steadying the brow above a closed eye before lower-eyelid surgery":
+  "Una mano con guante sujetando la ceja sobre un ojo cerrado antes de una cirugía de párpado inferior",
+"A surgeon assessing the profile of a nose before rhinoplasty":
+  "Un cirujano evaluando el perfil de una nariz antes de una rinoplastia",
+"Profile view of a nose, assessed in consultation":
+  "Vista de perfil de una nariz, evaluada en consulta",
+"Pre-operative facial markings drawn before surgery":
+  "Marcas faciales preoperatorias dibujadas antes de la cirugía",
+"Pre-operative facial markings drawn before a deep plane facelift":
+  "Marcas faciales preoperatorias dibujadas antes de un levantamiento facial profundo",
+"Dr. Julio Clavijo Alvarez, photographed against a plain background":
+  "El Dr. Julio Clavijo Alvarez, fotografiado sobre un fondo liso",
+"Dr. Alvarez at his desk during a consultation":
+  "El Dr. Alvarez en su escritorio durante una consulta",
+"Dr. Alvarez writing at his desk during a consultation":
+  "El Dr. Alvarez escribiendo en su escritorio durante una consulta",
+"Dr. Alvarez reviewing a chart before surgery":
+  "El Dr. Alvarez revisando una historia clínica antes de una cirugía",
+"Dr. Alvarez marking a patient before surgery":
+  "El Dr. Alvarez marcando a una paciente antes de la cirugía",
+"Certified by the American Board of Plastic Surgery":
+  "Certificado por el American Board of Plastic Surgery",
+
+# Society names are proper nouns and stay in English — a Spanish rendering would
+# read as a different, non-existent body.
+"American Society of Plastic Surgeons": None,
+"American College of Surgeons": None,
 })

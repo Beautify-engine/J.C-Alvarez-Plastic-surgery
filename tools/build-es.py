@@ -100,19 +100,39 @@ def swap_links(html):
         # tree, which 404s on the Spanish site.
         html = re.sub(r'href="%s([?#][^"]*)?"' % re.escape(en),
                       lambda m: 'href="%s%s"' % (es, m.group(1) or ""), html)
+        # Absolute URLs inside JSON-LD (@id, breadcrumb item, canonical, og:url).
+        # These are not hrefs, so the rule above never saw them: the Spanish pages
+        # were declaring breadcrumbs and canonicals pointing at English routes that
+        # do not exist on this site. A broken breadcrumb item is a structured-data
+        # error, and a canonical to a non-existent URL is worse than none.
+        html = re.sub(r'(https?://[^"\s]*?)%s(?=["#?])' % re.escape(en),
+                      lambda m: m.group(1) + es, html)
     return html
 
 
+LD_RE = re.compile(r'<script type="application/ld\+json">.*?</script>', re.S)
+
+
 def apply_copy(html, T):
-    """Replace text nodes and the handful of attributes that carry visible or
-    announced copy. Longest first, so a short string that is a substring of a
-    longer one cannot corrupt it."""
+    """Replace text nodes, the handful of attributes that carry visible or
+    announced copy, and the string values inside JSON-LD. Longest first, so a
+    short string that is a substring of a longer one cannot corrupt it.
+
+    JSON-LD is pulled out before the text pass and put back after. Its strings sit
+    inside a <script>, so the >text< pattern never reached them: every procedure
+    page was shipping a Spanish FAQ on the page and an English FAQPage in the
+    structured data. Google reads that as a mismatch between markup and content,
+    and it is the one part of the page written purely for a search engine — the
+    one place a language slip goes unnoticed until it costs rankings."""
+    lds = LD_RE.findall(html)
+    for i, block in enumerate(lds):
+        html = html.replace(block, "\x00LD%d\x00" % i, 1)
     hits = misses = 0
     for src in sorted(T, key=len, reverse=True):
         dst = T[src]
         if dst is None:                      # verbatim: leave untouched
             continue
-        before = html
+        before, before_lds = html, list(lds)
         # A text node is rarely flush against its tags. It usually carries leading or
         # trailing whitespace, and is often followed by a nested <span> (an arrow, a
         # count) rather than a closing tag. Matching only ">src<" silently missed the
@@ -127,10 +147,35 @@ def apply_copy(html, T):
         html = re.sub(pat, lambda m: m.group(1) + m.group(2) + dst + m.group(3), html)
         for attr in ("alt", "aria-label", "title", "content"):
             html = html.replace('%s="%s"' % (attr, src), '%s="%s"' % (attr, dst))
+            # Video buttons label themselves "Play: <title>". Whole-value matching
+            # never reached the title, so every reel on a Spanish page announced
+            # itself in English to a screen reader.
+            html = html.replace('%s="Play: %s"' % (attr, src),
+                                '%s="Reproducir: %s"' % (attr, dst))
         html = html.replace("<title>%s</title>" % src, "<title>%s</title>" % dst)
-        hits += (html != before)
-        misses += (html == before)
-    return html, hits, misses
+        # JSON-LD carries plain text, not entities, so a key written with &mdash;
+        # will not match here. Those get their own plain-text entries in the map.
+        lds = [b.replace('"%s"' % src, '"%s"' % dst) for b in lds]
+        hits += (html != before or lds != before_lds)
+        misses += (html == before and lds == before_lds)
+    for i, block in enumerate(lds):
+        html = html.replace("\x00LD%d\x00" % i, block, 1)
+    return apply_patterns(html, T), hits, misses
+
+
+def apply_patterns(html, T):
+    """Template alt text that carries a number. There are 84 of these across the
+    eleven procedure pages and they change with every case added, so they belong
+    in a rule rather than in a copy map somebody has to remember to update."""
+    html = re.sub(r'Case (\d+) of (\d+), before and after',
+                  r'Caso \1 de \2, antes y despu&eacute;s', html)
+    html = re.sub(r'([A-Z][A-Za-z\- ]{2,40}), case (\d+): before and after',
+                  lambda m: "%s, caso %s: antes y despu&eacute;s"
+                            % (T.get(m.group(1), m.group(1)), m.group(2)), html)
+    # Any remaining "Play:" prefix — the title after it is a real YouTube title and
+    # stays exactly as he published it.
+    html = html.replace('aria-label="Play: ', 'aria-label="Reproducir: ')
+    return html
 
 
 def main():

@@ -16,20 +16,18 @@ T = {
 # ---- head ----
 "Procedures — Julio Clavijo Alvarez, MD, Miami":
   "Procedimientos — Julio Clavijo Alvarez, MD, Miami",
-"Every procedure Dr. Julio Clavijo Alvarez performs in Miami, with documented cases, honest recovery timelines and the reasons he would tell you no.":
+"Every procedure Dr. Julio Clavijo Alvarez performs in Miami, with his own before-and-after records, honest recovery timelines and the reasons he would tell you no.":
   "Todos los procedimientos que el Dr. Julio Clavijo Alvarez realiza en Miami, con casos documentados, plazos de recuperación honestos y las razones por las que le diría que no.",
 
 # ---- hero ----
 "Miami, Florida": "Miami, Florida",
 "Eleven&nbsp;procedures.": "Once&nbsp;procedimientos.",
 "One&nbsp;surgeon.": "Un&nbsp;cirujano.",
-"Every one of them performed by him. Each page carries his documented cases, an honest recovery timeline, and the reasons he would tell you no.":
+"Every one of them performed by him. Each page carries his own before-and-after records, an honest recovery timeline, and the reasons he would tell you no.":
   "Todos los realiza él. Cada página incluye sus casos documentados, un plazo de recuperación honesto, y las razones por las que le diría que no.",
 "Start with what bothers you &darr;": "Empiece por lo que le molesta &darr;",
 
 # ---- the proof rail ----
-"Documented cases": "Casos documentados",
-"Across seven procedures": "En siete procedimientos",
 "Recorded talks": "Charlas grabadas",
 "On his own channel": "En su propio canal",
 "Consultations in": "Consultas en",
@@ -81,14 +79,12 @@ T = {
 "Lower lids, from the inside. No external scar.":
   "Párpados inferiores, desde dentro. Sin cicatriz externa.",
 
-# ---- case counts. Facts — the three exceptions stay exceptions. ----
-"11 documented cases": "11 casos documentados",
-"9 documented cases": "9 casos documentados",
-"6 documented cases": "6 casos documentados",
-"15 documented cases": "15 casos documentados",
-"7 documented cases": "7 casos documentados",
-"10 documented cases": "10 casos documentados",
-"Cases filed under BBL": "Casos archivados bajo BBL",
-"Cases not filed separately": "Casos no archivados por separado",
-"Cases not yet filed": "Casos aún no archivados",
+# ---- the case line under each card ----
+# The counts were removed sitewide at the client-side lead's instruction: he has
+# performed far more than are uploaded, so a number here reads as his career
+# volume and undercounts him badly. These say where the work is, not how much.
+"See his work": "Ver su trabajo",
+"Filed under BBL": "Archivados bajo BBL",
+"Not yet published": "Aún no publicados",
+"Not filed separately": "No archivados por separado",
 }

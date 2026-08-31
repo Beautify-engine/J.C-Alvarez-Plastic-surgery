@@ -1,21 +1,37 @@
 {
   // Cloudflare Workers Static Assets config.
   //
-  // Only needed for the "Create a Worker" flow. If the project is created as a
-  // Cloudflare PAGES project instead, this file is ignored — Pages just needs a
-  // build command and an output directory, and is the simpler route for a site
-  // with no server-side code.
+  // The site has one piece of server-side code — the booking form's endpoint
+  // (D-073) — so the Worker flow is now the required one. A Pages project
+  // would need a /functions directory instead; this file is what makes
+  // `wrangler deploy` serve both the static build and POST /api/consultation.
   //
   // The build command that produces ./dist-es is:
   //     python3 tools/build-es.py
   // It uses only the Python standard library, so nothing needs installing.
+  //
+  // Before the endpoint can deliver anything, three secrets must exist:
+  //     wrangler secret put RESEND_API_KEY
+  //     wrangler secret put OFFICE_TO
+  //     wrangler secret put MAIL_FROM
+  // Without them /api/consultation answers 503 and the form tells her to call,
+  // rather than reporting a request as sent that was never delivered.
 
   "name": "j-c-alvarez-plastic-surgery",
   "compatibility_date": "2026-08-30",
 
+  // The one route that is not a static file. Assets are matched first, so the
+  // Worker only sees requests no file answers — this costs the rest of the
+  // site nothing.
+  "main": "./src/worker/index.js",
+
   "assets": {
     // The Spanish build output. Everything served comes from here.
     "directory": "./dist-es",
+
+    // Lets the Worker hand anything that is not /api/consultation straight back
+    // to the asset server — clean URLs and the 404 page included.
+    "binding": "ASSETS",
 
     // Serve /contacto from contacto.html and /procedimientos from
     // procedimientos/index.html, without a trailing slash. This is what makes the

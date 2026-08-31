@@ -1498,6 +1498,10 @@
    Multi-step with JS; a single scrollable form without it. Every panel ships
    visible in the markup and JS hides all but the current one, so nothing is
    unreachable when scripting fails (the D-027 lesson, applied from the start).
+
+   Two columns above 74rem: the form, and a brief that assembles as she answers
+   (D-031). Below that the brief is dropped entirely rather than restacked —
+   on a phone, step 04 *is* the brief, and a duplicate of it would be noise.
    ========================================================================= */
 .visually-hidden,.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
   overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
@@ -1507,7 +1511,7 @@
 .bhero h1{font-family:var(--font-display);font-weight:400;
   font-size:clamp(2.5rem,1.6rem + 3.6vw,4.5rem);line-height:.98;letter-spacing:-.025em;
   margin:0 0 var(--s-4);max-width:16ch}
-.bhero__def{font-size:var(--t-1);line-height:1.5;margin:0 0 var(--s-5,2.5rem);max-width:44ch}
+.bhero__def{font-size:var(--t-1);line-height:1.5;margin:0 0 var(--s-6);max-width:44ch}
 .bhero__not{display:flex;flex-wrap:wrap;gap:.5em clamp(1rem,2.4vw,1.9rem);list-style:none;
   margin:0 0 var(--s-3);padding:var(--s-3) 0 0;border-top:1px solid var(--rule-on-dark);
   font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
@@ -1517,6 +1521,14 @@
 .bhero__why a{color:var(--accent-dark)}
 
 .bform{background:var(--paper);color:var(--ink);padding-block:var(--section)}
+.bform__layout{display:grid;grid-template-columns:minmax(0,46rem) minmax(0,17rem);
+  justify-content:space-between;gap:clamp(2rem,5vw,4.5rem);align-items:start}
+.bform__form{min-width:0}
+
+/* One measure for the whole form — 46rem — and every block sits inside it. The
+   procedure grid was briefly allowed to run wider for a third column; it put the
+   progress rail out of alignment with the answers underneath it, which read as a
+   bug rather than as emphasis. Two columns that line up beat three that do not. */
 .bform__form{max-width:46rem}
 
 /* progress */
@@ -1537,6 +1549,17 @@
 
 .bform__hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
+/* returning visitor */
+.bresume{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s-1) var(--s-2);
+  margin:0 0 var(--s-4);padding:var(--s-2) var(--s-3);background:var(--paper-2);
+  border-left:2px solid var(--accent-light);font-size:var(--t--1);line-height:1.6;
+  color:var(--muted-on-light)}
+.bresume[hidden]{display:none}
+.blink{appearance:none;-webkit-appearance:none;background:none;border:0;padding:0;
+  margin:0;cursor:pointer;font:inherit;color:var(--accent-light);text-decoration:underline;
+  text-underline-offset:.2em}
+.blink:hover{color:var(--ink)}
+
 .bpanel{border:0;margin:0;padding:0;min-width:0}
 .bpanel[hidden]{display:none}
 .bpanel legend{display:block;padding:0;margin:0 0 var(--s-4);width:100%}
@@ -1545,19 +1568,46 @@
 .bpanel__h{display:block;margin-top:var(--s-2);color:var(--muted-on-light);
   font-size:var(--t--1);line-height:1.65;max-width:48ch}
 
-/* options */
+/* the procedure selector — grouped by region, multi-select, because combination
+   cases are the norm in this practice and a radio group cannot say so */
+/* Groups stack and each one flows two-up, rather than one group per column.
+   Column-per-group looked tidier in the abstract and left a hole under the
+   short group in practice — 4 + 3 + 4 does not divide. Stacked, the region
+   headings also do more work: they read as the dividers of the list. */
+.bgrid{display:block}
+.bgroup{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(1.25rem,2.5vw,2rem)}
+.bgroup + .bgroup{margin-top:var(--s-4)}
+.bgroup__h{grid-column:1/-1;margin:0 0 var(--s-1);font:500 var(--t-eyebrow)/1 var(--font-body);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--muted-on-light)}
+.bopts--exclusive{margin-top:var(--s-4)}
+.bhint{margin:var(--s-4) 0 0;font-size:var(--t--1);line-height:1.65;
+  color:var(--muted-on-light);max-width:52ch;min-height:1.65em}
+.bhint b{font-weight:500;color:var(--ink)}
+
+/* options.  A square box means you may pick several; a round one means pick one.
+   The shape is the only signal that carries at a glance, so it does the work. */
 .bopts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--s-4)}
 .bopts--stack{grid-template-columns:1fr}
 .bopt{display:flex;align-items:flex-start;gap:var(--s-2);cursor:pointer;
   padding:var(--s-3) 0;border-top:1px solid var(--rule-on-light);
   transition:color var(--m-base) var(--ease-out)}
 .bopt input{position:absolute;opacity:0;width:1px;height:1px}
-.bopt__box{flex:none;width:1.05rem;height:1.05rem;margin-top:.15em;border-radius:50%;
-  border:1px solid var(--rule-on-light);
-  transition:border-color var(--m-base) var(--ease-out),box-shadow var(--m-base) var(--ease-out)}
+.bopt__box{position:relative;flex:none;width:1.05rem;height:1.05rem;margin-top:.15em;
+  border-radius:var(--r-sm);border:1px solid var(--rule-on-light);
+  transition:border-color var(--m-base) var(--ease-out),
+             background var(--m-base) var(--ease-out),
+             box-shadow var(--m-base) var(--ease-out)}
+.bopt__box--r{border-radius:50%}
+.bopt__box::after{content:'';position:absolute;left:50%;top:47%;width:.3rem;height:.55rem;
+  border:solid var(--paper);border-width:0 1.5px 1.5px 0;
+  transform:translate(-50%,-55%) rotate(45deg) scale(.5);opacity:0;
+  transition:opacity var(--m-fast) var(--ease-out),transform var(--m-fast) var(--ease-out)}
+.bopt__box--r::after{content:none}
 .bopt:hover .bopt__box{border-color:var(--accent-light)}
-.bopt input:checked ~ .bopt__box{border-color:var(--accent-light);
-  box-shadow:inset 0 0 0 4px var(--accent-light)}
+.bopt input:checked ~ .bopt__box{border-color:var(--accent-light);background:var(--accent-light)}
+.bopt input:checked ~ .bopt__box::after{opacity:1;transform:translate(-50%,-55%) rotate(45deg) scale(1)}
+.bopt input:checked ~ .bopt__box--r{background:none;box-shadow:inset 0 0 0 4px var(--accent-light)}
 .bopt input:focus-visible ~ .bopt__box{outline:2px solid var(--accent-light);outline-offset:3px}
 .bopt__t{line-height:1.35}
 .bopt__t small{display:block;margin-top:.35em;color:var(--muted-on-light);
@@ -1571,7 +1621,7 @@
 .bfield--wide{grid-column:1/-1}
 .bfield label{display:block;font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
   text-transform:uppercase;color:var(--muted-on-light);margin-bottom:var(--s-2)}
-.bfield__opt{text-transform:none;letter-spacing:normal;color:var(--rule-on-light)}
+.bfield__opt{text-transform:none;letter-spacing:normal;color:var(--muted-on-light)}
 .bfield input,.bfield select,.bfield textarea{width:100%;font:400 var(--t-0)/1.4 var(--font-body);
   color:var(--ink);background:var(--paper-2);border:1px solid var(--rule-on-light);
   border-radius:var(--r-sm);padding:.85em 1em;
@@ -1587,13 +1637,34 @@
 .berr{display:block;margin:var(--s-2) 0 0;color:#8c3a3a;font-size:var(--t--1);line-height:1.5}
 .berr[hidden]{display:none}
 
-/* review */
+/* review — every row is editable from where it is read, so a correction costs
+   one tap instead of three Backs */
 .breview{margin:0;padding:0;border-top:1px solid var(--rule-on-light)}
-.breview > div{display:grid;grid-template-columns:10rem minmax(0,1fr);gap:var(--s-2);
+.breview > div{display:grid;grid-template-columns:8rem minmax(0,1fr) auto;gap:var(--s-2);
   padding:var(--s-3) 0;border-bottom:1px solid var(--rule-on-light);align-items:baseline}
 .breview dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
   text-transform:uppercase;color:var(--muted-on-light)}
 .breview dd{margin:0;font-family:var(--font-display);font-size:var(--t-1);line-height:1.3}
+.breview__edit{appearance:none;-webkit-appearance:none;background:none;border:0;
+  padding:.35em .1em;margin:0;cursor:pointer;justify-self:end;
+  font:500 var(--t-eyebrow)/1 var(--font-body);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--accent-light)}
+.breview__edit:hover{text-decoration:underline}
+.breview__edit:focus-visible{outline:2px solid var(--accent-light);outline-offset:2px}
+
+/* what happens after send — expectation-setting is what stops a request going
+   cold between the form and the phone call */
+.bnext-wrap{margin-top:clamp(2rem,4vw,3rem)}
+.bnext{list-style:none;margin:var(--s-3) 0 0;padding:0;border-top:1px solid var(--rule-on-light)}
+.bnext li{display:grid;grid-template-columns:2.5rem minmax(0,1fr);gap:var(--s-2);
+  padding:var(--s-3) 0;border-bottom:1px solid var(--rule-on-light)}
+.bnext li:last-child{border-bottom:0}
+.bnext__n{font:400 var(--t-eyebrow)/1.6 var(--font-body);font-variant-numeric:tabular-nums;
+  letter-spacing:var(--track-eyebrow);color:var(--accent-light)}
+.bnext__b{font-size:var(--t--1);line-height:1.65;color:var(--muted-on-light)}
+.bnext__b b{display:block;font-weight:500;color:var(--ink);font-size:var(--t-0);
+  line-height:1.35;margin-bottom:.35em}
+
 .bnotice{margin:var(--s-4) 0 0;padding:var(--s-3);background:var(--paper-2);
   border-left:2px solid var(--accent-light);font-size:var(--t--1);line-height:1.65;
   color:var(--muted-on-light)}
@@ -1610,6 +1681,25 @@
 .bnav__alt a{color:var(--accent-light)}
 .bnav [hidden]{display:none}
 
+/* the assembling brief */
+.bbrief{position:sticky;top:var(--s-6);border-top:1px solid var(--ink);padding-top:var(--s-3)}
+.bbrief[hidden]{display:none}
+.bbrief__h{margin:0 0 var(--s-2);font:500 var(--t-eyebrow)/1 var(--font-body);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--ink)}
+.bbrief__list{margin:0}
+.bbrief__list > div{padding:var(--s-2) 0;border-bottom:1px solid var(--rule-on-light)}
+.bbrief dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light);margin-bottom:.45em}
+.bbrief dd{margin:0;font-family:var(--font-display);font-size:var(--t-1);line-height:1.25;
+  color:var(--ink);overflow-wrap:break-word}
+/* --rule-on-light is a hairline colour, not a text colour: 1.48:1 on paper. It was
+   used for both of these and axe caught the brief but not the "optional" tag, which
+   only ever renders on a panel the audit could not see. */
+.bbrief dd.is-empty{font-family:var(--font-body);font-size:var(--t--1);
+  color:var(--muted-on-light);line-height:1.5}
+.bbrief__foot{margin:var(--s-3) 0 0;font-size:var(--t--1);line-height:1.55;
+  color:var(--muted-on-light)}
+
 .bdone{max-width:46rem}
 .bdone[hidden]{display:none}
 .bdone p{margin:var(--s-3) 0 var(--s-4);color:var(--muted-on-light);line-height:1.7;max-width:52ch}
@@ -1619,15 +1709,34 @@
 .bwhy__body p{margin:0 0 var(--s-3);color:var(--muted-on-dark);line-height:1.7;max-width:var(--measure)}
 .bwhy__body p:last-child{margin-bottom:0}
 
+/* Motion is opt-in. Panels arrive rather than cut, and a brief row that has just
+   been answered lifts once — short, eased, and gone (§4). */
+@media (prefers-reduced-motion:no-preference){
+  .js .bpanel{animation:b-panel-in var(--m-slow) var(--ease-out) both}
+  .bbrief dd.is-new{animation:b-fill var(--m-slow) var(--ease-out) both}
+  @keyframes b-panel-in{from{opacity:0;transform:translateY(.5rem)}to{opacity:1;transform:none}}
+  @keyframes b-fill{from{opacity:0;transform:translateY(.25rem)}to{opacity:1;transform:none}}
+}
+
+@media (max-width:74rem){
+  .bform__layout{grid-template-columns:1fr}
+  .bbrief{display:none}
+}
 @media (max-width:64rem){
   .bwhy__grid{grid-template-columns:1fr}
   .bopts{grid-template-columns:1fr}
   .bfields{grid-template-columns:1fr}
 }
+@media (max-width:34rem){
+  .bgroup{grid-template-columns:1fr}
+}
 @media (max-width:48rem){
   .bsteps__t{display:none}
   .bsteps li{justify-content:center}
   .bnav__alt{margin-left:0;width:100%}
+  .breview > div{grid-template-columns:minmax(0,1fr) auto;row-gap:.35em}
+  .breview dt{grid-column:1/-1}
+  .bopt{padding:.9rem 0}
 }
 
 /* ============================================================================

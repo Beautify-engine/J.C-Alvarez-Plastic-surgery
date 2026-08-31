@@ -4,12 +4,17 @@
    Panels ship visible in the markup; this script hides all but the current one.
    With scripting off the page is one long form with a single submit, and every
    question is reachable. Nothing is gated behind JS.
+
+   Procedure is a checkbox group, not a radio group: combination cases are the
+   norm in this practice, and a form that cannot say "tummy tuck and lipo"
+   makes her pick one and explain the other in the note, or leave.
    ========================================================================= */
 (function () {
   'use strict';
   var form = document.getElementById('bookForm');
   if (!form) return;
 
+  var B      = window.BookBrief || null;
   var panels = [].slice.call(form.querySelectorAll('.bpanel'));
   var steps  = [].slice.call(document.querySelectorAll('#bSteps li'));
   var live   = document.getElementById('bLive');
@@ -20,6 +25,8 @@
   var notice = document.getElementById('bNotice');
   var done   = document.getElementById('bDone');
   var doneMsg= document.getElementById('bDoneMsg');
+  var hint   = document.getElementById('bProcHint');
+  var resume = document.getElementById('bResume');
   var at = 0;
   var started = Date.now();
 
@@ -32,20 +39,107 @@
      control named "name" — reading el('name').value silently yields undefined and the
      validation never passes. Always go through form.elements. */
   var el = function (n) { return form.elements[n]; };
+  var procs = function () { return [].slice.call(form.querySelectorAll('input[name="procedure"]')); };
+  var picked = function () { return procs().filter(function (i) { return i.checked; }); };
+  var labelOf = function (input) {
+    return input.parentNode.querySelector('.bopt__t').firstChild.textContent.trim();
+  };
 
   var LABEL = { procedure: 'Procedure', timing: 'Timing', name: 'Name',
                 email: 'Email', phone: 'Phone', language: 'Language', note: 'Note' };
+  var STEP_OF = { procedure: 0, timing: 1, name: 2, email: 2, phone: 2, language: 2, note: 2 };
   var LANG = { en: 'English', es: 'Español', ru: 'Русский' };
 
-  /* the procedure can arrive pre-selected from a procedure page */
-  (function preselect() {
+  /* ---- procedure group --------------------------------------------------- */
+
+  /* "I'm not sure yet" is an answer, not an addition. It clears the rest and the
+     rest clear it, so the two can never be sent together. */
+  form.addEventListener('change', function (e) {
+    if (e.target.name === 'procedure') {
+      if (e.target.checked) {
+        var exclusive = e.target.hasAttribute('data-exclusive');
+        picked().forEach(function (i) {
+          if (i !== e.target && (exclusive || i.hasAttribute('data-exclusive'))) i.checked = false;
+        });
+      }
+      hintProcedures();
+      err('e-procedure', false);
+    }
+    sync();
+  });
+  form.addEventListener('input', sync);
+
+  function hintProcedures() {
+    var n = picked().filter(function (i) { return !i.hasAttribute('data-exclusive'); }).length;
+    hint.textContent = n < 2 ? ''
+      : n + ' selected. He will talk through whether those are best done in one operation ' +
+            'or staged — that judgement is part of the consultation.';
+  }
+
+  /* ---- state ------------------------------------------------------------- */
+
+  function values() {
+    var v = {};
+    v.procedure = picked().map(labelOf);
+    v.procedureIds = picked().map(function (i) { return i.value; });
+    var t = form.querySelector('input[name="timing"]:checked');
+    if (t) { v.timing = labelOf(t); v.timingId = t.value; }
+    v.name = el('name').value.trim();
+    v.email = el('email').value.trim();
+    if (el('phone').value.trim()) v.phone = el('phone').value.trim();
+    v.languageId = el('language').value;
+    v.language = LANG[v.languageId] || v.languageId;
+    if (el('note').value.trim()) v.note = el('note').value.trim();
+    return v;
+  }
+
+  function sync() {
+    var v = values();
+    if (!B) return;
+    B.paint(v);
+    B.save({ procedure: v.procedureIds, timing: v.timingId, name: v.name, email: v.email,
+             phone: v.phone || '', language: v.languageId, note: v.note || '' });
+  }
+
+  function restore(s) {
+    if (!s) return false;
+    var any = false;
+    procs().forEach(function (i) {
+      if ((s.procedure || []).indexOf(i.value) > -1) { i.checked = true; any = true; }
+    });
+    if (s.timing) {
+      var t = form.querySelector('input[name="timing"][value="' + s.timing + '"]');
+      if (t) { t.checked = true; any = true; }
+    }
+    ['name', 'email', 'phone', 'note'].forEach(function (k) {
+      if (s[k]) { el(k).value = s[k]; any = true; }
+    });
+    if (s.language) el('language').value = s.language;
+    return any;
+  }
+
+  /* The procedure can arrive pre-selected from a procedure page. That beats a
+     restored draft, because it is what she just clicked. */
+  (function init() {
+    var restored = B && restore(B.load());
     var m = /[?&]procedure=([\w-]+)/.exec(location.search);
     var want = m && m[1];
     var input = want && form.querySelector('input[name="procedure"][value="' + want + '"]');
-    if (input) { input.checked = true; return; }
-    var fallback = form.querySelector('input[name="procedure"][data-default]');
-    if (fallback && !form.querySelector('input[name="procedure"]:checked')) fallback.checked = true;
+    if (input) { picked().forEach(function (i) { i.checked = false; }); input.checked = true; }
+    else if (restored && resume) resume.hidden = false;
+    if (B) document.getElementById('fSource').value = JSON.stringify(B.source());
+    hintProcedures();
+    sync();
   })();
+
+  if (resume) document.getElementById('bClear').addEventListener('click', function () {
+    if (B) B.clear();
+    form.reset();
+    resume.hidden = true;
+    hintProcedures(); sync(); show(0);
+  });
+
+  /* ---- stepping ---------------------------------------------------------- */
 
   function show(i, announce) {
     at = Math.max(0, Math.min(panels.length - 1, i));
@@ -61,16 +155,16 @@
     if (at === panels.length - 1) fillReview();
     if (announce !== false) {
       live.textContent = 'Step ' + (at + 1) + ' of ' + panels.length;
-      var legend = panels[at].querySelector('legend');
-      if (legend) { panels[at].setAttribute('tabindex', '-1'); panels[at].focus(); }
+      panels[at].setAttribute('tabindex', '-1');
+      panels[at].focus();
     }
   }
 
   function err(id, on, msg) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    el.hidden = !on;
-    if (msg) el.textContent = msg;
+    var node = document.getElementById(id);
+    if (!node) return;
+    node.hidden = !on;
+    if (msg) node.textContent = msg;
     var field = document.getElementById('f-' + id.slice(2));
     if (field) field.setAttribute('aria-invalid', on ? 'true' : 'false');
   }
@@ -79,14 +173,8 @@
 
   function validate(step) {
     var ok = true;
-    if (step === 0) {
-      var chosen = !!form.querySelector('input[name="procedure"]:checked');
-      err('e-procedure', !chosen); ok = chosen;
-    }
-    if (step === 1) {
-      var t = !!form.querySelector('input[name="timing"]:checked');
-      err('e-timing', !t); ok = t;
-    }
+    if (step === 0) { ok = picked().length > 0; err('e-procedure', !ok); }
+    if (step === 1) { ok = !!form.querySelector('input[name="timing"]:checked'); err('e-timing', !ok); }
     if (step === 2) {
       var n = el('name').value.trim(), e = el('email').value.trim();
       err('e-name', !n); err('e-email', !emailOk(e));
@@ -97,37 +185,35 @@
     return ok;
   }
 
-  function values() {
-    var v = {};
-    ['procedure', 'timing'].forEach(function (k) {
-      var c = form.querySelector('input[name="' + k + '"]:checked');
-      if (c) v[k] = c.parentNode.querySelector('.bopt__t').firstChild.textContent.trim();
-    });
-    v.name = el('name').value.trim();
-    v.email = el('email').value.trim();
-    if (el('phone').value.trim()) v.phone = el('phone').value.trim();
-    v.language = LANG[el('language').value] || el('language').value;
-    if (el('note').value.trim()) v.note = el('note').value.trim();
-    return v;
-  }
+  /* ---- review ------------------------------------------------------------ */
 
+  /* Every row carries its own way back to the question that produced it. A
+     correction at the last moment is the most likely reason to abandon here. */
   function fillReview() {
     var v = values();
-    review.innerHTML = '';
+    review.textContent = '';
     Object.keys(LABEL).forEach(function (k) {
-      if (!v[k]) return;
+      var val = k === 'procedure' ? v.procedure.join(', ') : v[k];
+      if (!val) return;
       var row = document.createElement('div');
       var dt = document.createElement('dt'); dt.textContent = LABEL[k];
-      var dd = document.createElement('dd'); dd.textContent = v[k];
-      row.appendChild(dt); row.appendChild(dd); review.appendChild(row);
+      var dd = document.createElement('dd'); dd.textContent = val;
+      var ed = document.createElement('button');
+      ed.type = 'button'; ed.className = 'breview__edit'; ed.textContent = 'Edit';
+      ed.setAttribute('aria-label', 'Edit ' + LABEL[k].toLowerCase());
+      ed.addEventListener('click', function () { show(STEP_OF[k]); });
+      row.appendChild(dt); row.appendChild(dd); row.appendChild(ed);
+      review.appendChild(row);
     });
     if (!form.dataset.endpoint) {
       notice.hidden = false;
       notice.innerHTML = '<b>No destination is connected yet.</b> This preview has nowhere ' +
-        'to deliver a request &mdash; his inbox or CRM has not been supplied. Pressing send ' +
-        'will show you exactly what would be sent, and nothing will leave your browser.';
+        'to deliver a request. Pressing send will show you exactly what would be sent, ' +
+        'and nothing will leave your browser.';
     }
   }
+
+  /* ---- navigation and submit --------------------------------------------- */
 
   next.addEventListener('click', function () { if (validate(at)) show(at + 1); });
   back.addEventListener('click', function () { show(at - 1); });
@@ -152,39 +238,46 @@
       if (!validate(i)) { show(i); return; }
     }
     /* honeypot, plus a time trap: a human does not complete this in three seconds */
-    if (el('company').value || (Date.now() - started) < 3000) {
-      live.textContent = '';
+    if (el('company').value || (Date.now() - started) < 3000) { live.textContent = ''; return; }
+
+    var v = values();
+    v.source = B ? B.source() : {};
+    v.elapsed = Math.round((Date.now() - started) / 1000);
+
+    if (!form.dataset.endpoint) {
+      finish('Nothing was sent, because no destination is connected to this preview yet. ' +
+             'This is what would have gone: ' + flat(v) + '.');
       return;
     }
-    var v = values();
-    if (form.dataset.endpoint) {
-      send.disabled = true;
-      live.textContent = 'Sending…';
-      fetch(form.dataset.endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(v)
-      }).then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        finish('Sent. His office replies to every request, usually within a working day. ' +
-               'A copy is on its way to ' + v.email + '.');
-      }).catch(function () {
-        send.disabled = false;
-        live.textContent = '';
-        notice.hidden = false;
-        notice.innerHTML = '<b>That did not send.</b> Please call 786 795 2113 rather than ' +
-          'trying again — it is faster, and someone answers.';
-      });
-    } else {
-      finish('Nothing was sent, because no destination is connected to this preview yet. ' +
-             'This is what would have gone: ' +
-             Object.keys(LABEL).filter(function (k) { return v[k]; })
-               .map(function (k) { return LABEL[k] + ': ' + v[k]; }).join(' · ') + '.');
-    }
+    send.disabled = true;
+    live.textContent = 'Sending…';
+    fetch(form.dataset.endpoint, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v)
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      if (B) B.clear();
+      finish('Sent. His office replies to every request, usually within a working day. ' +
+             'A copy is on its way to ' + v.email + '.');
+    }).catch(function () {
+      send.disabled = false;
+      live.textContent = '';
+      notice.hidden = false;
+      notice.innerHTML = '<b>That did not send.</b> Please call 786 795 2113 rather than ' +
+        'trying again — it is faster, and someone answers.';
+    });
   });
+
+  function flat(v) {
+    return Object.keys(LABEL)
+      .map(function (k) { return [k, k === 'procedure' ? v.procedure.join(', ') : v[k]]; })
+      .filter(function (p) { return p[1]; })
+      .map(function (p) { return LABEL[p[0]] + ': ' + p[1]; }).join(' · ');
+  }
 
   function finish(msg) {
     form.hidden = true;
+    var brief = document.getElementById('bBrief');
+    if (brief) brief.hidden = true;
     done.hidden = false;
     doneMsg.textContent = msg;
     done.focus();

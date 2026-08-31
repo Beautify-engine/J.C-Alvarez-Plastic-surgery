@@ -1,6 +1,6 @@
 import { chromium } from 'playwright';
 const b = await chromium.launch();
-const p = await b.newPage({viewport:{width:390,height:844}});
+const p = await b.newPage({viewport:{width:+(process.argv[3] || 390),height:844}});
 await p.goto(process.argv[2], {waitUntil:'networkidle'});
 const out = await p.evaluate(()=>{
   const vw = document.documentElement.clientWidth;

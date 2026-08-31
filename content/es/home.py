@@ -25,8 +25,8 @@ T = {
 
 # ---- results ----
 "See whether he has done work like yours.": "Vea si ya ha hecho un caso como el suyo.",
-"64 documented cases, filed by procedure &mdash; his own before-and-after records, published as he keeps them.":
-  "64 casos documentados, ordenados por procedimiento &mdash; sus propios registros de antes y después, publicados tal como él los guarda.",
+"His work, filed by procedure &mdash; his own before-and-after records, published as he keeps them.":
+  "Su trabajo, ordenado por procedimiento &mdash; sus propios registros de antes y después, publicados tal como él los guarda.",
 "No form. No email. Just the cases.": "Sin formulario. Sin correo. Solo los casos.",
 "All": "Todos",
 "Brazilian Butt Lift": "Aumento de glúteos",
