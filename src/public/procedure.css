@@ -157,7 +157,13 @@
   transition:background var(--m-base) var(--ease-out)}
 .pidx a.pidx__cta:hover{background:var(--ink);color:var(--paper)}
 @media (max-width:64rem){
-  .pidx__cta{display:none}
+  /* Compound, for the same reason as the rule above: .pidx a.pidx__cta (0,2,1)
+     out-specifies a lone class, so `.pidx__cta{display:none}` never applied and
+     the button sat on top of the scrolling section rail — "Senos" was clipped to
+     "Sen" and "Rostro" was hidden underneath it entirely. It also meant two
+     primary CTAs on screen at once, which the fixed bar at the foot already
+     covers. */
+  .pidx a.pidx__cta{display:none}
   .pidx .wrap{position:relative}
   /* the rail scrolls — fade the edge so that is discoverable */
   .pidx .wrap::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2.5rem;
@@ -1521,6 +1527,7 @@
 
 /* "who you're writing to" — his face at the size a form needs it, not a hero's */
 .bwho{display:flex;align-items:center;gap:var(--s-2)}
+.bwho[hidden]{display:none}
 .bwho picture{flex:none;display:block}
 .bwho img{display:block;width:4rem;height:4rem;border-radius:50%;object-fit:cover;
   background:var(--paper-2)}
@@ -1755,13 +1762,107 @@ html.bookpg{scroll-padding-bottom:7.5rem}
 .bbrief__foot{margin:var(--s-3) 0 0;font-size:var(--t--1);line-height:1.55;
   color:var(--muted-on-light)}
 
-.bdone{max-width:none}
+/* ---- confirmation ---------------------------------------------------------
+   Its job is that she picks up when his office rings. Everything is ordered to that:
+   who is calling, from what number, how to save it, then the evidence that the man
+   whose name is on the caller ID is one who actually calls. */
+/* Held to a reading measure. Left to the full 84rem wrap the confirmation stranded
+   its portrait against the far edge and read as two unrelated columns. */
+.bdone{max-width:64rem}
 .bdone[hidden]{display:none}
-.bdone__grid{display:grid;grid-template-columns:minmax(0,34rem) minmax(0,20rem);
-  justify-content:space-between;gap:clamp(2rem,5vw,4rem);align-items:center}
-.bdone__fig{margin:0}
-.bdone__fig img{display:block;width:100%;height:auto;border-radius:var(--r-sm)}
-.bdone p{margin:var(--s-3) 0 var(--s-4);color:var(--muted-on-light);line-height:1.7;max-width:52ch}
+.bform__layout[hidden]{display:none}
+
+.bmock{margin:0 0 var(--s-4);padding:var(--s-2) var(--s-3);background:var(--paper-2);
+  border-left:2px solid var(--accent-light);font-size:var(--t--1);line-height:1.6;
+  color:var(--muted-on-light);max-width:46rem}
+.bmock[hidden]{display:none}
+.bmock b{color:var(--ink);font-weight:500}
+
+.bdone__top{display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:clamp(1.5rem,4vw,3rem);align-items:start;
+  padding-bottom:clamp(1.5rem,3vw,2.5rem);border-bottom:1px solid var(--rule-on-light)}
+.bdone__h{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(2rem,1.5rem + 2vw,3rem);line-height:1;letter-spacing:-.02em;
+  margin:var(--s-2) 0 var(--s-3)}
+.bdone__lede{margin:0 0 var(--s-4);font-size:var(--t-0);line-height:1.6;
+  color:var(--muted-on-light);max-width:50ch}
+.bdone__sum{margin:0;display:grid;gap:var(--s-2);max-width:40rem}
+.bdone__sum > div{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:var(--s-2);
+  padding-top:var(--s-2);border-top:1px solid var(--rule-on-light);align-items:baseline}
+.bdone__sum dt{font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-light)}
+.bdone__sum dd{margin:0;font-family:var(--font-display);font-size:var(--t-1);line-height:1.3}
+
+.bdone__fig{margin:0;flex:none;text-align:center;max-width:13rem}
+.bdone__fig img{display:block;width:9rem;height:9rem;border-radius:50%;object-fit:cover}
+.bdone__fig figcaption{margin-top:var(--s-2);font-size:var(--t--1);line-height:1.4;
+  color:var(--muted-on-light)}
+.bdone__fig figcaption b{display:block;color:var(--ink);font-weight:500}
+.bdone__stat{display:block;margin-top:.6em;padding-top:.6em;
+  border-top:1px solid var(--rule-on-light)}
+.bdone__stat b{display:inline;color:var(--ink)}
+
+/* the number, stated before anything else is asked of her */
+.bcall{margin-top:clamp(1.5rem,3vw,2.5rem);padding:clamp(1.5rem,3vw,2rem);
+  background:var(--ink);color:var(--paper);border-radius:var(--r-sm);max-width:46rem}
+.bcall__k{margin:0;font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--accent-dark)}
+.bcall__n{display:inline-block;margin:var(--s-2) 0 var(--s-2);
+  font-family:var(--font-display);font-size:clamp(2.25rem,1.6rem + 2.6vw,3.5rem);
+  line-height:1;letter-spacing:-.02em;color:var(--paper);text-decoration:none}
+.bcall__n:hover{color:var(--accent-dark)}
+.bcall__w{margin:0 0 var(--s-4);font-size:var(--t--1);line-height:1.6;
+  color:var(--muted-on-dark);max-width:46ch}
+.bcall__do{display:flex;flex-wrap:wrap;gap:var(--s-2)}
+.bcall__do .btn--ghost{color:var(--paper);border-color:var(--rule-on-dark)}
+.bcall__do .btn--ghost:hover{background:var(--ink-2);color:var(--paper)}
+
+/* review carousel — a scroll-snapping row, so it works on touch and without JS */
+.bcar{margin-top:clamp(2rem,4vw,3rem)}
+.bcar__head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+  gap:var(--s-2) var(--s-3);margin-bottom:var(--s-3)}
+.bcar__t{margin:0;font-family:var(--font-display);font-weight:400;font-size:var(--t-2);
+  line-height:1.15;letter-spacing:-.015em;text-wrap:balance;max-width:22ch}
+.bcar__nav{display:flex;gap:var(--s-1)}
+.bcar__nav[hidden]{display:none}
+.bcar__b{appearance:none;-webkit-appearance:none;width:2.5rem;height:2.5rem;cursor:pointer;
+  border:1px solid var(--rule-on-light);border-radius:50%;background:none;color:var(--ink);
+  font-size:var(--t-0);line-height:1;
+  transition:background var(--m-base) var(--ease-out),border-color var(--m-base) var(--ease-out)}
+.bcar__b:hover:not(:disabled){background:var(--paper-2);border-color:var(--muted-on-light)}
+.bcar__b:disabled{opacity:.35;cursor:default}
+.bcar__b:focus-visible{outline:2px solid var(--accent-light);outline-offset:2px}
+.bcar__scroll{overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
+  padding-bottom:var(--s-2)}
+.bcar__scroll::-webkit-scrollbar{display:none}
+.bcar__scroll:focus-visible{outline:2px solid var(--accent-light);outline-offset:4px}
+.bcar__track{display:flex;gap:1rem;list-style:none;margin:0;padding:0}
+.bcar__i{flex:0 0 min(23rem,82%);scroll-snap-align:start;
+  padding:var(--s-3);border:1px solid var(--rule-on-light);border-radius:var(--r-sm);
+  background:var(--paper-2)}
+.bcar__i blockquote{margin:0}
+.bcar__i p{margin:0;font-family:var(--font-display);font-size:var(--t-1);line-height:1.35;
+  color:var(--ink);text-wrap:pretty}
+.bcar__i footer{display:flex;flex-wrap:wrap;gap:.25em .8em;margin-top:var(--s-3);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-light)}
+.bcar__src{margin:var(--s-3) 0 0;font-size:var(--t--1);line-height:1.55;
+  color:var(--muted-on-light)}
+.bcar__src a{color:var(--accent-light)}
+
+.bwait{margin-top:clamp(2rem,4vw,3rem);max-width:46rem}
+.bwait__h{margin:0;font:500 var(--t-eyebrow)/1 var(--font-body);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--muted-on-light)}
+.bwait ul{list-style:none;margin:var(--s-3) 0 0;padding:0;
+  border-top:1px solid var(--rule-on-light)}
+/* the shared .arw is a block elsewhere on the site; inline it so it sits on the line */
+.bwait .arw{display:inline;margin-left:.35em}
+.bwait li{padding:var(--s-3) 0;border-bottom:1px solid var(--rule-on-light)}
+.bwait a{display:block;color:var(--ink);text-decoration:none;font-size:var(--t-1);
+  font-family:var(--font-display);line-height:1.3}
+.bwait a:hover{color:var(--accent-light)}
+.bwait li span{display:block;margin-top:.35em;font-size:var(--t--1);line-height:1.5;
+  color:var(--muted-on-light)}
 
 /* Motion is opt-in. Panels arrive rather than cut, and a brief row that has just
    been answered lifts once — short, eased, and gone (§4). */
@@ -1783,8 +1884,11 @@ html.bookpg{scroll-padding-bottom:7.5rem}
   .bvoice{max-width:46rem}
 }
 @media (max-width:60rem){
-  .bdone__grid{grid-template-columns:1fr}
-  .bdone__fig{order:-1;max-width:20rem}
+  .bdone__top{grid-template-columns:1fr}
+  .bdone__fig{order:-1;display:flex;align-items:center;gap:var(--s-2);
+    text-align:left;max-width:none}
+  .bdone__fig img{width:4rem;height:4rem}
+  .bdone__fig figcaption{margin-top:0}
 }
 @media (max-width:64rem){
   .bopts{grid-template-columns:1fr}

@@ -83,8 +83,6 @@ T = {
 "Usually within one working day. Save it now, so you know who is ringing &mdash; and if you miss the call, ring the same number back.":
   "Normalmente en un día hábil. Guárdelo ahora, para saber quién la llama &mdash; y si pierde la llamada, devuélvala a ese mismo número.",
 "Save the number": "Guardar el número",
-"His patients keep mentioning the phone calls.":
-  "Sus pacientes siguen mencionando las llamadas.",
 "people follow his work": "personas siguen su trabajo",
 
 # ---- while you wait ----

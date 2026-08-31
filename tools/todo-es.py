@@ -97,7 +97,7 @@ def main():
         print("%-18s %d still English" % (name, len(left)))
         if args or len(todo) == 1:
             for s in left:
-                print("   %s" % s[:150])
+                print("   %s" % s)
 
 
 main()

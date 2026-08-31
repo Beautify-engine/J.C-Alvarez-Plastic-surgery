@@ -45,6 +45,13 @@ T = {
 # ---- operation section ----
 "One operation, five moves.": "Una operación, cinco pasos.",
 "Or hear him explain it": "O escúchelo explicarlo",
+"His own walkthrough &middot; English": "Explicado por él &middot; English",
+"A result, in motion": "Un resultado, en movimiento",
+"From his Instagram &middot; no sound": "De su Instagram &middot; sin sonido",
+"Typically around three to four weeks, on his guidance.":
+  "Normalmente entre tres y cuatro semanas, según lo que él indique.",
+"Same lighting, same distance, same angles, no retouching.":
+  "La misma luz, la misma distancia, los mismos ángulos, sin retoque.",
 
 # ---- candidacy ----
 "Five things he checks.": "Cinco cosas que revisa.",
@@ -408,3 +415,90 @@ for en, es in PROC.items():
     for i in range(1, 20):
         T["%s, case %d" % (en, i)] = "%s, caso %d" % (es[0].upper()+es[1:], i)
 
+# ---- shared with the pages translated first --------------------------------
+# These were written into a single procedure map before it was clear how many
+# other pages used the same line. Moved here so one wording serves all of them.
+T.update({
+'A clot in the leg. Why walking starts on day one and why smoking is disqualifying.':
+  'Un coágulo en la pierna. Por eso se camina desde el primer día y por eso fumar la descalifica.',
+'A faja goes on before you wake up, and it stays on.':
+  'La faja se coloca antes de que despierte, y no se quita.',
+'A pocket is made under the muscle':
+  'Se crea un bolsillo bajo el músculo',
+'Ask where the':
+  'Pregunte dónde va la',
+'Augmentation or lift':
+  'Aumento o levantamiento',
+'Buttocks':
+  'Glúteos',
+'Can I still breastfeed?':
+  '¿Puedo seguir amamantando?',
+'Capsular contracture':
+  'Contractura capsular',
+'Compression continues. Three months full-time is the target, not a suggestion.':
+  'La faja continúa. Tres meses a tiempo completo es el objetivo, no una sugerencia.',
+'Compression full-time for approximately three months, then part-time for two to four weeks. Final result at approximately six months.':
+  'Faja a tiempo completo durante unos tres meses, después parcial de dos a cuatro semanas. Resultado final aproximadamente a los seis meses.',
+'Contour irregularity at the donor site':
+  'Irregularidad del contorno en la zona donante',
+'Effects on breastfeeding':
+  'Efectos sobre la lactancia',
+'Everything nobody tells you':
+  'Todo lo que nadie le cuenta',
+'Faja straight back on afterwards, full-time.':
+  'La faja se vuelve a poner enseguida, a tiempo completo.',
+'Fat embolism':
+  'Embolia grasa',
+'Finished having children':
+  'Ya no piensa tener hijos',
+'Full workouts resume around the third month.':
+  'El entrenamiento completo se retoma alrededor del tercer mes.',
+'Full-time, then tapering':
+  'A tiempo completo, después se va reduciendo',
+'Garments and the follow-up schedule':
+  'Prendas y las citas de seguimiento',
+'Garments, and how many':
+  'Fajas, y cuántas',
+'Harvest, then transfer':
+  'Extraer, después transferir',
+'Holding it':
+  'Mantenerlo',
+'How long does it last?':
+  '¿Cuánto dura?',
+'Most patients see the shape they were expecting by three months.':
+  'La mayoría ve la forma que esperaba a los tres meses.',
+'Most people with a non-physical job return between day 7 and day 10.':
+  'La mayoría, con un trabajo no físico, vuelve entre el día 7 y el día 10.',
+'On proportion &middot; English':
+  'Sobre proporción &middot; English',
+'Once you are comfortable and off narcotic pain medication &mdash; usually two to three weeks. Use the pillow.':
+  'Cuando esté cómoda y ya sin analgésicos narcóticos &mdash; normalmente de dos a tres semanas. Use la almohada.',
+'Residual swelling can persist to about this point.':
+  'Puede quedar algo de inflamación hasta más o menos este punto.',
+'Showering from about day two.':
+  'Ducha desde el segundo día, aproximadamente.',
+'Significant swelling has largely settled between weeks four and six.':
+  'La inflamación importante se asienta en buena parte entre las semanas cuatro y seis.',
+'Sponge bathing from the day after surgery.':
+  'Aseo con esponja desde el día siguiente a la cirugía.',
+'Stable weight keeps it. Significant loss takes some of it with you.':
+  'Un peso estable lo mantiene. Una pérdida importante se lleva parte con ella.',
+'Starts dropping noticeably from around here.':
+  'Empieza a bajar de forma notoria más o menos aquí.',
+'Surgical bra':
+  'Sostén quirúrgico',
+'The final result. The fat that survived the transfer is yours, and it behaves like the fat it came from.':
+  'El resultado final. La grasa que sobrevivió a la transferencia es suya, y se comporta como la grasa de donde vino.',
+'Then part-time, 2&ndash;4 weeks':
+  'Después parcial, 2 a 4 semanas',
+'This is the part nobody warns you about. Pressure comes off the graft, and a BBL pillow is not optional.':
+  'Esta es la parte de la que nadie le avisa. Hay que quitarle presión al injerto, y la almohada de BBL no es opcional.',
+'Whether a lipo 360 is included or extra':
+  'Si la lipo 360 va incluida o aparte',
+'Why less is more':
+  'Por qué menos es más',
+'fat goes':
+  'grasa',
+'operation.':
+  '.',
+})
