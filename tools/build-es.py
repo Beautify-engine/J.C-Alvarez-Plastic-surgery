@@ -19,6 +19,18 @@ whose value is None means "leave exactly as written" and is used for these.
 """
 import glob, importlib.util, json, os, re, shutil, sys
 
+# The origin this build will be served from, used for rel="canonical" and og:url.
+# Set it when the domain is settled:
+#
+#     SITE=https://jcalvarez.pages.dev python3 tools/build-es.py
+#
+# Left empty the build emits no canonical and says so, which is the right default:
+# a canonical pointing at a URL this site is not served from is worse than none —
+# it hands every page's ranking to a URL that may not exist. The JSON-LD in the
+# English source still declares jcalvarezplasticsurgery.com, his current live site,
+# which is exactly why this cannot be guessed here.
+SITE = os.environ.get("SITE", "").rstrip("/")
+
 SLUGS = {
     "/": "/",
     "/results": "/resultados",
@@ -178,6 +190,26 @@ def apply_patterns(html, T):
     return html
 
 
+def route_of(out):
+    """The clean URL a built file is served at, matching Cloudflare's
+    html_handling: auto-trailing-slash. index.html is the root of its directory."""
+    r = "/" + out[:-len(".html")] if out.endswith(".html") else "/" + out
+    if r.endswith("/index"):
+        r = r[:-len("/index")]
+    return r or "/"
+
+
+def add_canonical(html, out):
+    """Self-referencing canonical plus og:url. Every page shipped without either —
+    on a site that also answers to a .pages.dev preview domain and to whatever
+    custom domain gets attached, that is how the same page ends up indexed twice."""
+    if not SITE:
+        return html
+    url = SITE + route_of(out)
+    tags = '<link rel="canonical" href="%s">\n  <meta property="og:url" content="%s">\n  ' % (url, url)
+    return html.replace("</head>", tags + "</head>", 1) if "</head>" in html else html
+
+
 def main():
     """Build the whole Spanish tree. A page with no copy map yet is still emitted —
     with Spanish slugs, Spanish links and lang="es" — so routing can be deployed and
@@ -225,6 +257,7 @@ def main():
         html = swap_links(html)
         html = html.replace('"@context": "https://schema.org",',
                             '"@context": "https://schema.org",\n  "inLanguage": "es",', 1)
+        html = add_canonical(html, out)
         dst = os.path.join(OUT, out)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         open(dst, "w", encoding="utf-8").write(html)
@@ -237,6 +270,10 @@ def main():
             shutil.copy2(src_f, os.path.join(OUT, f))
 
     print("built %s — %d pages" % (OUT, len(PAGES)))
+    if SITE:
+        print("  canonical + og:url on every page, rooted at %s" % SITE)
+    else:
+        print("  NO canonical, NO og:url — set SITE=https://... to emit them")
     print()
     print("  TRANSLATED (%d):" % len(done))
     for n, h in done:

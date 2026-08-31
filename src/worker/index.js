@@ -103,21 +103,26 @@ function clean(b) {
 function officeText(v) {
   const src = Object.entries(v.source)
     .map(([k, x]) => `  ${k}: ${String(x).slice(0, 200)}`).join('\n');
-  return [
-    `${v.name}`,
+  const lines = [
+    v.name,
     `${v.email}${v.phone ? '  ·  ' + v.phone : ''}`,
     `Prefers ${v.language || 'English'}`,
     '',
     `Considering:  ${v.procedure.join(', ')}`,
     `Timing:       ${v.timing}`,
     '',
-    v.note ? `In her words:\n${v.note}\n` : '',
+  ];
+  /* Built by pushing rather than filtering a literal: filtering dropped the
+     blank spacers along with the optional note and ran the whole brief together. */
+  if (v.note) lines.push('In her words:', v.note, '');
+  lines.push(
     '— — —',
     `Spent ${v.elapsed}s on the form.`,
     src ? `Came from:\n${src}` : 'Came from: direct, no campaign tags.',
     '',
-    'Reply to this email and it goes straight to her.',
-  ].filter((l) => l !== '').join('\n');
+    'Reply to this email and it goes straight to her.'
+  );
+  return lines.join('\n');
 }
 
 function patientText(v) {

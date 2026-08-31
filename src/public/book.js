@@ -197,12 +197,17 @@
       if (!val) return;
       var row = document.createElement('div');
       var dt = document.createElement('dt'); dt.textContent = LABEL[k];
-      var dd = document.createElement('dd'); dd.textContent = val;
+      /* The button lives inside the <dd>. A <div> in a <dl> may hold only <dt>
+         and <dd>, so a sibling <button> there is a spec violation — axe calls it,
+         and a screen reader loses the row's structure. */
+      var dd = document.createElement('dd');
+      var txt = document.createElement('span'); txt.className = 'breview__v'; txt.textContent = val;
       var ed = document.createElement('button');
       ed.type = 'button'; ed.className = 'breview__edit'; ed.textContent = 'Edit';
       ed.setAttribute('aria-label', 'Edit ' + LABEL[k].toLowerCase());
       ed.addEventListener('click', function () { show(STEP_OF[k]); });
-      row.appendChild(dt); row.appendChild(dd); row.appendChild(ed);
+      dd.appendChild(txt); dd.appendChild(ed);
+      row.appendChild(dt); row.appendChild(dd);
       review.appendChild(row);
     });
     if (!form.dataset.endpoint) {
@@ -254,10 +259,21 @@
     fetch(form.dataset.endpoint, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v)
     }).then(function (r) {
-      if (!r.ok) throw new Error(r.status);
-      if (B) B.clear();
-      finish('Sent. His office replies to every request, usually within a working day. ' +
-             'A copy is on its way to ' + v.email + '.');
+      if (r.ok) {
+        if (B) B.clear();
+        finish('Sent. His office replies to every request, usually within a working day. ' +
+               'A copy is on its way to ' + v.email + '.');
+        return;
+      }
+      /* 503 means the endpoint is live but has no mailer configured yet — true of
+         every preview build until his sending domain exists. Say that, rather than
+         blaming her connection, and never claim a request was sent when it was not. */
+      if (r.status === 503) {
+        finish('Nothing was sent: this build has no mail destination connected yet. ' +
+               'This is what would have gone: ' + flat(v) + '.');
+        return;
+      }
+      throw new Error(r.status);
     }).catch(function () {
       send.disabled = false;
       live.textContent = '';
