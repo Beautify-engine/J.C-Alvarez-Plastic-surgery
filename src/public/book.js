@@ -21,7 +21,6 @@
   var back   = document.getElementById('bBack');
   var next   = document.getElementById('bNext');
   var send   = document.getElementById('bSend');
-  var review = document.getElementById('bReview');
   var notice = document.getElementById('bNotice');
   var done   = document.getElementById('bDone');
   var doneMsg= document.getElementById('bDoneMsg');
@@ -51,7 +50,6 @@
 
   var LABEL = { procedure: 'Procedure', timing: 'Timing', name: 'Name',
                 email: 'Email', phone: 'Phone', language: 'Language', note: 'Note' };
-  var STEP_OF = { procedure: 0, timing: 1, name: 2, email: 2, phone: 2, language: 2, note: 2 };
   var LANG = { en: 'English', es: 'Español', ru: 'Русский' };
 
   /* ---- procedure group --------------------------------------------------- */
@@ -196,7 +194,7 @@
     back.hidden = at === 0;
     next.hidden = at === panels.length - 1;
     send.hidden = at !== panels.length - 1;
-    if (at === panels.length - 1) fillReview();
+    if (at === panels.length - 1) unconfiguredNotice();
     if (announce !== false) {
       live.textContent = 'Step ' + (at + 1) + ' of ' + panels.length;
       panels[at].setAttribute('tabindex', '-1');
@@ -229,37 +227,14 @@
     return ok;
   }
 
-  /* ---- review ------------------------------------------------------------ */
-
-  /* Every row carries its own way back to the question that produced it. A
-     correction at the last moment is the most likely reason to abandon here. */
-  function fillReview() {
-    var v = values();
-    review.textContent = '';
-    Object.keys(LABEL).forEach(function (k) {
-      var val = k === 'procedure' ? v.procedure.join(', ') : v[k];
-      if (!val) return;
-      var row = document.createElement('div');
-      var dt = document.createElement('dt'); dt.textContent = LABEL[k];
-      /* The button lives inside the <dd>. A <div> in a <dl> may hold only <dt>
-         and <dd>, so a sibling <button> there is a spec violation — axe calls it,
-         and a screen reader loses the row's structure. */
-      var dd = document.createElement('dd');
-      var txt = document.createElement('span'); txt.className = 'breview__v'; txt.textContent = val;
-      var ed = document.createElement('button');
-      ed.type = 'button'; ed.className = 'breview__edit'; ed.textContent = 'Edit';
-      ed.setAttribute('aria-label', 'Edit ' + LABEL[k].toLowerCase());
-      ed.addEventListener('click', function () { show(STEP_OF[k]); });
-      dd.appendChild(txt); dd.appendChild(ed);
-      row.appendChild(dt); row.appendChild(dd);
-      review.appendChild(row);
-    });
-    if (!form.dataset.endpoint) {
-      notice.hidden = false;
-      notice.innerHTML = '<b>No destination is connected yet.</b> This preview has nowhere ' +
-        'to deliver a request. Pressing send will show you exactly what would be sent, ' +
-        'and nothing will leave your browser.';
-    }
+  /* Shown on the last step of a build with nowhere to deliver. Lives outside the
+     panels now, so it survives a failed send on any step. */
+  function unconfiguredNotice() {
+    if (form.dataset.endpoint) return;
+    notice.hidden = false;
+    notice.innerHTML = '<b>No destination is connected yet.</b> This preview has nowhere ' +
+      'to deliver a request. Pressing send will show you exactly what would be sent, ' +
+      'and nothing will leave your browser.';
   }
 
   /* ---- navigation and submit --------------------------------------------- */
@@ -283,7 +258,7 @@
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    for (var i = 0; i < panels.length - 1; i++) {
+    for (var i = 0; i < panels.length; i++) {
       if (!validate(i)) { show(i); return; }
     }
     /* honeypot, plus a time trap: a human does not complete this in three seconds */

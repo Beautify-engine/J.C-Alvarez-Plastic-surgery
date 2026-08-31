@@ -83,7 +83,6 @@
           <li aria-current="step"><span class="bsteps__n">01</span><span class="bsteps__t">Procedure</span></li>
           <li><span class="bsteps__n">02</span><span class="bsteps__t">Timing</span></li>
           <li><span class="bsteps__n">03</span><span class="bsteps__t">Contact</span></li>
-          <li><span class="bsteps__n">04</span><span class="bsteps__t">Review</span></li>
         </ol>
 
         <p class="bform__live" id="bLive" role="status" aria-live="polite"></p>
@@ -221,14 +220,9 @@
           </div>
         </fieldset>
 
-        <fieldset class="bpanel" id="p4" data-step="4">
-          <legend><span class="bpanel__q">Check it over.</span>
-            <span class="bpanel__h">Nothing has been sent yet.</span></legend>
-
-          <dl class="breview" id="bReview"></dl>
-
-          <p class="bnotice" id="bNotice" hidden></p>
-        </fieldset>
+        <!-- Send failures and preview notices land here rather than inside a panel:
+             there is no longer a step that outlives the last answer. -->
+        <p class="bnotice" id="bNotice" hidden></p>
 
         <div class="bnav">
           <button type="button" class="btn btn--ghost" id="bBack" hidden>

@@ -368,9 +368,16 @@ def main():
         # spot. Only reported for pages that have their own map; the shared map is
         # deliberately larger than any single page needs.
         if os.path.exists(mapfile):
-            h1 = getattr(load_page(name), "H1", None)
+            page_mod = load_page(name)
+            h1 = getattr(page_mod, "H1", None)
             if h1:
                 html = set_h1(html, h1)
+            # DROP removes markup that exists only to help an English reader and
+            # is redundant once the page is Spanish. It is a translation decision,
+            # not a content one: nothing here carries information the Spanish
+            # page does not already state.
+            for pat in getattr(page_mod, "DROP", []):
+                html = re.sub(pat, "", html)
         page_keys = set(load_map(name)) if os.path.exists(mapfile) else set()
         stale = sorted(k for k in UNUSED if k in page_keys)
         if os.path.exists(mapfile):
