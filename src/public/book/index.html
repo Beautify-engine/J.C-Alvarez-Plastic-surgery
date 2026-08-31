@@ -9,6 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Schibsted+Grotesk:wght@400;500&amp;display=swap">
+<!-- No preload on the portrait. Measured: it is NOT the LCP element (the hero lede is),
+     and preloading 160kb of it on throttled 4G stole bandwidth from the webfonts that
+     actually gate the text paint, costing ~300ms of LCP. Let it load at normal priority. -->
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="/procedure.css">
@@ -52,21 +55,57 @@
 
 <main id="main" class="bookpage">
 
-  <section class="bhero" aria-labelledby="b-h1">
+  <!-- The surgeon is the product (§5.3). A form asking a stranger for her name is
+       the one page where his face has to be present: she is deciding who she trusts
+       to cut her, not filling in a contact form. -->
+  <section class="bhero bhero--split" aria-labelledby="b-h1">
     <div class="wrap">
-      <p class="eyebrow">Miami, Florida</p>
-      <h1 id="b-h1">Request a consultation.</h1>
-      <p class="bhero__def">Four questions, about a minute. You are asking for an
-        assessment, not committing to an operation &mdash; and if the answer is
-        &ldquo;not yet,&rdquo; he will tell you that.</p>
-      <ul class="bhero__not">
-        <li>No medical history</li>
-        <li>No medications</li>
-        <li>No weight or BMI</li>
-        <li>No photographs</li>
+      <div class="bhero__grid">
+        <div class="bhero__copy">
+          <p class="eyebrow">Miami, Florida</p>
+          <h1 id="b-h1">Request a consultation.</h1>
+          <p class="bhero__def">Four questions, about a minute. You are asking for an
+            assessment, not committing to an operation &mdash; and if the answer is
+            &ldquo;not yet,&rdquo; he will tell you that.</p>
+          <ul class="bhero__not">
+            <li>No medical history</li>
+            <li>No medications</li>
+            <li>No weight or BMI</li>
+            <li>No photographs</li>
+          </ul>
+          <p class="bhero__why">That belongs in the consultation with a surgeon, not in a form
+            on a website. <a href="#why">Why we ask so little &darr;</a></p>
+        </div>
+
+        <figure class="bhero__fig">
+          <picture>
+            <!-- Sized for the box this page actually paints it in: 24rem on desktop,
+                 18rem stacked. The shared /about derivatives are 700w/1050w and cost
+                 160kb here, which measured as ~850ms of LCP on throttled 4G. -->
+            <source srcset="/img/about/portrait-book-420.webp 420w,
+                            /img/about/portrait-book-580.webp 580w,
+                            /img/about/portrait-book-780.webp 780w"
+                    sizes="(max-width:60rem) 18rem, 24rem" type="image/webp">
+            <img src="/img/about/portrait-700.png" width="700" height="876"
+                 decoding="async" alt="Dr. Julio Clavijo Alvarez in surgical whites.">
+          </picture>
+          <figcaption>
+            <img class="bhero__sig" src="/img/about/signature-ink.png" width="243" height="56"
+                 alt="" loading="lazy" decoding="async">
+            <span>Julio Clavijo Alvarez, MD</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Verified facts only. Years in practice and procedure volume are deliberately
+           absent: facts.md records the first as a five-year CONFLICT between two of his
+           own sites, and the second as stated nowhere (D-042). An empty slot beats a
+           number we cannot source. -->
+      <ul class="btrust">
+        <li><b>Board-certified</b> plastic surgeon</li>
+        <li><b>148,000</b> people follow his work</li>
+        <li><b>Every request</b> gets a reply, usually within a working day</li>
       </ul>
-      <p class="bhero__why">That belongs in the consultation with a surgeon, not in a form
-        on a website. <a href="#why">Why we ask so little &darr;</a></p>
     </div>
   </section>
 
@@ -116,25 +155,53 @@
           <div class="bgrid">
             <div class="bgroup" role="group" aria-labelledby="g-body">
               <p class="bgroup__h" id="g-body">Body</p>
-              <label class="bopt"><input type="checkbox" name="procedure" value="tummy-tuck"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Tummy Tuck</span></label>
-              <label class="bopt"><input type="checkbox" name="procedure" value="bbl"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Brazilian Butt Lift</span></label>
-              <label class="bopt"><input type="checkbox" name="procedure" value="skinny-bbl"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Skinny BBL</span></label>
-              <label class="bopt"><input type="checkbox" name="procedure" value="hd-liposuction"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">High-Definition Liposuction</span></label>
+              <div class="pcards">
+                <label class="pcard"><input type="checkbox" name="procedure" value="tummy-tuck">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/tummy-tuck-card-340.webp 340w, /img/procedures/tummy-tuck-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/tummy-tuck-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Tummy Tuck</span></label>
+                <label class="pcard"><input type="checkbox" name="procedure" value="bbl">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/bbl-card-340.webp 340w, /img/procedures/bbl-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/bbl-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Brazilian Butt Lift</span></label>
+                <label class="pcard"><input type="checkbox" name="procedure" value="skinny-bbl">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/skinny-bbl-card-340.webp 340w, /img/procedures/skinny-bbl-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/skinny-bbl-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Skinny BBL</span></label>
+                <label class="pcard"><input type="checkbox" name="procedure" value="hd-liposuction">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/hd-liposuction-card-340.webp 340w, /img/procedures/hd-liposuction-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/hd-liposuction-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">High-Definition Liposuction</span></label>
+              </div>
             </div>
 
             <div class="bgroup" role="group" aria-labelledby="g-breast">
               <p class="bgroup__h" id="g-breast">Breast</p>
-              <label class="bopt"><input type="checkbox" name="procedure" value="breast-augmentation"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Breast Augmentation</span></label>
-              <label class="bopt"><input type="checkbox" name="procedure" value="breast-lift"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Breast Lift</span></label>
-              <label class="bopt"><input type="checkbox" name="procedure" value="breast-lift-aug"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Breast Lift &amp; Augmentation</span></label>
+              <div class="pcards">
+                <label class="pcard"><input type="checkbox" name="procedure" value="breast-augmentation">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/breast-augmentation-card-340.webp 340w, /img/procedures/breast-augmentation-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/breast-augmentation-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Breast Augmentation</span></label>
+                <label class="pcard"><input type="checkbox" name="procedure" value="breast-lift">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/breast-lift-card-340.webp 340w, /img/procedures/breast-lift-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/breast-lift-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Breast Lift</span></label>
+                <label class="pcard"><input type="checkbox" name="procedure" value="breast-lift-aug">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/breast-lift-aug-card-340.webp 340w, /img/procedures/breast-lift-aug-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/breast-lift-aug-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Breast Lift &amp; Augmentation</span></label>
+              </div>
             </div>
 
             <div class="bgroup" role="group" aria-labelledby="g-face">
               <p class="bgroup__h" id="g-face">Face</p>
-              <label class="bopt"><input type="checkbox" name="procedure" value="facelift"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Deep Plane Facelift</span></label>
-              <label class="bopt"><input type="checkbox" name="procedure" value="rhinoplasty"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Rhinoplasty</span></label>
-              <label class="bopt"><input type="checkbox" name="procedure" value="eyelid-surgery"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Eyelid Surgery</span></label>
-              <label class="bopt"><input type="checkbox" name="procedure" value="scarless-eyelid"><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">Scarless Eyelid Rejuvenation</span></label>
+              <div class="pcards">
+                <label class="pcard"><input type="checkbox" name="procedure" value="facelift">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/facelift-card-340.webp 340w, /img/procedures/facelift-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/facelift-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Deep Plane Facelift</span></label>
+                <label class="pcard"><input type="checkbox" name="procedure" value="rhinoplasty">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/rhinoplasty-card-340.webp 340w, /img/procedures/rhinoplasty-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/rhinoplasty-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Rhinoplasty</span></label>
+                <label class="pcard"><input type="checkbox" name="procedure" value="eyelid-surgery">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/eyelid-surgery-card-340.webp 340w, /img/procedures/eyelid-surgery-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/eyelid-surgery-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Eyelid Surgery</span></label>
+                <label class="pcard"><input type="checkbox" name="procedure" value="scarless-eyelid">
+                  <span class="pcard__fig"><picture><source type="image/webp" srcset="/img/procedures/scarless-eyelid-card-340.webp 340w, /img/procedures/scarless-eyelid-card-510.webp 510w" sizes="(max-width:34rem) 44vw, 11rem"><img src="/img/procedures/scarless-eyelid-600.jpg" width="340" height="340" alt="" loading="lazy" decoding="async"></picture><span class="pcard__tick" aria-hidden="true"></span></span>
+                  <span class="pcard__t">Scarless Eyelid Rejuvenation</span></label>
+              </div>
             </div>
           </div>
 
@@ -230,26 +297,79 @@
         </div>
       </form>
 
-      <!-- The brief assembles as she answers. Ships hidden and is revealed by
-           book-brief.js, so without scripting there is no empty panel. Desktop
-           only — on a phone step 04 is the brief. -->
-      <aside class="bbrief" id="bBrief" aria-labelledby="bbrief-h" hidden>
-        <p class="bbrief__h" id="bbrief-h">Your request</p>
-        <dl class="bbrief__list">
-          <div><dt>Procedure</dt><dd data-brief="procedure">&mdash;</dd></div>
-          <div><dt>Timing</dt><dd data-brief="timing">&mdash;</dd></div>
-          <div><dt>Name</dt><dd data-brief="name">&mdash;</dd></div>
-          <div><dt>Reply to</dt><dd data-brief="contact">&mdash;</dd></div>
-        </dl>
-        <p class="bbrief__foot">Nothing leaves this page until you press send.</p>
+      <aside class="brail">
+        <!-- The brief assembles as she answers. Ships hidden and is revealed by
+             book-brief.js, so without scripting there is no empty panel. -->
+        <div class="bbrief" id="bBrief" aria-labelledby="bbrief-h" hidden>
+          <p class="bbrief__h" id="bbrief-h">Your request</p>
+          <dl class="bbrief__list">
+            <div><dt>Procedure</dt><dd data-brief="procedure">&mdash;</dd></div>
+            <div><dt>Timing</dt><dd data-brief="timing">&mdash;</dd></div>
+            <div><dt>Name</dt><dd data-brief="name">&mdash;</dd></div>
+            <div><dt>Reply to</dt><dd data-brief="contact">&mdash;</dd></div>
+          </dl>
+          <p class="bbrief__foot">Nothing leaves this page until you press send.</p>
+        </div>
+
+        <!-- Proof at the point of action, matched to what she just selected. Verbatim
+             from his RealSelf profile, handle and month intact, exactly as the homepage
+             runs them (D-067). Every quote is footered with the procedure the reviewer
+             actually had, so a body quote never stands in as a face one; procedures with
+             no matching review fall back to a general one about his care rather than to
+             a mismatched result. Without JS all five simply stack. -->
+        <div class="bvoice" id="bVoice">
+          <p class="bvoice__h">In their words</p>
+          <div id="bVoiceQ" aria-live="polite">
+          <blockquote class="bvoice__q" data-for="tummy-tuck bbl skinny-bbl hd-liposuction">
+            <p>I worked out 6 days a week and could not get the body I wanted. Dr. Alvarez took
+              a great amount of time with me to discuss what I wanted and how he would go about
+              helping me achieve my goal &hellip; As usual he always calls you in the evening to
+              check up on you.</p>
+            <footer><span>Liposuction</span><span>the dashing olive</span><span>November 2019</span></footer>
+          </blockquote>
+          <blockquote class="bvoice__q" data-for="breast-lift breast-lift-aug">
+            <p>I was so scared to get my breast lift done due to seeing horrible results. I almost
+              canceled &hellip; I&rsquo;m glad I went with it. The lining of the nipples look perfect,
+              which was my biggest concern &hellip; I knew his work would speak for itself, how
+              detailed he was during the pre-op drawing.</p>
+            <footer><span>Breast lift + Lipo 360</span><span>lexusr22</span><span>June 2022</span></footer>
+          </blockquote>
+          <blockquote class="bvoice__q" data-for="breast-augmentation">
+            <p>He gave me his number after surgery. When I texted him with my &ldquo;problem&rdquo;,
+              he called INSTANTLY &hellip; I told him, I&rsquo;m a mother of four, I don&rsquo;t want
+              too big, I don&rsquo;t want too small &hellip; He DEFINITELY understood the assignment.</p>
+            <footer><span>Breast augmentation</span><span>Bluestar33</span><span>November 2021</span></footer>
+          </blockquote>
+          <blockquote class="bvoice__q" data-for="rhinoplasty">
+            <p>My biggest concern with going under the knife was losing my uniqueness &hellip; From
+              the beginning I expressed that I didn&rsquo;t want to look like a different person
+              &hellip; I am simply blown away with how natural, and beautiful I look now.</p>
+            <footer><span>Rhinoplasty + otoplasty</span><span>Glorious464379</span><span>May 2021</span></footer>
+          </blockquote>
+          <blockquote class="bvoice__q" data-for="facelift eyelid-surgery scarless-eyelid not-sure">
+            <p>From the initial consultation to the procedure to all of the follow-up appointments
+              and care &mdash; he takes his time, explains everything, and truly cares about his
+              patients.</p>
+            <footer><span>Consultation and follow-up</span><span>Fierce457441</span><span>May 2021</span></footer>
+          </blockquote>
+          </div>
+          <p class="bvoice__src">Verbatim from <a href="https://www.realself.com/dr/julio-clavijo-alvarez-miami-fl" rel="noopener" target="_blank">his RealSelf profile</a>.</p>
+        </div>
       </aside>
 
       </div><!-- /.bform__layout -->
 
       <div class="bdone" id="bDone" hidden tabindex="-1">
-        <h2 class="p-h2">Request ready to send.</h2>
-        <p id="bDoneMsg"></p>
-        <a class="btn" href="tel:+17867952113">Call 786 795 2113 <span class="arw" aria-hidden="true">&rarr;</span></a>
+        <div class="bdone__grid">
+          <div>
+            <h2 class="p-h2">Request ready to send.</h2>
+            <p id="bDoneMsg"></p>
+            <a class="btn" href="tel:+17867952113">Call 786 795 2113 <span class="arw" aria-hidden="true">&rarr;</span></a>
+          </div>
+          <figure class="bdone__fig">
+            <img src="/img/about/jc-office-600.jpg" alt="" loading="lazy" decoding="async">
+          </figure>
+        </div>
       </div>
     </div>
   </section>

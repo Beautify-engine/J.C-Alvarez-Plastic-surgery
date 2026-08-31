@@ -1520,6 +1520,31 @@
 .bhero__why{margin:0;color:var(--muted-on-dark);font-size:var(--t--1);max-width:52ch}
 .bhero__why a{color:var(--accent-dark)}
 
+.bhero__grid{display:grid;grid-template-columns:minmax(0,1fr) 24rem;
+  gap:clamp(2rem,5vw,4.5rem);align-items:center}
+.bhero--split h1{margin-bottom:var(--s-3)}
+/* The portrait sits on the same offset hairline plate the procedure heroes use, so
+   it reads as an object placed on the page rather than a photo pasted into it. */
+.bhero__fig{margin:0}
+/* No offset hairline plate here. That convention frames a rectangular photograph;
+   this portrait is a cut-out with no edge of its own, so the rectangle floated free
+   of the subject and read as a stray line. The figure carries itself. */
+.bhero__fig picture{display:block}
+/* scoped to the portrait — unscoped, this also matched the signature and overrode it */
+.bhero__fig picture img{display:block;width:100%;height:auto}
+.bhero__fig figcaption{display:flex;flex-direction:column;gap:.35rem;
+  margin-top:var(--s-3);font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
+  text-transform:uppercase;color:var(--muted-on-dark)}
+/* the signature is ink on white; invert it onto the dark ground */
+.bhero__sig{width:10.5rem;height:auto;filter:invert(1);opacity:.9}
+
+.btrust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-3) var(--s-4);
+  list-style:none;margin:clamp(2rem,4vw,3rem) 0 0;padding:var(--s-4) 0 0;
+  border-top:1px solid var(--rule-on-dark);
+  font-size:var(--t--1);line-height:1.5;color:var(--muted-on-dark)}
+.btrust b{display:block;font-family:var(--font-display);font-weight:400;
+  font-size:var(--t-2);line-height:1.1;color:var(--paper);margin-bottom:.25em}
+
 .bform{background:var(--paper);color:var(--ink);padding-block:var(--section)}
 .bform__layout{display:grid;grid-template-columns:minmax(0,46rem) minmax(0,17rem);
   justify-content:space-between;gap:clamp(2rem,5vw,4.5rem);align-items:start}
@@ -1575,11 +1600,50 @@
    short group in practice — 4 + 3 + 4 does not divide. Stacked, the region
    headings also do more work: they read as the dividers of the list. */
 .bgrid{display:block}
-.bgroup{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:0 clamp(1.25rem,2.5vw,2rem)}
-.bgroup + .bgroup{margin-top:var(--s-4)}
-.bgroup__h{grid-column:1/-1;margin:0 0 var(--s-1);font:500 var(--t-eyebrow)/1 var(--font-body);
+.bgroup + .bgroup{margin-top:var(--s-6)}
+.bgroup__h{margin:0 0 var(--s-2);padding-bottom:var(--s-2);
+  border-bottom:1px solid var(--rule-on-light);
+  font:500 var(--t-eyebrow)/1 var(--font-body);
   letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--muted-on-light)}
+/* Image cards, not a list of words. Recognition beats recall, and the doctrine is
+   explicit that self-identification is the whole game — she is looking for her own
+   body, not reading a menu. Every photograph here is faceless and none reads as a
+   result (assets/MANIFEST.md, design/procedure-photography.md). */
+.pcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));
+  gap:clamp(.75rem,1.6vw,1.15rem)}
+.pcard{position:relative;display:flex;flex-direction:column;gap:.65rem;cursor:pointer}
+.pcard input{position:absolute;opacity:0;width:1px;height:1px}
+.pcard__fig{position:relative;display:block;aspect-ratio:1/1;overflow:hidden;
+  border-radius:var(--r-sm);background:var(--paper-2);
+  box-shadow:0 0 0 1px var(--rule-on-light);
+  transition:box-shadow var(--m-base) var(--ease-out)}
+.pcard__fig picture{display:block;width:100%;height:100%}
+.pcard__fig img{width:100%;height:100%;object-fit:cover;display:block;
+  filter:saturate(.92);transition:transform var(--m-slow) var(--ease-out),
+    filter var(--m-base) var(--ease-out)}
+.pcard__fig::after{content:'';position:absolute;inset:0;background:var(--ink);
+  opacity:0;transition:opacity var(--m-base) var(--ease-out)}
+.pcard__tick{position:absolute;z-index:1;right:.5rem;top:.5rem;width:1.35rem;height:1.35rem;
+  border-radius:50%;border:1px solid rgba(247,246,243,.85);background:rgba(22,35,42,.18);
+  backdrop-filter:blur(2px);
+  transition:background var(--m-base) var(--ease-out),border-color var(--m-base) var(--ease-out)}
+.pcard__tick::after{content:'';position:absolute;left:50%;top:47%;width:.28rem;height:.52rem;
+  border:solid var(--paper);border-width:0 1.5px 1.5px 0;
+  transform:translate(-50%,-55%) rotate(45deg) scale(.5);opacity:0;
+  transition:opacity var(--m-fast) var(--ease-out),transform var(--m-fast) var(--ease-out)}
+.pcard__t{font-size:var(--t--1);line-height:1.35;color:var(--muted-on-light);
+  transition:color var(--m-base) var(--ease-out)}
+.pcard:hover .pcard__fig{box-shadow:0 0 0 1px var(--muted-on-light)}
+.pcard:hover .pcard__fig img{transform:scale(1.03)}
+.pcard input:focus-visible ~ .pcard__fig{outline:2px solid var(--accent-light);outline-offset:3px}
+.pcard input:checked ~ .pcard__fig{box-shadow:0 0 0 2px var(--accent-light)}
+.pcard input:checked ~ .pcard__fig img{filter:saturate(1)}
+.pcard input:checked ~ .pcard__fig .pcard__tick{background:var(--accent-light);
+  border-color:var(--accent-light)}
+.pcard input:checked ~ .pcard__fig .pcard__tick::after{opacity:1;
+  transform:translate(-50%,-55%) rotate(45deg) scale(1)}
+.pcard input:checked ~ .pcard__t{color:var(--ink);font-weight:500}
+
 .bopts--exclusive{margin-top:var(--s-4)}
 .bhint{margin:var(--s-4) 0 0;font-size:var(--t--1);line-height:1.65;
   color:var(--muted-on-light);max-width:52ch;min-height:1.65em}
@@ -1683,8 +1747,27 @@
 .bnav__alt a{color:var(--accent-light)}
 .bnav [hidden]{display:none}
 
-/* the assembling brief */
-.bbrief{position:sticky;top:var(--s-6);border-top:1px solid var(--ink);padding-top:var(--s-3)}
+/* the rail: what she has said, and what people who already said it reported back */
+.brail{position:sticky;top:var(--s-6);display:flex;flex-direction:column;gap:var(--s-6)}
+.bvoice{border-top:1px solid var(--rule-on-light);padding-top:var(--s-3)}
+.bvoice__h{margin:0 0 var(--s-2);font:500 var(--t-eyebrow)/1 var(--font-body);
+  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--muted-on-light)}
+.bvoice__q{margin:0;padding:0}
+.bvoice__q[hidden]{display:none}
+.bvoice__q p{margin:0;font-family:var(--font-display);font-size:var(--t-1);line-height:1.35;
+  color:var(--ink);text-wrap:pretty}
+.bvoice__q footer{display:flex;flex-wrap:wrap;gap:.25em .8em;margin-top:var(--s-2);
+  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
+  color:var(--muted-on-light)}
+.bvoice__src{margin:var(--s-3) 0 0;font-size:var(--t--1);line-height:1.5;
+  color:var(--muted-on-light)}
+.bvoice__src a{color:var(--accent-light)}
+/* without JS every quote stacks; with it, one is shown and needs separating rules */
+.js .bvoice__q + .bvoice__q{margin-top:0}
+.bvoice__q + .bvoice__q{margin-top:var(--s-3);padding-top:var(--s-3);
+  border-top:1px solid var(--rule-on-light)}
+
+.bbrief{border-top:1px solid var(--ink);padding-top:var(--s-3)}
 .bbrief[hidden]{display:none}
 .bbrief__h{margin:0 0 var(--s-2);font:500 var(--t-eyebrow)/1 var(--font-body);
   letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--ink)}
@@ -1702,8 +1785,12 @@
 .bbrief__foot{margin:var(--s-3) 0 0;font-size:var(--t--1);line-height:1.55;
   color:var(--muted-on-light)}
 
-.bdone{max-width:46rem}
+.bdone{max-width:none}
 .bdone[hidden]{display:none}
+.bdone__grid{display:grid;grid-template-columns:minmax(0,34rem) minmax(0,20rem);
+  justify-content:space-between;gap:clamp(2rem,5vw,4rem);align-items:center}
+.bdone__fig{margin:0}
+.bdone__fig img{display:block;width:100%;height:auto;border-radius:var(--r-sm)}
 .bdone p{margin:var(--s-3) 0 var(--s-4);color:var(--muted-on-light);line-height:1.7;max-width:52ch}
 
 .bwhy__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
@@ -1716,13 +1803,27 @@
 @media (prefers-reduced-motion:no-preference){
   .js .bpanel{animation:b-panel-in var(--m-slow) var(--ease-out) both}
   .bbrief dd.is-new{animation:b-fill var(--m-slow) var(--ease-out) both}
+  .bvoice__q{animation:b-fill var(--m-slow) var(--ease-out) both}
   @keyframes b-panel-in{from{opacity:0;transform:translateY(.5rem)}to{opacity:1;transform:none}}
   @keyframes b-fill{from{opacity:0;transform:translateY(.25rem)}to{opacity:1;transform:none}}
 }
 
 @media (max-width:74rem){
   .bform__layout{grid-template-columns:1fr}
+  /* The brief is dropped rather than restacked — on a phone step 04 *is* the brief.
+     The proof is not: it is the one thing on this page that answers "is he any good",
+     and it belongs under the answers on the smallest screen most of all. */
+  .brail{position:static}
   .bbrief{display:none}
+  .bvoice{max-width:46rem}
+}
+@media (max-width:60rem){
+  .bhero__grid{grid-template-columns:1fr;gap:var(--s-6)}
+  .bhero__fig{max-width:18rem}
+  .btrust{grid-template-columns:1fr;gap:var(--s-3)}
+  .btrust b{display:inline;font-size:var(--t-1);margin:0}
+  .bdone__grid{grid-template-columns:1fr}
+  .bdone__fig{order:-1;max-width:20rem}
 }
 @media (max-width:64rem){
   .bwhy__grid{grid-template-columns:1fr}
@@ -1730,7 +1831,7 @@
   .bfields{grid-template-columns:1fr}
 }
 @media (max-width:34rem){
-  .bgroup{grid-template-columns:1fr}
+  .pcards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:48rem){
   .bsteps__t{display:none}

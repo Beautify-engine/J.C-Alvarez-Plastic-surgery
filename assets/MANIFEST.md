@@ -209,3 +209,22 @@ from memory** — the manifest had recorded the wrong one:
 > The face pair being `clean` and everything else `clean-deep` is a real inconsistency,
 > not a decision. It is imperceptible at card size; regrading those two to `clean-deep`
 > is a two-minute job whenever it is wanted.
+
+## Booking-page derivatives (added 2026-08-31, D-074)
+
+No new source material. Every file here is a re-crop or re-encode of an asset already
+inventoried above, made because `/book` was the heaviest page on the site once it gained
+photography — 901kb and a 2.3s LCP on throttled 4G, against a 2.0s budget.
+
+| file(s) | derived from | patient | rights | notes |
+|---|---|---|---|---|
+| `img/procedures/{slug}-card-{340,510}.webp` — 22 files | the 8 graded 4:5 carousel images already at `img/procedures/{slug}-600.jpg` | no — faceless, none reads as a result | inherits `[[VERIFY]]` from the carousel row above | 1:1 centre-crop, vertical bias 0.38 so torso and face subjects sit correctly. Built by `tools/gen-card-thumbs.py`, idempotent. 373kb → 174kb. |
+| `img/about/portrait-book-{420,580,780}.webp` — 3 files | `img/about/portrait-1050.webp` (studio portrait, client-owned) | no | client-owned | Sized for the 24rem / 18rem box this page paints. **Composited onto `--ink` (#16232a) rather than shipping alpha** — alpha WebP cost 5× the bytes (59/124/228kb vs 12/20/31) and the hero ground is a single flat colour, so the result is identical on the page. **Regenerate if `.bhero`'s background ever changes.** |
+
+Reused unchanged, no new derivative: `img/about/signature-ink.png` (his signature, client
+supplied, RESOLVED in facts.md 2026-08-24) and `img/about/jc-office-600.jpg`.
+
+**Not used on this page, deliberately:** the 68 before/after composites (§3 — they never
+reach a public URL) and `img/avatars/p{1,2,3}.jpg`, which are patient faces marked *gated
+preview only* and were cut in D-042. The social proof here carries handles and dates, no
+faces.

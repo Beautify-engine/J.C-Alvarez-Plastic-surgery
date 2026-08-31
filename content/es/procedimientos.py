@@ -16,7 +16,7 @@ T = {
 # ---- head ----
 "Procedures — Julio Clavijo Alvarez, MD, Miami":
   "Procedimientos — Julio Clavijo Alvarez, MD, Miami",
-"Every procedure Dr. Julio Clavijo Alvarez performs in Miami, with his own before-and-after records, honest recovery timelines and the reasons he would tell you no.":
+"Every procedure Dr. Julio Clavijo Alvarez performs in Miami, with his own before-and-after records, honest recovery timelines and the reasons he turns people away.":
   "Todos los procedimientos que el Dr. Julio Clavijo Alvarez realiza en Miami, con casos documentados, plazos de recuperación honestos y las razones por las que le diría que no.",
 
 # ---- hero ----

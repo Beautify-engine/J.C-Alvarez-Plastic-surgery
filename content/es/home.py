@@ -37,7 +37,6 @@ T = {
 "Deep Facelift": "Levantamiento facial profundo",
 "HD Liposuction": "Liposucción de alta definición",
 "Breast Lift": "Levantamiento de senos",
-"Breast Lift &amp; Augmentation": "Levantamiento y aumento de senos",
 "Skinny BBL": "Skinny BBL",
 "Scarless Eyelid Rejuvenation": "Párpados sin cicatrices",
 
@@ -79,8 +78,6 @@ T.update({
 "He would rather you understood it first.": "Prefiere que primero lo entienda.",
 "Open the full library": "Abrir la videoteca completa",
 "42 talks &middot; published in Spanish": "42 charlas &middot; publicadas en español",
-"He has been explaining plastic surgery to camera for years &mdash; why implants harden, what a blood clot actually is, which facelift claims are marketing.":
-  "Lleva años explicando cirugía plástica frente a la cámara &mdash; por qué se endurecen los implantes, qué es realmente un coágulo, qué promesas sobre el lifting facial son puro marketing.",
 
 # ---- location ----
 "Visit": "Visítenos",
@@ -118,14 +115,11 @@ T.update({
   "Una galería le muestra el resultado. No le muestra si la escuchó, cómo se sintió la recuperación de verdad, ni si la convenció de no hacerse algo.",
 
 # ---- video library ----
-"He has been explaining plastic surgery to camera for years &mdash; why implants harden, what a blood clot actually is, which facelift claims are marketing. The results below are his own.":
-  "Lleva años explicando cirugía plástica frente a la cámara &mdash; por qué se endurecen los implantes, qué es realmente un coágulo, qué promesas sobre el lifting facial son puro marketing. Los resultados que verá abajo son suyos.",
-"Forty-two talks on his channel: what each procedure actually involves, what recovery is honestly like, and the mistakes that cost people a good result. He publishes them in Spanish.":
-  "Cuarenta y dos charlas en su canal: en qué consiste realmente cada procedimiento, cómo es de verdad la recuperación, y los errores que le cuestan a la gente un buen resultado. Las publica en español.",
+"Forty-two talks on his channel: what each procedure actually involves, what recovery is honestly like, and the mistakes that cost people a good result. He publishes them free, in Spanish, whether or not you ever book.":
+  "Cuarenta y dos charlas en su canal: en qué consiste realmente cada procedimiento, cómo es de verdad la recuperación, y los errores que le cuestan a la gente un buen resultado. Las publica gratis, en español, reserve o no reserve.",
 # video card titles: his own Spanish titles already exist — use those, drop the English gloss
 "Ozempic before surgery, and the risk it carries": "El riesgo que podría costarle la vida",
 "What works, and what he refuses to do": "Lo que sí funciona y lo que jamás recomienda",
-"BBL &mdash; what nobody tells you about fat transfer": "Todo lo que nadie te cuenta sobre la transferencia de grasa",
 "BBL — what nobody tells you about fat transfer": "Todo lo que nadie te cuenta sobre la transferencia de grasa",
 "Breast lift &mdash; types, scars, and real results": "Tipos, cicatrices y resultados reales",
 

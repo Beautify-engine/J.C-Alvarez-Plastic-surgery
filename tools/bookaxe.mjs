@@ -9,8 +9,8 @@ for (const w of [1440, 390, 320]) {
   await p.addStyleTag({content:'*,*::before,*::after{transition:none!important;animation:none!important}'});
   await p.addScriptTag({content:src});
   for (let step=1; step<=4; step++){
-    if (step===2){ await p.click('input[value="tummy-tuck"] + .bopt__box'); await p.click('#bNext'); }
-    if (step===3){ await p.click('input[value="3m"] + .bopt__box'); await p.click('#bNext'); }
+    if (step===2){ await p.click('label:has(input[value=\"tummy-tuck\"])'); await p.click('#bNext'); }
+    if (step===3){ await p.click('label:has(input[value=\"3m\"])'); await p.click('#bNext'); }
     if (step===4){ await p.fill('#f-name','A'); await p.fill('#f-email','a@b.co'); await p.click('#bNext'); }
     await p.waitForTimeout(250);
     const r = await p.evaluate(()=>axe.run(document,{runOnly:['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']}));

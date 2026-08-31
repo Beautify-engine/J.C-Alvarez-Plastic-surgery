@@ -41,8 +41,12 @@
   var el = function (n) { return form.elements[n]; };
   var procs = function () { return [].slice.call(form.querySelectorAll('input[name="procedure"]')); };
   var picked = function () { return procs().filter(function (i) { return i.checked; }); };
+  /* Two shapes of option now carry a label: the image cards on step 01 (.pcard__t)
+     and the hairline rows everywhere else (.bopt__t). firstChild skips the trailing
+     <small>, which is a hint, not part of the answer. */
   var labelOf = function (input) {
-    return input.parentNode.querySelector('.bopt__t').firstChild.textContent.trim();
+    var t = input.parentNode.querySelector('.pcard__t, .bopt__t');
+    return t ? t.firstChild.textContent.trim() : input.value;
   };
 
   var LABEL = { procedure: 'Procedure', timing: 'Timing', name: 'Name',
@@ -62,12 +66,37 @@
           if (i !== e.target && (exclusive || i.hasAttribute('data-exclusive'))) i.checked = false;
         });
       }
+      if (e.target.checked) lastPick = e.target.value;
       hintProcedures();
+      showVoice();
       err('e-procedure', false);
     }
     sync();
   });
   form.addEventListener('input', sync);
+
+  /* Proof at the point of action: the review that matches what she just picked.
+     Keyed to the most recent selection rather than to DOM order — pick a tummy tuck
+     and then a rhinoplasty and it is the nose she is thinking about, so that is the
+     quote to answer. Falls back to the general quote about his care; never to a
+     review of a different procedure dressed up as hers. */
+  var voice = document.getElementById('bVoiceQ');
+  var quotes = voice ? [].slice.call(voice.querySelectorAll('.bvoice__q')) : [];
+  var lastPick = null;
+  function quoteFor(slug) {
+    for (var i = 0; i < quotes.length; i++) {
+      if (quotes[i].getAttribute('data-for').split(' ').indexOf(slug) > -1) return quotes[i];
+    }
+    return null;
+  }
+  function showVoice() {
+    if (!quotes.length) return;
+    var chosen = picked().map(function (i) { return i.value; });
+    var hit = chosen.indexOf(lastPick) > -1 ? quoteFor(lastPick) : null;
+    for (var i = 0; !hit && i < chosen.length; i++) hit = quoteFor(chosen[i]);
+    var show = hit || quotes[quotes.length - 1];
+    quotes.forEach(function (q) { q.hidden = q !== show; });
+  }
 
   function hintProcedures() {
     var n = picked().filter(function (i) { return !i.hasAttribute('data-exclusive'); }).length;
@@ -129,6 +158,7 @@
     else if (restored && resume) resume.hidden = false;
     if (B) document.getElementById('fSource').value = JSON.stringify(B.source());
     hintProcedures();
+    showVoice();
     sync();
   })();
 
@@ -136,7 +166,7 @@
     if (B) B.clear();
     form.reset();
     resume.hidden = true;
-    hintProcedures(); sync(); show(0);
+    hintProcedures(); showVoice(); sync(); show(0);
   });
 
   /* ---- stepping ---------------------------------------------------------- */

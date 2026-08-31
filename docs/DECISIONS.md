@@ -3260,3 +3260,85 @@ stubbed environment.
 **Open — needs him, not us.** Two `[[VERIFY]]` placeholders are visible on step 04: does
 he offer video consultations and is there a consultation fee, and does he conduct the
 initial consultation himself. Both change what "what happens next" is allowed to claim.
+
+---
+
+## D-074 — The booking page gets photography, proof, and a face — and what I refused
+
+The brief was "make it less bland, use psychology, add media." Three of those four things
+are now on the page. The fourth is worth writing down, because refusing it is the decision.
+
+**What "psychology" means here, and what it does not.** The techniques used are the ones
+the conversion doctrine already licenses: proof at the point of action, authority through
+a real face, uncertainty reduction, recognition over recall, and the peak-end effect on
+the final screen. **Not used, and not negotiable:** countdown timers, "3 consultations
+left this month", "12 people are viewing this", exit-intent, or gating any of it behind
+the form. Those are barred by `docs/conversion-doctrine.md` outright, and in this segment
+they actively lose the sale — a nervous 45-year-old spending $12,000 reads urgency as a
+mill. Restraint is the higher-converting register here, not just the compliant one.
+
+**His face, on the one page that needed it.** §5.3 says the surgeon is the product; the
+page that asks a stranger for her name was the last one on the site still abstract. The
+hero is now a split with his studio portrait, his signature, and a three-item trust strip.
+
+**The trust strip is the honest part.** §5.4 wants board certification, years in practice,
+procedure volume and hospital affiliations above the fold. Only one of those four is
+publishable: `facts.md` records years in practice as a **five-year conflict between two
+of his own sites** ("over two decades" vs "over 15 years"), and procedure volume as stated
+nowhere — the request to run "10,000+ clients helped" was already refused in D-042. So the
+strip runs board-certified, the verified 148,000 following, and the reply promise this page
+already makes. Three true things beat five impressive ones, and the gap is his to close.
+
+**The procedure step is now photographs.** Eleven image cards, grouped by region. This is
+the largest single change and it is not decoration: the doctrine says self-identification
+is the whole game — she is looking for her own body, not reading a menu — and recognition
+beats recall. Every photograph is faceless, none reads as a result, and none is a patient
+before/after (§3). A square tick badge marks selection; the shape still says multi-select.
+
+**Proof, matched to what she just picked.** Select rhinoplasty and a rhinoplasty patient's
+words appear; select a tummy tuck and it is the liposuction review. Verbatim from RealSelf
+with handle and month, exactly as the homepage runs them (D-067). Two rules keep it honest:
+the footer always names **the procedure the reviewer actually had**, and procedures with no
+matching review fall back to a general quote about his care — never to a review of a
+different operation dressed up as hers. Keyed to the *most recent* selection, since that is
+what she is thinking about. **No faces:** `img/avatars/p{1,2,3}.jpg` are patient photographs
+marked gated-preview-only in the manifest and cut in D-042.
+
+**Photography made it the slowest page on the site, and the fix was measurement, not
+guessing.** First build: 901kb, LCP 2300ms on throttled 4G against a 2.0s budget — the
+worst on the site, double the next heaviest. My first instinct was wrong twice:
+
+- I removed the portrait `preload`, reasoning it stole bandwidth from the fonts. **LCP did
+  not move** (2072 → 2168, noise). Kept it removed, since it still was not the LCP element,
+  but it was not the problem.
+- Blocking assets one at a time gave the actual answer: **images cost ~850ms, Google Fonts
+  ~130ms.** Almost all of it was one file — the shared `/about` portrait at 160kb, rendered
+  in a 384px box.
+
+Two derivative sets fixed it (`tools/gen-card-thumbs.py`, and the portrait steps recorded
+in `assets/MANIFEST.md`): 1:1 card thumbnails at the size the cards actually paint, and a
+portrait sized for its real box. **901kb → 453kb, images 580kb → 128kb, LCP 2300ms →
+1.3–1.7s across runs.** The lesson is D-066's again, from the other direction: the
+convenient assumption about *which* asset is expensive is not a measurement.
+
+**Two things I got wrong on the way, both caught in a screenshot:**
+
+- `.bhero__fig img` was meant for the portrait but also matched **the signature**, whose
+  own `width` lost on specificity — it rendered at 384px instead of 122px. Scoped to
+  `.bhero__fig picture img`.
+- Resizing the portrait with PIL's `.convert('RGB')` **flattened a transparent cut-out onto
+  black**, painting a black box on the navy hero. It now composites onto `--ink` explicitly.
+  Shipping the alpha instead would have cost 5× the bytes for a pixel-identical result.
+
+Also removed: the offset hairline plate behind the portrait. That convention frames a
+rectangular photograph; against a cut-out with no edge of its own the rectangle floated
+free and read as a stray line.
+
+Verified: axe **0 violations at 1440, 390 and 320 across all four steps**; CLS 0.0010;
+no horizontal overflow at 320px; LCP 1.3–1.7s and 453kb on simulated 4G with 4× CPU;
+contextual proof correct for four procedures and for a two-procedure combination, with
+exactly one quote visible at a time; no-JS still renders all four panels, all twelve
+procedures and a working submit. `tools/bookfn.mjs` covers the proof switching.
+
+**Still open and still his:** the two `[[VERIFY]]` lines on step 04, and the three facts
+§5.4 wants above the fold that `facts.md` cannot yet source.

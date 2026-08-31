@@ -124,6 +124,41 @@ def swap_links(html):
 
 LD_RE = re.compile(r'<script type="application/ld\+json">.*?</script>', re.S)
 
+# The English pages are inconsistent about entities: about.html writes a literal
+# em dash where the procedure pages write &mdash;, and both are correct HTML. A
+# map key written one way silently failed to match markup written the other, and
+# a silent failure here looks exactly like a finished page. Each of these matches
+# either spelling.
+_EQ = {}
+for _ent, _ch in (("&mdash;", "\u2014"), ("&ndash;", "\u2013"), ("&rsquo;", "\u2019"),
+                  ("&lsquo;", "\u2018"), ("&hellip;", "\u2026"), ("&nbsp;", "\u00a0"),
+                  ("&middot;", "\u00b7"), ("&times;", "\u00d7")):
+    _alt = "(?:%s|%s)" % (_ent, _ch)
+    _EQ[_ent] = _alt
+    _EQ[_ch] = _alt
+_EQ_RE = re.compile("|".join(re.escape(k) for k in sorted(_EQ, key=len, reverse=True)))
+
+
+UNUSED = []
+
+
+def flex_of(src):
+    """A whitespace-tolerant, entity-tolerant pattern for one map key.
+
+    The equivalences have to be spliced in around re.escape rather than run over
+    its output: re.escape also escapes "&", so substituting into the escaped word
+    left the backslash stranded in front of the alternation and the pattern would
+    not compile."""
+    def word(w):
+        out, last = [], 0
+        for m in _EQ_RE.finditer(w):
+            out.append(re.escape(w[last:m.start()]))
+            out.append(_EQ[m.group(0)])
+            last = m.end()
+        out.append(re.escape(w[last:]))
+        return "".join(out)
+    return r"\s+".join(word(w) for w in src.split())
+
 
 def apply_copy(html, T):
     """Replace text nodes, the handful of attributes that carry visible or
@@ -136,13 +171,16 @@ def apply_copy(html, T):
     structured data. Google reads that as a mismatch between markup and content,
     and it is the one part of the page written purely for a search engine — the
     one place a language slip goes unnoticed until it costs rankings."""
+    del UNUSED[:]
     lds = LD_RE.findall(html)
     for i, block in enumerate(lds):
         html = html.replace(block, "\x00LD%d\x00" % i, 1)
     hits = misses = 0
     for src in sorted(T, key=len, reverse=True):
         dst = T[src]
-        if dst is None:                      # verbatim: leave untouched
+        if dst is None or dst == src:
+            # None means verbatim. dst == src is the same intent written the other
+            # way — a proper noun, an address, a brand — and neither is a miss.
             continue
         before, before_lds = html, list(lds)
         # A text node is rarely flush against its tags. It usually carries leading or
@@ -154,8 +192,7 @@ def apply_copy(html, T):
         # paragraphs across several. re.escape alone therefore matched only the
         # single-line strings — most of the body copy silently passed through. Let any
         # run of whitespace in the key match any run in the markup.
-        flex = r'\s+'.join(re.escape(w) for w in src.split())
-        pat = r'(>)(\s*)%s(\s*)(?=<)' % flex
+        pat = r'(>)(\s*)%s(\s*)(?=<)' % flex_of(src)
         html = re.sub(pat, lambda m: m.group(1) + m.group(2) + dst + m.group(3), html)
         for attr in ("alt", "aria-label", "title", "content"):
             html = html.replace('%s="%s"' % (attr, src), '%s="%s"' % (attr, dst))
@@ -168,8 +205,11 @@ def apply_copy(html, T):
         # JSON-LD carries plain text, not entities, so a key written with &mdash;
         # will not match here. Those get their own plain-text entries in the map.
         lds = [b.replace('"%s"' % src, '"%s"' % dst) for b in lds]
-        hits += (html != before or lds != before_lds)
-        misses += (html == before and lds == before_lds)
+        if html != before or lds != before_lds:
+            hits += 1
+        else:
+            misses += 1
+            UNUSED.append(src)
     for i, block in enumerate(lds):
         html = html.replace("\x00LD%d\x00" % i, block, 1)
     return apply_patterns(html, T), hits, misses
@@ -275,8 +315,14 @@ def main():
         if os.path.exists(mapfile):
             combined.update(load_map(name))
         html, hits, _ = apply_copy(html, combined)
+        # A key that matches nothing is almost always a typo against the English
+        # source, and it fails silently — the page just stays English in that one
+        # spot. Only reported for pages that have their own map; the shared map is
+        # deliberately larger than any single page needs.
+        page_keys = set(load_map(name)) if os.path.exists(mapfile) else set()
+        stale = sorted(k for k in UNUSED if k in page_keys)
         if os.path.exists(mapfile):
-            done.append((name, hits))
+            done.append((name, hits, stale))
         else:
             todo.append((name, "%d shared strings only" % hits))
 
@@ -302,8 +348,11 @@ def main():
         print("  NO canonical, NO og:url — set SITE=https://... to emit them")
     print()
     print("  TRANSLATED (%d):" % len(done))
-    for n, h in done:
-        print("     %-18s %d strings" % (n, h))
+    for n, h, stale in done:
+        print("     %-18s %d strings%s" % (n, h, "" if not stale else
+              "   \u2014 %d KEY(S) MATCHED NOTHING" % len(stale)))
+        for k in stale:
+            print("        no match: %s" % (k[:88] + ("\u2026" if len(k) > 88 else "")))
     print("  STILL ENGLISH (%d) — routing and slugs are correct, copy is not:" % len(todo))
     for n, why in todo:
         print("     %-18s %s" % (n, why))

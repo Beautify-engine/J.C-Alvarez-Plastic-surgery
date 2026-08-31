@@ -8,12 +8,12 @@ for (const [w,h,name] of [[1440,900,'desktop'],[390,844,'mobile']]) {
   await p.waitForTimeout(900);
   await p.screenshot({path:`design/shots/BK-1-${name}.png`, fullPage:true});
   // pick a few procedures
-  await p.click('input[value="tummy-tuck"] + .bopt__box').catch(()=>{});
-  await p.click('input[value="hd-liposuction"] + .bopt__box').catch(()=>{});
+  await p.click('label:has(input[value=\"tummy-tuck\"])').catch(()=>{});
+  await p.click('label:has(input[value=\"hd-liposuction\"])').catch(()=>{});
   await p.waitForTimeout(400);
   await p.screenshot({path:`design/shots/BK-1b-${name}.png`, fullPage:true});
   await p.click('#bNext'); await p.waitForTimeout(400);
-  await p.click('input[value="3m"] + .bopt__box'); await p.waitForTimeout(300);
+  await p.click('label:has(input[value=\"3m\"])'); await p.waitForTimeout(300);
   await p.screenshot({path:`design/shots/BK-2-${name}.png`, fullPage:true});
   await p.click('#bNext'); await p.waitForTimeout(400);
   await p.fill('#f-name','Marisol Reyes'); await p.fill('#f-email','m.reyes@example.com');
