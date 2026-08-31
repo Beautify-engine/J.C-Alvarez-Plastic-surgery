@@ -183,7 +183,9 @@ T.update({
 "Deep Facelift": "Levantamiento facial profundo",
 "Deep Plane Facelift": "Levantamiento facial profundo",
 "Rhinoplasty": "Rinoplastia",
-"Eyelid Surgery": "Blefaroplastia",
+# The clinical name is "Blefaroplastia"; using it here too printed the same
+# word twice on the card and under the H1.
+"Eyelid Surgery": "Cirug\u00eda de p\u00e1rpados",
 "Scarless Eyelid Rejuvenation": "Párpados sin cicatrices",
 
 # breadcrumb section names
@@ -256,6 +258,8 @@ T.update({
 "Every quote is built from the same six things. Ask for them itemised &mdash; a single number tells you nothing about what is in it.":
   "Todo presupuesto se arma con las mismas seis cosas. Pídalo desglosado &mdash; una cifra sola no le dice nada de lo que incluye.",
 "Facility fee": "Costo del quirófano",
+"What a revision would cost, and who pays for it":
+  "Cuánto costaría una revisión, y quién la paga",
 "Garments, drains and the follow-up schedule": "Prendas de compresión, drenajes y las citas de seguimiento",
 
 # closing
@@ -501,4 +505,63 @@ T.update({
   'grasa',
 'operation.':
   '.',
+})
+
+T.update({
+'A lift trades a':
+  'Un levantamiento cambia una',
+'A nipple that sits below the fold':
+  'Un pezón que queda por debajo del surco',
+'Around and below the areola':
+  'Alrededor y por debajo de la areola',
+'Because that is where gravity holds it. Marked lying down, a nipple ends up too high once you stand &mdash; and a nipple set too high is the one error in this operation that cannot be corrected afterwards.':
+  'Porque ahí es donde la gravedad lo sostiene. Marcado acostada, el pezón acaba demasiado alto en cuanto se pone de pie &mdash; y un pezón colocado demasiado alto es el único error de esta operación que no se puede corregir después.',
+'Closed in layers, supported':
+  'Cerrado por capas, con sujeción',
+'Evidence':
+  'Evidencia',
+'Excess skin is removed':
+  'Se retira el exceso de piel',
+'Facility fee, garments and follow-up':
+  'Costo del quirófano, prendas y seguimiento',
+'How it is done &darr;':
+  'Cómo se hace &darr;',
+'How long is the scar?':
+  '¿De qué largo es la cicatriz?',
+'If a pregnancy is close. Everything this operation corrects can be undone by one.':
+  'Si hay un embarazo cerca. Todo lo que corrige esta operación lo puede deshacer uno.',
+'Loss of nipple sensation':
+  'Pérdida de sensibilidad en el pezón',
+'Nipple healing problems':
+  'Problemas de cicatrización del pezón',
+'Not what you ask for, and not what a photograph shows. Above the crease beneath the breast, an implant alone can work. Below it, no implant will raise it &mdash; a bigger one just makes a heavier breast in the same place. He will measure it and show you, which takes about a minute.':
+  'No lo que usted pida, ni lo que muestre una fotografía. Por encima del surco debajo del seno, un implante solo puede servir. Por debajo, ningún implante lo va a subir &mdash; uno más grande solo hace un seno más pesado en el mismo sitio. Se lo mide y se lo enseña, y eso lleva como un minuto.',
+'Permanent':
+  'Permanente',
+'Recurrent drooping':
+  'Caída que vuelve',
+'See the augmentation timeline':
+  'Ver el calendario del aumento',
+'That is the whole bargain, and it is the part people are not told plainly. An augmentation hides its incision in a fold. A lift cannot &mdash; skin has to come out, and the scar runs around the areola and usually down from it. It fades substantially, it does not disappear, and if that trade is not worth it to you then an implant alone is the honest answer even if the result is lower.':
+  'Ese es todo el trato, y es la parte que no se dice con claridad. Un aumento esconde su incisión en un surco. Un levantamiento no puede &mdash; hay que sacar piel, y la cicatriz rodea la areola y normalmente baja desde ella. Se aclara bastante, no desaparece, y si ese trato no le compensa, entonces un implante solo es la respuesta honesta aunque el resultado quede más bajo.',
+'The scar is a trade you accept':
+  'La cicatriz es un trato que usted acepta',
+'Two things this page does not claim.':
+  'Dos cosas que esta página no afirma.',
+'Types, scars, real results':
+  'Tipos, cicatrices y resultados reales',
+'Where your':
+  'Dónde está su',
+'Why is my nipple position marked while I am standing?':
+  '¿Por qué me marcan la posición del pezón estando de pie?',
+'Will it droop again?':
+  '¿Volverá a caer?',
+'for a shape.':
+  'por una forma.',
+'nipple':
+  'pezón',
+'scar':
+  'cicatriz',
+'sits decides which operation you need.':
+  'decide qué operación necesita.',
 })

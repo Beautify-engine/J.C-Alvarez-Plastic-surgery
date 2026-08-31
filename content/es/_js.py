@@ -73,6 +73,16 @@ EDITS = {
   ("if (h && v && v.name) h.textContent = 'Thank you, ' + v.name.split(' ')[0] + '.';",
    "if (h && v && v.name) h.textContent = 'Gracias, ' + v.name.split(' ')[0] + '.';"),
 
+  # The confirmation's summary labels are built at runtime, so they shipped English on
+  # the Spanish page with nothing in the markup to catch it. Terms match the ones already
+  # on this page: "Fechas" as on the step rail, "Responder a" as in the brief.
+  ("""      [['Considering', (v.procedure || []).join(', ')],
+       ['Timing', v.timing],
+       ['Replying to', v.email]].forEach(function (row) {""",
+   """      [['Le interesa', (v.procedure || []).join(', ')],
+       ['Fechas', v.timing],
+       ['Responder a', v.email]].forEach(function (row) {"""),
+
   # The confirmation. It appears three times in the source with the same wording,
   # which is deliberate — one promise, not three.
   ("""      finish('His office reads every request and replies, usually within a working day.', v);

@@ -24,7 +24,9 @@ word for the tissue column and is what he uses.
 """
 
 # Split across a <br>.
-H1 = ["Levantamiento", "de&nbsp;senos"]
+# One title node here, not two: the source is "Breast&nbsp;Lift" followed by
+# the clinical name in a <span>. A two-item list ate the subtitle.
+H1 = ["Levantamiento de&nbsp;senos"]
 
 T = {
 "Breast Lift (Mastopexy) in Miami — Julio Clavijo Alvarez, MD":

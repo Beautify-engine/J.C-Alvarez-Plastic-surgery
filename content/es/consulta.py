@@ -74,6 +74,12 @@ T = {
 # ---- reviews ----
 "In their words": "En sus palabras",
 "Verbatim from": "Tomados de",
+# The heading on the confirmation's carousel. "Completed their surgery" is the point:
+# these are patients further along the path she has just started, not people who only
+# had a consultation. "Ya pasaron por" carries that better than a literal "completaron",
+# which reads as a translated English idiom. Usted, like the rest of this page.
+"Hear from patients who completed their surgery.":
+  "Escuche a pacientes que ya pasaron por su cirugía.",
 
 # ---- confirmation ----
 "Nothing was sent &mdash; no destination is connected yet. This is the confirmation a real request produces.":

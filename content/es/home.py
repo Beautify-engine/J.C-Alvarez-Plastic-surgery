@@ -33,7 +33,7 @@ T = {
 "Breast Augmentation": "Aumento de senos",
 "Tummy Tuck": "Abdominoplastia",
 "Rhinoplasty": "Rinoplastia",
-"Eyelid Surgery": "Blefaroplastia",
+"Eyelid Surgery": "Cirug\u00eda de p\u00e1rpados",
 "Deep Facelift": "Levantamiento facial profundo",
 "HD Liposuction": "Liposucción de alta definición",
 "Breast Lift": "Levantamiento de senos",
