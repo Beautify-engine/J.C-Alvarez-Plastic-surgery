@@ -111,8 +111,6 @@ T = {
 # ---- recovery ----
 "This recovery is more disruptive than most people expect, and the sitting is the reason. Pick a point on the line.":
   "Esta recuperación altera la vida más de lo que la mayoría espera, y el motivo es sentarse. Elija un punto en la línea.",
-"Light walking starts immediately, to keep circulation moving.":
-  "Caminar suave desde el primer momento, para mantener la circulación.",
 "Sponge bathing from the day after surgery.": "Aseo con esponja desde el día siguiente a la cirugía.",
 "A faja goes on before you wake up, and it stays on.":
   "La faja se coloca antes de que despierte, y no se quita.",

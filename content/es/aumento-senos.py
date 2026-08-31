@@ -131,8 +131,6 @@ T = {
   "Normalmente se puede empezar entrenamiento de bajo impacto. Nada que cargue el pecho.",
 "With implants": "Con implantes",
 "Augmentation or lift": "Aumento o levantamiento",
-"Light walking starts immediately, to keep circulation moving.":
-  "Caminar suave desde el primer momento, para mantener la circulación.",
 "Full workouts, including chest, resume around six to eight weeks.":
   "El entrenamiento completo, incluido el pecho, se retoma entre las seis y las ocho semanas.",
 "Rippling or a visible edge": "Ondulado o un borde visible",

@@ -65,6 +65,9 @@ T = {
 "Moving again": "Volver a moverse",
 "Driving": "Conducir",
 "Driving again": "Volver a conducir",
+"Back to training": "Volver a entrenar",
+"Light walking starts immediately, to keep circulation moving.":
+  "Caminar suave desde el primer momento, para mantener la circulación.",
 "Low-impact training can usually begin.": "Normalmente se puede empezar entrenamiento de bajo impacto.",
 "Exercise": "Ejercicio",
 "Intimacy": "Intimidad",
