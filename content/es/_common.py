@@ -196,7 +196,6 @@ T.update({
 
 # ---- the click-to-load map facade (homepage + /contacto) --------------------
 T.update({
-"Load interactive map &rarr;": "Cargar mapa interactivo &rarr;",
 "8400 SW 8th St, Miami": "8400 SW 8th St, Miami",
 "Map showing 8400 SW 8th St, 4th Floor, Miami, Florida":
   "Mapa que muestra 8400 SW 8th St, 4th Floor, Miami, Florida",

@@ -48,10 +48,6 @@ EDITS = {
    "src.textContent = 'Ver en YouTube \\u2197';"),
 ],
 
-"main.js": [
-  ("f.title='Map showing 8400 SW 8th St, 4th Floor, Miami, Florida';",
-   "f.title='Mapa que muestra 8400 SW 8th St, 4th Floor, Miami, Florida';"),
-],
 
 "book.js": [
   # NOTE: book.js is being rewritten by the client-side lead as this is written.

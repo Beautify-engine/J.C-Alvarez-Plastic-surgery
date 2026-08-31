@@ -206,19 +206,38 @@
 })();
 
 
-/* Map facade — the Google embed is ~500KB of third-party script and cookies, so it
-   only loads when someone actually asks for it. */
-(function(){
-  var box=document.getElementById('locMap'), btn=document.getElementById('locLoad');
-  if(!box||!btn) return;
-  btn.addEventListener('click',function(){
-    var f=document.createElement('iframe');
-    f.src=box.dataset.src;
-    f.title='Map showing 8400 SW 8th St, 4th Floor, Miami, Florida';
-    f.loading='lazy';
-    f.referrerPolicy='strict-origin-when-cross-origin';
-    f.setAttribute('allowfullscreen','');
-    box.appendChild(f);
-    btn.remove();
+
+/* Horizontal rails — the nav and the procedure page index.
+   Six section names do not fit across 390px in Spanish, so the rail scrolls. The
+   problem was never the scrolling, it was that nothing said so: a static fade sat
+   on the right whether or not there was more, and at rest the cut fell in the gap
+   between two labels, so the row read as complete.
+
+   Marking which side actually has more turns the fade into information, and the
+   right one disappearing when you reach the end is what teaches the rail moves.
+   Also nudges the rail 1px on load where it overflows, so the very first frame is
+   never flush — a hairline of the next item is the cheapest "there is more" cue
+   there is, and it costs nothing to anyone who never notices it. */
+(function () {
+  var rails = [];
+  var nav = document.querySelector('.nav');
+  if (nav && nav.querySelector('ul')) rails.push([nav, nav.querySelector('ul')]);
+  var pidx = document.getElementById('pidx');
+  if (pidx && pidx.querySelector('ul')) rails.push([pidx, pidx.querySelector('ul')]);
+  if (!rails.length) return;
+
+  function mark(host, ul) {
+    var max = ul.scrollWidth - ul.clientWidth;
+    // 2px of slack: sub-pixel layout means scrollLeft rarely lands exactly on max
+    host.classList.toggle('is-ov-start', max > 2 && ul.scrollLeft > 2);
+    host.classList.toggle('is-ov-end', max > 2 && ul.scrollLeft < max - 2);
+  }
+
+  rails.forEach(function (r) {
+    var host = r[0], ul = r[1];
+    var sync = function () { mark(host, ul); };
+    ul.addEventListener('scroll', sync, { passive: true });
+    addEventListener('resize', sync);
+    sync();
   });
 })();

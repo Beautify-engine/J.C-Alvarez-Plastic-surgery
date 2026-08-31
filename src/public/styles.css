@@ -545,12 +545,24 @@ a{color:inherit}
 
   /* nav scrolls horizontally instead of wrapping to a second row */
   .nav{position:relative}
+  .nav .wrap{padding-inline:0}
   .nav ul{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;
+    overflow-y:hidden;padding-inline:var(--gutter);
     scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .nav ul::-webkit-scrollbar{display:none}
   .nav a{white-space:nowrap}
-  .nav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2.5rem;
-    pointer-events:none;background:linear-gradient(to right,rgba(214,223,226,0),var(--paper-3))}
+  /* A one-sided static fade told you nothing: it was there whether or not more
+     existed, and at rest the cut fell in the gap between two labels, so the row
+     looked finished. These appear only on the side that has more, so their
+     presence is information — and the right one vanishing as you reach the end
+     is what teaches the rail scrolls at all. .is-ov-* is set by main.js. */
+  .nav::after,.nav::before{content:'';position:absolute;top:0;bottom:0;width:3rem;
+    pointer-events:none;opacity:0;transition:opacity var(--m-base) var(--ease-out)}
+  .nav::after{right:0;background:linear-gradient(to right,rgba(214,223,226,0),var(--paper-3))}
+  .nav::before{left:0;z-index:1;
+    background:linear-gradient(to left,rgba(214,223,226,0),var(--paper-3))}
+  .nav.is-ov-end::after{opacity:1}
+  .nav.is-ov-start::before{opacity:1}
 
   /* one primary CTA on screen at a time: reveals once the hero CTA scrolls away */
   .cta-bar{display:block;position:fixed;left:0;right:0;bottom:0;z-index:20;
@@ -590,7 +602,12 @@ a{color:inherit}
 
 /* --- procedures track --- */
 .trk{display:flex;gap:var(--s-3);list-style:none;margin:0;padding:0;
-  overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
+  /* overflow-y MUST be explicit. Setting overflow-x alone makes the other axis
+     compute to auto, and this rail overflows vertically by one pixel — enough
+     for the browser to treat it as a vertical scroller and swallow the wheel.
+     On desktop the page stopped scrolling whenever the cursor was over the
+     procedure cards. */
+  overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;
   padding-inline:var(--gutter);margin-inline:calc(var(--gutter)*-1);
   -webkit-overflow-scrolling:touch}
 .trk::-webkit-scrollbar{display:none}
@@ -632,17 +649,6 @@ blockquote.pull cite{font-style:normal;font-size:var(--t-eyebrow);
 .about__link .arw{transition:transform var(--m-base) var(--ease-out)}
 .about__link:hover .arw{transform:translateX(3px)}
 
-.about__play{position:absolute;left:0;bottom:8%;display:flex;align-items:center;gap:var(--s-2);
-  background:var(--paper);border:1px solid var(--rule-on-light);cursor:pointer;
-  padding:var(--s-1) var(--s-2) var(--s-1) var(--s-1);text-align:left;
-  transition:border-color var(--m-base) var(--ease-out),transform var(--m-base) var(--ease-out)}
-.about__play:hover{border-color:var(--accent-light);transform:translateY(-2px)}
-.about__play-ico{width:2.6rem;height:2.6rem;border-radius:var(--r-pill);flex:none;
-  background:var(--accent-light);display:grid;place-items:center}
-.about__play-ico svg{width:1.1rem;height:1.1rem;fill:var(--paper)}
-.about__play-txt{font:500 var(--t--1)/1.3 var(--font-body);color:var(--ink)}
-.about__play-txt span{font-weight:400;color:var(--muted-on-light);
-  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase}
 
 .creds{border-top:1px solid var(--rule-on-light);margin-top:var(--s-8)}
 .creds ol{list-style:none;margin:0;padding:var(--s-4) 0 0;display:grid;
@@ -659,7 +665,6 @@ blockquote.pull cite{font-style:normal;font-size:var(--t-eyebrow);
 }
 @media (prefers-reduced-motion:reduce){
   .trk__item a:hover .trk__fig img{transform:none}
-  .about__play:hover{transform:none}
 }
 /* ================== END RESTORED BLOCK ================== */
 

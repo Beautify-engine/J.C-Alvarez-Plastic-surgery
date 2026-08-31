@@ -164,11 +164,23 @@
      primary CTAs on screen at once, which the fixed bar at the foot already
      covers. */
   .pidx a.pidx__cta{display:none}
-  .pidx .wrap{position:relative}
-  /* the rail scrolls — fade the edge so that is discoverable */
-  .pidx .wrap::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2.5rem;
-    pointer-events:none;
+  /* Bleed the rail to the screen edge, the same idiom .trk already uses. Inside a
+     padded box the cut fell four pixels from an item boundary, so nothing looked
+     clipped and the row read as the whole list. Running to the edge means the
+     viewport cuts through a label instead, which is the cue people actually read. */
+  .pidx .wrap{position:relative;padding-inline:0}
+  .pidx ul{padding-inline:var(--gutter)}
+  /* Fades bound to actual scroll position rather than always-on. See the note on
+     .nav in styles.css — same rail, same reasoning. */
+  .pidx .wrap::after,.pidx .wrap::before{content:'';position:absolute;top:0;bottom:0;
+    width:3rem;pointer-events:none;opacity:0;
+    transition:opacity var(--m-base) var(--ease-out)}
+  .pidx .wrap::after{right:0;
     background:linear-gradient(to right,rgba(247,246,243,0),var(--paper))}
+  .pidx .wrap::before{left:0;z-index:1;
+    background:linear-gradient(to left,rgba(247,246,243,0),var(--paper))}
+  .pidx.is-ov-end .wrap::after{opacity:1}
+  .pidx.is-ov-start .wrap::before{opacity:1}
 }
 @media (max-width:48rem){
   .pidx a{padding-inline:.7rem;font-size:var(--t-eyebrow);letter-spacing:.04em}

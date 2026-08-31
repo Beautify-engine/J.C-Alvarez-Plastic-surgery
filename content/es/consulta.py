@@ -73,7 +73,6 @@ T = {
 
 # ---- reviews ----
 "In their words": "En sus palabras",
-"Verbatim from": "Tomados de",
 # The heading on the confirmation's carousel. "Completed their surgery" is the point:
 # these are patients further along the path she has just started, not people who only
 # had a consultation. "Ya pasaron por" carries that better than a literal "completaron",
@@ -113,8 +112,6 @@ T = {
   "Todo el dolor y la molestia valieron absolutamente la pena. Me llamó unas horas después de la cirugía para ver cómo estaba y siempre está disponible para responder preguntas.",
 "Dr. Alvarez took a great amount of time with me to discuss what I wanted and how he would go about helping me achieve my goal &hellip; As usual he always calls you in the evening to check up on you.":
   "El Dr. Alvarez se tomó muchísimo tiempo conmigo para hablar de lo que yo quería y de cómo me iba a ayudar a lograrlo &hellip; Como siempre, llama por la noche para ver cómo sigues.",
-", with the reviewer&rsquo;s handle and the month they posted it.":
-  ", con el usuario de quien lo escribió y el mes en que lo publicó.",
 
 # ---- form furniture and controls -------------------------------------------
 # Every one of these was missed until tools/todo-es.py stopped guessing the

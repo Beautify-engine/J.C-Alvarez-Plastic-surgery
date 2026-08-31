@@ -70,12 +70,14 @@ T = {
 
 # ---- video and map ----
 "Embedded video and the map": "Videos incrustados y el mapa",
-"Some pages show a video or a map.": "Algunas páginas muestran un video o un mapa.",
-"Nothing is requested from YouTube or Google until you click play.":
-  "No se pide nada a YouTube ni a Google hasta que usted pulsa reproducir.",
-"Until then you are looking at a still image served from this site. When you do click, that service receives the request and its own terms apply &mdash; YouTube is embedded through":
-  "Hasta entonces está viendo una imagen fija servida desde este sitio. Cuando pulsa, ese servicio recibe la petición y se aplican sus propios términos &mdash; YouTube va incrustado a través de",
-", which is its reduced-tracking option.": ", que es su opción de seguimiento reducido.",
+"Videos wait for you.": "Los videos la esperan.",
+"Nothing is requested from YouTube until you click play &mdash; until then you are looking at a still image served from this site. When you do click, YouTube receives the request and its own terms apply; it is embedded through":
+  "No se pide nada a YouTube hasta que usted pulsa reproducir &mdash; hasta entonces está viendo una imagen fija servida desde este sitio. Cuando pulsa, YouTube recibe la petición y se aplican sus propios términos; va incrustado a través de",
+", its reduced-tracking option.": ", su opción de seguimiento reducido.",
+"The map does not.": "El mapa no.",
+"The Google Maps embed on the home and contact pages loads with the page, so Google receives a request when you scroll to it, whether or not you interact with it. That is a deliberate trade: the map is how people find the office, and a button in front of it was costing more than it protected.":
+  "El mapa de Google Maps del inicio y de contacto se carga con la página, así que Google recibe una petición cuando usted llega a él, interactúe o no. Es una decisión deliberada: el mapa es como la gente encuentra la consulta, y un botón delante costaba más de lo que protegía.",
+
 "Links to Instagram, YouTube, Amazon and RealSelf leave this site. What those companies do is governed by their policies, not this one.":
   "Los enlaces a Instagram, YouTube, Amazon y RealSelf salen de este sitio. Lo que hagan esas empresas se rige por sus políticas, no por esta.",
 

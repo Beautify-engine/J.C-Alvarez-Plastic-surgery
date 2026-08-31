@@ -48,7 +48,6 @@ T = {
 
 T.update({
 # ---- surgeon / about strip ----
-"Hear from him": "Escúchelo",
 "In his own words.": "En sus propias palabras.",
 "From his introduction video": "De su video de presentación",
 "Certification": "Certificación",
@@ -86,7 +85,6 @@ T.update({
 "Call us": "Llámenos",
 "Email": "Correo",
 "Consultations": "Consultas",
-"Load interactive map &rarr;": "Cargar mapa interactivo &rarr;",
 
 # ---- footer ----
 "Explore": "Explorar",
@@ -173,7 +171,6 @@ T.update({
 "Result reels, scrollable": "Reels de resultados, deslizable",
 "Previous reel": "Reel anterior",
 "Next reel": "Reel siguiente",
-"Play a 29-second introduction from Dr. Alvarez": "Reproducir una presentación de 29 segundos del Dr. Alvarez",
 
 # ---- reel labels ----
 "Skinny BBL result reel": "Reel de resultado: Skinny BBL",
