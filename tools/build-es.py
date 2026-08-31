@@ -155,6 +155,7 @@ def main():
         os.makedirs(OUT, exist_ok=True)
         shutil.copy2(f, os.path.join(OUT, os.path.basename(f)))
 
+    COMMON = load_map("_common") if os.path.exists("content/es/_common.py") else {}
     done, todo = [], []
     for name, (src, out) in PAGES.items():
         if not os.path.exists(src):
@@ -162,12 +163,19 @@ def main():
         html = open(src, encoding="utf-8").read()
         html = html.replace('<html lang="en">', '<html lang="es">', 1)
 
+        # _common carries everything that repeats across 8+ pages — the template's
+        # section headings, the recovery timeline, the surgeon strip, the booking
+        # summary. It is applied to every page first; the page's own map is applied
+        # after and therefore wins on any string both define.
+        combined = dict(COMMON)
         mapfile = "content/es/%s.py" % name
         if os.path.exists(mapfile):
-            html, hits, _ = apply_copy(html, load_map(name))
+            combined.update(load_map(name))
+        html, hits, _ = apply_copy(html, combined)
+        if os.path.exists(mapfile):
             done.append((name, hits))
         else:
-            todo.append((name, "no content/es/%s.py yet" % name))
+            todo.append((name, "%d shared strings only" % hits))
 
         html = swap_links(html)
         html = html.replace('"@context": "https://schema.org",',

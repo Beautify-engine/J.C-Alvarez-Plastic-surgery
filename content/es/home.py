@@ -298,3 +298,11 @@ T.update({
 "From the initial consultation to the procedure to all of the follow-up appointments and care — he takes his time, explains everything, and truly cares about his patients.":
  "Desde la consulta inicial hasta el procedimiento y todas las citas de seguimiento — se toma su tiempo, lo explica todo, y de verdad se preocupa por sus pacientes.",
 })
+
+
+T.update({
+# The tail of the reviews note. "the dashing olive" is a RealSelf username and
+# stays exactly as the person wrote it.
+", with the reviewer&rsquo;s handle and the month they posted it.":
+  ", con el usuario de quien lo escribió y el mes en que lo publicó.",
+})
