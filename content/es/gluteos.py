@@ -24,6 +24,9 @@ Volumes stay in cc and weights in the units the source uses. "300 a 1.000 cc" us
 the Spanish thousands separator; the figure itself is unchanged.
 """
 
+# The H1 is split across a <br>; see set_h1 in tools/build-es.py.
+H1 = ["Aumento de", "gl&uacute;teos"]
+
 T = {
 # ---- head ----
 "Brazilian Butt Lift (Gluteal Fat Transfer) in Miami — Julio Clavijo Alvarez, MD":
@@ -32,6 +35,7 @@ T = {
   "Aumento de glúteos con el Dr. Julio Clavijo Alvarez, cirujano plástico certificado en Miami. Transferencia de grasa, no implantes: cómo se hace, quién es candidata, la recuperación mes a mes, y la pregunta de seguridad dicha con claridad.",
 
 # ---- hero ----
+"Gluteal fat transfer": "Transferencia de grasa glútea",
 "Your own fat, taken from where you do not want it and placed where you do. No implant goes in.":
   "Su propia grasa, tomada de donde no la quiere y colocada donde sí. No entra ningún implante.",
 
@@ -150,6 +154,7 @@ T = {
 # ---- risks ----
 "The specific risk of this operation: fat entering the bloodstream through a vein. Rare, serious, and the reason placement above the muscle is not a stylistic preference.":
   "El riesgo específico de esta operación: que la grasa entre al torrente sanguíneo por una vena. Poco frecuente, grave, y la razón por la que colocarla por encima del músculo no es una preferencia de estilo.",
+"An asymmetric result": "Un resultado asimétrico",
 "Not all of the fat survives": "No toda la grasa sobrevive",
 "A proportion of every graft is reabsorbed in the first months. It is expected and planned for, not a complication.":
   "Una parte de todo injerto se reabsorbe en los primeros meses. Está previsto y se planifica; no es una complicación.",

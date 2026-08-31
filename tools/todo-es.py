@@ -20,7 +20,9 @@ EN = re.compile(r'\b(the|and|your|you|with|that|before|after|from|what|does|do|d
                 r'only|every|most|more|less|other|same|own|both|each|any|all|need|'
                 r'as|well|too|first|last|long|much|many|my|me|we|us|our|be|am|so|'
                 r'if|but|out|up|down|over|under|again|still|just|like|make|makes|'
-                r'take|takes|get|gets|go|goes|say|says|know|see|look|looks)\b', re.I)
+                r'take|takes|get|gets|go|goes|say|says|know|see|look|looks|in|at|to|an|'
+                r'or|by|its|day|days|week|weeks|month|months|hour|hours|year|'
+                r'years|left|right|under|above|through|around|between|without)\b', re.I)
 ES = re.compile(r'\b(el|la|los|las|un|una|unos|unas|de|del|al|que|se|con|por|para|'
                 r'su|sus|como|pero|cuando|donde|porque|desde|hasta|sobre|entre|'
                 r'este|esta|esto|eso|ese|esa|lo|le|les|ya|muy|mas|sin|antes|'
@@ -31,6 +33,11 @@ ACC = re.compile(r'[\u00e1\u00e9\u00ed\u00f3\u00fa\u00fc\u00f1\u00bf\u00a1\u00ab
 
 
 def english(t):
+    """Compare vocabularies rather than look for accents. Accents alone miss
+    plenty of finished Spanish ("No se trata de"), and short English fragments
+    ("Small incisions, hidden in creases", "7 - 10 days") carry none of the long
+    function words — which is why the English list reaches down to in/at/to/or
+    and to the units a recovery timeline is written in."""
     if ACC.search(t):
         return False
     en = len(EN.findall(t))

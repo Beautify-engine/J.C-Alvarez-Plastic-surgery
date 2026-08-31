@@ -1735,12 +1735,11 @@
    hard edge, and §4 bars drop shadows */
 .bnav::before{content:'';position:absolute;left:0;right:0;bottom:100%;height:1.75rem;
   background:linear-gradient(to top,var(--paper),transparent);pointer-events:none}
-/* A sticky bar can hide whatever you just tabbed to. scroll-margin on the elements is
-   NOT the fix — it only shifts where a scroll lands, and the browser does not scroll at
-   all for an element it already considers visible, overlay or not. scroll-padding on the
-   scrollport is the one that works: it shrinks the region that counts as visible, so an
-   answer under the bar is treated as off-screen and scrolled clear. Scoped to this page
-   via the class the inline head script sets. */
+/* Keeps programmatic scrolls (panel focus on step change, anchor jumps) clear of the
+   sticky bar. It does NOT fix tabbing onto an answer the bar already covers — measured,
+   both scroll-margin and scroll-padding leave that case broken, because the browser does
+   not scroll for an element it already counts as visible, overlay or not. book.js
+   corrects that one by measuring the overlap. */
 html.bookpg{scroll-padding-bottom:7.5rem}
 .btn--ghost{background:none;color:var(--ink);border:1px solid var(--rule-on-light)}
 .btn--ghost:hover{background:var(--paper-2);color:var(--ink)}

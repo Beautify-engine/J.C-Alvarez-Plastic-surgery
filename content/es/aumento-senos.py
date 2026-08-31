@@ -24,6 +24,9 @@ clinical but standard, and what a Spanish-speaking patient will hear in the room
 page's whole argument is that the letter means nothing.
 """
 
+# The H1 is split across a <br>; see set_h1 in tools/build-es.py.
+H1 = ["Aumento de", "senos"]
+
 T = {
 # ---- head ----
 "Breast Augmentation in Miami — Julio Clavijo Alvarez, MD":
@@ -127,6 +130,15 @@ T = {
 "Low-impact training can usually begin. Nothing loading the chest.":
   "Normalmente se puede empezar entrenamiento de bajo impacto. Nada que cargue el pecho.",
 "With implants": "Con implantes",
+"Augmentation or lift": "Aumento o levantamiento",
+"Light walking starts immediately, to keep circulation moving.":
+  "Caminar suave desde el primer momento, para mantener la circulación.",
+"Full workouts, including chest, resume around six to eight weeks.":
+  "El entrenamiento completo, incluido el pecho, se retoma entre las seis y las ocho semanas.",
+"Rippling or a visible edge": "Ondulado o un borde visible",
+"Changes in nipple sensation": "Cambios en la sensibilidad del pezón",
+"Implant type &mdash; silicone or saline, smooth or textured":
+  "Tipo de implante &mdash; silicona o solución salina, liso o texturizado",
 "Can I still breastfeed?": "¿Puedo seguir amamantando?",
 "Do I need a breast lift as well as an implant?":
   "¿Necesito un levantamiento de senos además del implante?",

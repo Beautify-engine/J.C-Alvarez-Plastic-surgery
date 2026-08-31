@@ -167,6 +167,22 @@
     hintProcedures(); showVoice(); sync(); show(0);
   });
 
+  /* The nav bar is sticky, so an answer near the bottom of the screen can sit behind
+     it. Nothing in CSS fixes this: scroll-margin and scroll-padding both only affect
+     where a scroll lands, and the browser performs no scroll at all for an element it
+     already considers visible — being covered does not count. So measure the overlap
+     and correct it, and only while the bar is actually pinned. */
+  var bar = form.querySelector('.bnav');
+  form.addEventListener('focusin', function (e) {
+    if (!bar || !e.target.closest) return;
+    var b = bar.getBoundingClientRect();
+    if (b.bottom < window.innerHeight - 2) return;          /* bar is at rest, not pinned */
+    if (e.target.closest('.bnav')) return;                  /* the bar's own buttons */
+    var el = e.target.closest('.pcard, .bopt, .bfield, .bresume') || e.target;
+    var over = el.getBoundingClientRect().bottom - b.top;
+    if (over > 0) window.scrollBy(0, over + 12);             /* instant: no motion to opt out of */
+  });
+
   /* ---- stepping ---------------------------------------------------------- */
 
   function show(i, announce) {

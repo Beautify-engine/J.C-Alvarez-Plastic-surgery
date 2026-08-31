@@ -92,12 +92,42 @@ PAGES = {
 OUT = "dist-es"
 
 
-def load_map(name):
+def load_page(name):
     p = "content/es/%s.py" % name
     spec = importlib.util.spec_from_file_location("m", p)
     m = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(m)
-    return m.T
+    return m
+
+
+def load_map(name):
+    return load_page(name).T
+
+
+def set_h1(html, parts):
+    """Replace the text nodes inside <h1>, in order, from the page map's H1 list.
+
+    The procedure H1s are split across a <br>: "Breast" / "Augmentation". A text
+    map cannot do this, because the first half collides with a shared key — the
+    breadcrumb section "Breast" is "Senos", so the page rendered a headline
+    reading "Senos Augmentation". Three pages were shipping a half-English H1,
+    which is the single most visible element on the page. H1 is a list so a page
+    can keep the line break where it wants it."""
+    m = re.search(r'(<h1\b[^>]*>)(.*?)(</h1>)', html, re.S)
+    if not m:
+        return html
+    it = iter(parts)
+
+    def repl(mo):
+        if not mo.group(0).strip():
+            return mo.group(0)
+        try:
+            return next(it)
+        except StopIteration:
+            return mo.group(0)
+
+    inner = re.sub(r'(?<=>)[^<>]+|\A[^<>]+', repl, m.group(2))
+    return html[:m.start(2)] + inner + html[m.end(2):]
 
 
 def swap_links(html):
@@ -228,6 +258,22 @@ def apply_patterns(html, T):
     html = re.sub(r'([A-Z][A-Za-z\- ]{2,40}), case (\d+) (?:&mdash;|—) open larger',
                   lambda m: "%s, caso %s \u2014 ver m&aacute;s grande"
                             % (T.get(m.group(1), m.group(1)), m.group(2)), html)
+    # Timeline labels and durations. Every procedure page writes its own set of
+    # these against its own numbers, so listing them as map keys means eleven
+    # near-identical blocks that drift. Anchored on >...< so only real text nodes
+    # are touched.
+    html = re.sub(r'>(\s*)Day (\d+)(\s*)<', r'>\1D&iacute;a \2\3<', html)
+    html = re.sub(r'>(\s*)Week (\d+)(\s*)<', r'>\1Semana \2\3<', html)
+    html = re.sub(r'>(\s*)Month (\d+)(\s*)<', r'>\1Mes \2\3<', html)
+    html = re.sub(r'>(\s*)(\d+)\s*&ndash;\s*(\d+) days(\s*)<',
+                  r'>\1\2 a \3 d&iacute;as\4<', html)
+    html = re.sub(r'>(\s*)(\d+)\s*&ndash;\s*(\d+) weeks(\s*)<',
+                  r'>\1\2 a \3 semanas\4<', html)
+    for en_u, es_u in (("months", "meses"), ("month", "mes"), ("weeks", "semanas"),
+                       ("week", "semana"), ("days", "d&iacute;as"), ("day", "d&iacute;a")):
+        html = re.sub(r'>(\s*)(\d+) %s(\s*)<' % en_u,
+                      r'>\1\2 %s\3<' % es_u, html)
+
     # The case counter, "01 of 09". Numeric, so it cannot be a map key.
     html = re.sub(r'>(\d{2}) of (\d{2})<', r'>\1 de \2<', html)
     # Any remaining "Play:" prefix — the title after it is a real YouTube title and
@@ -321,6 +367,10 @@ def main():
         # source, and it fails silently — the page just stays English in that one
         # spot. Only reported for pages that have their own map; the shared map is
         # deliberately larger than any single page needs.
+        if os.path.exists(mapfile):
+            h1 = getattr(load_page(name), "H1", None)
+            if h1:
+                html = set_h1(html, h1)
         page_keys = set(load_map(name)) if os.path.exists(mapfile) else set()
         stale = sorted(k for k in UNUSED if k in page_keys)
         if os.path.exists(mapfile):

@@ -3404,3 +3404,48 @@ deep links, keyboard advance and the no-JS path all still pass `tools/bookfn.mjs
 
 **New tool: `tools/foldcheck.mjs`** — run it after any change to the top of a form page.
 "The form is above the fold" is the kind of claim that is easy to believe and cheap to check.
+
+---
+
+## D-076 — The step button is sticky, and the accessibility fix for it is not CSS
+
+Step 01 is eleven photographs. Even with the form pulled above the fold (D-075), the
+button that leaves the step sat about **1720px down** — so the only way to continue was
+to scroll past every option you had already rejected. `.bnav` is now
+`position:sticky; bottom:0`.
+
+It stays in flow at the end of the form rather than being fixed, which matters three ways:
+it releases naturally at the bottom instead of hovering over the end of the page, it never
+covers the last answer at rest, and it stays after the panels in the DOM so tab order is
+unchanged. A short paper gradient sits above it so content passes under the bar rather
+than stopping at a hard edge — §4 bars drop shadows. On a phone the "Or call" line is
+dropped from the bar to keep it one row; the number is already in the header.
+
+Measured with `tools/stickynav.mjs` at five scroll depths on the tallest step: the button
+is on screen at **0%, 25%, 50%, 75% and 100%** at 1440×900, 1280×720 and 390×844.
+
+**The part worth writing down: two plausible CSS fixes for the overlap both failed, and
+only measuring caught it.** A sticky bar can cover the answer you just tabbed to.
+
+- `scroll-margin-bottom` on the options — **3 of 10 cards still landed behind the bar on
+  desktop, 5 of 10 on a phone.** It only shifts where a scroll lands; it cannot cause one.
+- `scroll-padding-bottom` on the scrollport — **still 4 of 10 on both.** Chrome did not
+  apply it to sequential focus navigation here.
+
+Both fail for the same reason: **the browser performs no scroll at all for an element it
+already considers visible, and being covered by an overlay does not make it invisible.**
+So `book.js` measures the overlap on `focusin` and corrects it, only while the bar is
+actually pinned, and skips the bar's own buttons. The scroll is instant, so there is no
+motion to opt out of. After: **0 of 10 hidden at both viewports.**
+
+`html.bookpg{scroll-padding-bottom:7.5rem}` is kept — it does help *programmatic* scrolls,
+the panel focus on step change and anchor jumps — but its comment now says plainly what it
+does not do, so nobody deletes the JS thinking the CSS covers it.
+
+Verified: axe **0 violations at 1440, 390 and 320 across all four steps**; CLS 0.0004; no
+horizontal overflow at 320px; fold positions unchanged from D-075; save-and-resume, deep
+links, contextual proof, keyboard advance and the no-JS path all still pass. With
+JavaScript off the bar is still sticky and the single submit still works.
+
+**New tool: `tools/stickynav.mjs`** — checks both halves: the button stays on screen while
+scrolling, and nothing ends up behind it when tabbing.
