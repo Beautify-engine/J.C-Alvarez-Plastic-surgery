@@ -42,70 +42,30 @@
   </div>
 </nav>
 
-<div class="p-crumb">
-  <div class="wrap">
-    <nav aria-label="Breadcrumb">
-      <ol>
-        <li><a href="/">Home</a></li>
-        <li><span aria-current="page">Request a Consultation</span></li>
-      </ol>
-    </nav>
-  </div>
-</div>
-
 <main id="main" class="bookpage">
 
-  <!-- The surgeon is the product (§5.3). A form asking a stranger for her name is
-       the one page where his face has to be present: she is deciding who she trusts
-       to cut her, not filling in a contact form. -->
-  <section class="bhero bhero--split" aria-labelledby="b-h1">
+  <!-- No hero. Anyone on /book is already convinced — the job of this page is
+       completion, not persuasion, and every line of argument here pushed the first
+       question below the fold. What survives is his face (§5.3: she should see who
+       she is writing to), one line of expectation, and the form. The case for the
+       short form now lives in DECISIONS, not on top of the form itself. -->
+  <section class="bhead">
     <div class="wrap">
-      <div class="bhero__grid">
-        <div class="bhero__copy">
-          <p class="eyebrow">Miami, Florida</p>
+      <div class="bhead__grid">
+        <div>
           <h1 id="b-h1">Request a consultation.</h1>
-          <p class="bhero__def">Four questions, about a minute. You are asking for an
-            assessment, not committing to an operation &mdash; and if the answer is
-            &ldquo;not yet,&rdquo; he will tell you that.</p>
-          <ul class="bhero__not">
-            <li>No medical history</li>
-            <li>No medications</li>
-            <li>No weight or BMI</li>
-            <li>No photographs</li>
-          </ul>
-          <p class="bhero__why">That belongs in the consultation with a surgeon, not in a form
-            on a website. <a href="#why">Why we ask so little &darr;</a></p>
+          <p class="bhead__l">Four questions, about a minute. His office replies to
+            every request, usually within a working day.</p>
         </div>
-
-        <figure class="bhero__fig">
+        <div class="bwho">
           <picture>
-            <!-- Sized for the box this page actually paints it in: 24rem on desktop,
-                 18rem stacked. The shared /about derivatives are 700w/1050w and cost
-                 160kb here, which measured as ~850ms of LCP on throttled 4G. -->
-            <source srcset="/img/about/portrait-book-420.webp 420w,
-                            /img/about/portrait-book-580.webp 580w,
-                            /img/about/portrait-book-780.webp 780w"
-                    sizes="(max-width:60rem) 18rem, 24rem" type="image/webp">
-            <img src="/img/about/portrait-700.png" width="700" height="876"
-                 decoding="async" alt="Dr. Julio Clavijo Alvarez in surgical whites.">
+            <source type="image/webp" srcset="/img/about/portrait-rail-160.webp 160w, /img/about/portrait-rail-320.webp 320w" sizes="4rem">
+            <img src="/img/about/portrait-700.png" width="160" height="160" alt="Dr. Julio Clavijo Alvarez." decoding="async">
           </picture>
-          <figcaption>
-            <img class="bhero__sig" src="/img/about/signature-ink.png" width="243" height="56"
-                 alt="" loading="lazy" decoding="async">
-            <span>Julio Clavijo Alvarez, MD</span>
-          </figcaption>
-        </figure>
+          <p class="bwho__t"><b>Julio Clavijo Alvarez, MD</b>
+            <span>Board-certified plastic surgeon &middot; Miami</span></p>
+        </div>
       </div>
-
-      <!-- Verified facts only. Years in practice and procedure volume are deliberately
-           absent: facts.md records the first as a five-year CONFLICT between two of his
-           own sites, and the second as stated nowhere (D-042). An empty slot beats a
-           number we cannot source. -->
-      <ul class="btrust">
-        <li><b>Board-certified</b> plastic surgeon</li>
-        <li><b>148,000</b> people follow his work</li>
-        <li><b>Every request</b> gets a reply, usually within a working day</li>
-      </ul>
     </div>
   </section>
 
@@ -148,9 +108,7 @@
 
         <fieldset class="bpanel" id="p1" data-step="1">
           <legend><span class="bpanel__q">What are you considering?</span>
-            <span class="bpanel__h">Select as many as apply &mdash; most people are weighing
-              more than one. He will correct the list if it is wrong; that is half of what a
-              consultation is for.</span></legend>
+            <span class="bpanel__h">Select as many as apply.</span></legend>
 
           <div class="bgrid">
             <div class="bgroup" role="group" aria-labelledby="g-body">
@@ -206,7 +164,7 @@
           </div>
 
           <div class="bopts--exclusive">
-            <label class="bopt bopt--wide"><input type="checkbox" name="procedure" value="not-sure" data-exclusive><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">I&rsquo;m not sure yet<small>Perfectly normal. He will work it out with you.</small></span></label>
+            <label class="bopt bopt--wide"><input type="checkbox" name="procedure" value="not-sure" data-exclusive><span class="bopt__box" aria-hidden="true"></span><span class="bopt__t">I&rsquo;m not sure yet</span></label>
           </div>
 
           <p class="bhint" id="bProcHint" role="status" aria-live="polite"></p>
@@ -215,19 +173,19 @@
 
         <fieldset class="bpanel" id="p2" data-step="2">
           <legend><span class="bpanel__q">Roughly when?</span>
-            <span class="bpanel__h">A window, not a date. Nothing is booked here.</span></legend>
+            <span class="bpanel__h">A window, not a date.</span></legend>
           <div class="bopts bopts--stack">
-            <label class="bopt bopt--wide"><input type="radio" name="timing" value="asap"><span class="bopt__box bopt__box--r" aria-hidden="true"></span><span class="bopt__t">As soon as possible<small>You are decided and want a date.</small></span></label>
-            <label class="bopt bopt--wide"><input type="radio" name="timing" value="3m"><span class="bopt__box bopt__box--r" aria-hidden="true"></span><span class="bopt__t">In the next three months<small>Planning around work or a season.</small></span></label>
-            <label class="bopt bopt--wide"><input type="radio" name="timing" value="6m"><span class="bopt__box bopt__box--r" aria-hidden="true"></span><span class="bopt__t">Three to six months<small>Time to prepare properly, which he prefers.</small></span></label>
-            <label class="bopt bopt--wide"><input type="radio" name="timing" value="research"><span class="bopt__box bopt__box--r" aria-hidden="true"></span><span class="bopt__t">Just researching<small>No pressure. He will still answer.</small></span></label>
+            <label class="bopt bopt--wide"><input type="radio" name="timing" value="asap"><span class="bopt__box bopt__box--r" aria-hidden="true"></span><span class="bopt__t">As soon as possible</span></label>
+            <label class="bopt bopt--wide"><input type="radio" name="timing" value="3m"><span class="bopt__box bopt__box--r" aria-hidden="true"></span><span class="bopt__t">In the next three months</span></label>
+            <label class="bopt bopt--wide"><input type="radio" name="timing" value="6m"><span class="bopt__box bopt__box--r" aria-hidden="true"></span><span class="bopt__t">Three to six months</span></label>
+            <label class="bopt bopt--wide"><input type="radio" name="timing" value="research"><span class="bopt__box bopt__box--r" aria-hidden="true"></span><span class="bopt__t">Just researching</span></label>
           </div>
           <p class="berr" id="e-timing" hidden>Pick a rough window.</p>
         </fieldset>
 
         <fieldset class="bpanel" id="p3" data-step="3">
           <legend><span class="bpanel__q">How should he reach you?</span>
-            <span class="bpanel__h">His office replies to every one of these. Usually within a working day.</span></legend>
+            <span class="bpanel__h">So he can get back to you.</span></legend>
           <div class="bfields">
             <p class="bfield">
               <label for="f-name">Your name</label>
@@ -265,25 +223,9 @@
 
         <fieldset class="bpanel" id="p4" data-step="4">
           <legend><span class="bpanel__q">Check it over.</span>
-            <span class="bpanel__h">Nothing has been sent yet. Change anything you like.</span></legend>
+            <span class="bpanel__h">Nothing has been sent yet.</span></legend>
 
           <dl class="breview" id="bReview"></dl>
-
-          <div class="bnext-wrap">
-            <p class="bgroup__h">What happens next</p>
-            <ol class="bnext">
-              <li><span class="bnext__n">01</span>
-                <span class="bnext__b"><b>His office reads it.</b>
-                Every request gets a reply, usually within a working day.</span></li>
-              <li><span class="bnext__n">02</span>
-                <span class="bnext__b"><b>You agree a time.</b>
-                [[VERIFY: does he offer video consultations for out-of-town patients, and is
-                there a consultation fee? Both change this line.]]</span></li>
-              <li><span class="bnext__n">03</span>
-                <span class="bnext__b"><b>You meet him, not a coordinator.</b>
-                [[VERIFY: confirm the surgeon conducts the initial consultation himself.]]</span></li>
-            </ol>
-          </div>
 
           <p class="bnotice" id="bNotice" hidden></p>
         </fieldset>
@@ -369,27 +311,6 @@
           <figure class="bdone__fig">
             <img src="/img/about/jc-office-600.jpg" alt="" loading="lazy" decoding="async">
           </figure>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-sec p-sec--ink2 bwhy" id="why" aria-labelledby="why-h">
-    <div class="wrap">
-      <div class="bwhy__grid">
-        <div>
-          <h2 class="p-h2" id="why-h">Why the form asks so little.</h2>
-          <p class="p-lede">Most consultation forms in this industry ask for your weight,
-            your BMI, your medical history and photographs before anyone has spoken to you.</p>
-        </div>
-        <div class="bwhy__body">
-          <p>Collecting health data drags a marketing website into the scope of medical
-            privacy law and creates a breach surface for information the site has no
-            business holding. It also filters people out before a surgeon has had a chance
-            to say anything useful to them.</p>
-          <p>Clinical detail belongs in the consultation, where someone qualified is asking
-            the questions and can explain why they matter. Four questions is what is needed
-            to get you into that room.</p>
         </div>
       </div>
     </div>

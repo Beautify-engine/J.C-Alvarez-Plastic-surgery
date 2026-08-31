@@ -228,6 +228,8 @@ def apply_patterns(html, T):
     html = re.sub(r'([A-Z][A-Za-z\- ]{2,40}), case (\d+) (?:&mdash;|—) open larger',
                   lambda m: "%s, caso %s \u2014 ver m&aacute;s grande"
                             % (T.get(m.group(1), m.group(1)), m.group(2)), html)
+    # The case counter, "01 of 09". Numeric, so it cannot be a map key.
+    html = re.sub(r'>(\d{2}) of (\d{2})<', r'>\1 de \2<', html)
     # Any remaining "Play:" prefix — the title after it is a real YouTube title and
     # stays exactly as he published it.
     html = html.replace('aria-label="Play: ', 'aria-label="Reproducir: ')

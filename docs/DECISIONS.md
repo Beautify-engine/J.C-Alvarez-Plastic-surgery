@@ -3342,3 +3342,65 @@ procedures and a working submit. `tools/bookfn.mjs` covers the proof switching.
 
 **Still open and still his:** the two `[[VERIFY]]` lines on step 04, and the three facts
 §5.4 wants above the fold that `facts.md` cannot yet source.
+
+---
+
+## D-075 — The hero comes off: /book is not a page that has to sell
+
+D-074 put a hero on the booking page — portrait, trust strip, the "four questions"
+argument. It was the wrong instinct and this reverses most of it. The correction, from
+the client-side lead, is the right one: **anyone who has reached `/book` is already
+convinced.** The page's only job is completion. Every line of argument on it was
+spending the first screen persuading someone who had already said yes, and pushing the
+first question below the fold to do it.
+
+**Measured, because "above the fold" is a claim, not an opinion.** `tools/foldcheck.mjs`
+reports the top and bottom of each landmark against the viewport at 1440×900, 1280×720
+and 390×844. Before: the first question began at 456px and the first row of procedures at
+610px, with the fold at 720 on a short laptop. After: question at 404px, cards at 544–559,
+**and the first row of procedures is fully visible at both 1440×900 and 390×844.** On
+1280×720 the top half of the first row shows, which is enough to read as a form and invite
+the scroll.
+
+**What went, and why each one:**
+
+| removed | reason |
+|---|---|
+| the dark split hero | it was a pitch on a page nobody arrives at undecided |
+| "You are asking for an assessment, not committing to an operation — and if the answer is 'not yet,' he will tell you that" | reassurance aimed at a doubt she has already resolved by arriving |
+| the `NO MEDICAL HISTORY / NO MEDICATIONS / NO WEIGHT OR BMI / NO PHOTOGRAPHS` row | an argument about the form, above the form |
+| the "Why the form asks so little" section | a 120-word essay defending a design decision, addressed to the wrong reader. **Still good pitch material — it belongs in the deck or on `/contact`, not on the form.** |
+| every timing option's `<small>` ("You are decided and want a date") | the four answers are self-evident; the hints were hand-holding and cost a third of the step's height |
+| the breadcrumb | chrome above a task, and ~40px of the first screen |
+| "He will correct the list if it is wrong; that is half of what a consultation is for" | true, and not what she needs while choosing |
+
+**What stayed, deliberately.** His face — but at 4rem, as a *who you are writing to* chip
+beside the title rather than a hero portrait (§5.3 is satisfied by presence, not by size).
+One line of expectation: how long it takes and when she hears back. That is not persuasion,
+it is the two things a person wants to know before starting a form.
+
+**The visually-hidden live region.** `#bLive` reserved ~40px at the top of the form for a
+message that is empty on arrival, and everything it announced was already on screen —
+progress in the step rail, errors in the `.berr` under each answer. It is now
+visually-hidden and still announces to assistive tech, at zero cost to the first screen.
+
+**The `[[VERIFY]]` markers are gone from the page, and that is not a loosening.** §2
+requires the marker when we *publish* an unverified fact. Both markers sat in a "what
+happens next" list that made claims we could not source; the list came off, so the claims
+came off with it. **The questions are still open and need rows in `content/facts.md`:**
+does he offer video consultations for out-of-town patients; is there a consultation fee;
+does he conduct the initial consultation himself. Not added here — §7 says flag `facts.md`
+before touching it.
+
+**A smaller thing I got wrong twice.** The circular identity avatar is a crop of his studio
+portrait, which is a cut-out standing on a teal card. The first crop was centred on his
+face and ran off the top of that card, so the circle contained a hard horizontal edge where
+the card ended. Sampling the source for the card's actual bounds (x 84–980, y 156–1204) and
+cropping inside them fixed it.
+
+Verified after the restructure: axe **0 violations at 1440, 390 and 320 across all four
+steps**; CLS 0.0004; no horizontal overflow at 320px; contextual proof, save-and-resume,
+deep links, keyboard advance and the no-JS path all still pass `tools/bookfn.mjs`.
+
+**New tool: `tools/foldcheck.mjs`** — run it after any change to the top of a form page.
+"The form is above the fold" is the kind of claim that is easy to believe and cheap to check.

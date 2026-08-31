@@ -219,7 +219,12 @@ photography — 901kb and a 2.3s LCP on throttled 4G, against a 2.0s budget.
 | file(s) | derived from | patient | rights | notes |
 |---|---|---|---|---|
 | `img/procedures/{slug}-card-{340,510}.webp` — 22 files | the 8 graded 4:5 carousel images already at `img/procedures/{slug}-600.jpg` | no — faceless, none reads as a result | inherits `[[VERIFY]]` from the carousel row above | 1:1 centre-crop, vertical bias 0.38 so torso and face subjects sit correctly. Built by `tools/gen-card-thumbs.py`, idempotent. 373kb → 174kb. |
-| `img/about/portrait-book-{420,580,780}.webp` — 3 files | `img/about/portrait-1050.webp` (studio portrait, client-owned) | no | client-owned | Sized for the 24rem / 18rem box this page paints. **Composited onto `--ink` (#16232a) rather than shipping alpha** — alpha WebP cost 5× the bytes (59/124/228kb vs 12/20/31) and the hero ground is a single flat colour, so the result is identical on the page. **Regenerate if `.bhero`'s background ever changes.** |
+| `img/about/portrait-rail-{160,320}.webp` — 2 files | `img/about/portrait-1050.webp` (studio portrait, client-owned) | no | client-owned | Square head crop for the 4rem identity chip beside the page title. Cropped **inside** the teal card baked into the source (bounds x 84–980, y 156–1204) so the circular mask contains no card edge. Composited onto `--paper` (#f7f6f3), the ground the header band paints. **Regenerate if `.bhead`'s background changes.** |
+
+**Superseded and deleted 2026-08-31 (D-075):** `img/about/portrait-book-{420,580,780}.webp`.
+Built in D-074 for a hero portrait; the hero came off when the page was restructured to
+open on the form, and the 4rem chip above replaced them. Removed rather than left on disk —
+D-069 audited unused assets once already.
 
 Reused unchanged, no new derivative: `img/about/signature-ink.png` (his signature, client
 supplied, RESOLVED in facts.md 2026-08-24) and `img/about/jc-office-600.jpg`.

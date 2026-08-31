@@ -1506,46 +1506,29 @@
 .visually-hidden,.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
   overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
-.bhero{background:var(--ink);color:var(--paper);padding-block:clamp(3rem,6vw,5.5rem)}
-.bhero .eyebrow{color:var(--accent-dark);margin:0 0 var(--s-3)}
-.bhero h1{font-family:var(--font-display);font-weight:400;
-  font-size:clamp(2.5rem,1.6rem + 3.6vw,4.5rem);line-height:.98;letter-spacing:-.025em;
-  margin:0 0 var(--s-4);max-width:16ch}
-.bhero__def{font-size:var(--t-1);line-height:1.5;margin:0 0 var(--s-6);max-width:44ch}
-.bhero__not{display:flex;flex-wrap:wrap;gap:.5em clamp(1rem,2.4vw,1.9rem);list-style:none;
-  margin:0 0 var(--s-3);padding:var(--s-3) 0 0;border-top:1px solid var(--rule-on-dark);
-  font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);text-transform:uppercase;
-  color:var(--muted-on-dark)}
-.bhero__not li{white-space:nowrap}
-.bhero__why{margin:0;color:var(--muted-on-dark);font-size:var(--t--1);max-width:52ch}
-.bhero__why a{color:var(--accent-dark)}
+/* Compact header band. This page opens on the form, so the header gets one line of
+   height it has to earn: who she is writing to, and what happens after she sends it. */
+.bhead{background:var(--paper);color:var(--ink);
+  padding-block:clamp(1.5rem,3vw,2.25rem) clamp(1.25rem,2.5vw,1.75rem);
+  border-bottom:1px solid var(--rule-on-light)}
+.bhead__grid{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:var(--s-3) var(--s-6)}
+.bhead h1{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(2rem,1.5rem + 2vw,3rem);line-height:1;letter-spacing:-.02em;
+  margin:0 0 var(--s-2);max-width:18ch}
+.bhead__l{margin:0;color:var(--muted-on-light);font-size:var(--t--1);line-height:1.55;
+  max-width:46ch}
 
-.bhero__grid{display:grid;grid-template-columns:minmax(0,1fr) 24rem;
-  gap:clamp(2rem,5vw,4.5rem);align-items:center}
-.bhero--split h1{margin-bottom:var(--s-3)}
-/* The portrait sits on the same offset hairline plate the procedure heroes use, so
-   it reads as an object placed on the page rather than a photo pasted into it. */
-.bhero__fig{margin:0}
-/* No offset hairline plate here. That convention frames a rectangular photograph;
-   this portrait is a cut-out with no edge of its own, so the rectangle floated free
-   of the subject and read as a stray line. The figure carries itself. */
-.bhero__fig picture{display:block}
-/* scoped to the portrait — unscoped, this also matched the signature and overrode it */
-.bhero__fig picture img{display:block;width:100%;height:auto}
-.bhero__fig figcaption{display:flex;flex-direction:column;gap:.35rem;
-  margin-top:var(--s-3);font-size:var(--t-eyebrow);letter-spacing:var(--track-eyebrow);
-  text-transform:uppercase;color:var(--muted-on-dark)}
-/* the signature is ink on white; invert it onto the dark ground */
-.bhero__sig{width:10.5rem;height:auto;filter:invert(1);opacity:.9}
+/* "who you're writing to" — his face at the size a form needs it, not a hero's */
+.bwho{display:flex;align-items:center;gap:var(--s-2)}
+.bwho picture{flex:none;display:block}
+.bwho img{display:block;width:4rem;height:4rem;border-radius:50%;object-fit:cover;
+  background:var(--paper-2)}
+.bwho__t{margin:0;font-size:var(--t--1);line-height:1.4;color:var(--muted-on-light)}
+.bwho__t b{display:block;font-weight:500;color:var(--ink);font-size:var(--t-0)}
 
-.btrust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-3) var(--s-4);
-  list-style:none;margin:clamp(2rem,4vw,3rem) 0 0;padding:var(--s-4) 0 0;
-  border-top:1px solid var(--rule-on-dark);
-  font-size:var(--t--1);line-height:1.5;color:var(--muted-on-dark)}
-.btrust b{display:block;font-family:var(--font-display);font-weight:400;
-  font-size:var(--t-2);line-height:1.1;color:var(--paper);margin-bottom:.25em}
-
-.bform{background:var(--paper);color:var(--ink);padding-block:var(--section)}
+.bform{background:var(--paper);color:var(--ink);
+  padding-block:clamp(1rem,2vw,1.5rem) var(--section)}
 .bform__layout{display:grid;grid-template-columns:minmax(0,46rem) minmax(0,17rem);
   justify-content:space-between;gap:clamp(2rem,5vw,4.5rem);align-items:start}
 .bform__form{min-width:0}
@@ -1557,9 +1540,9 @@
 .bform__form{max-width:46rem}
 
 /* progress */
-.bsteps{display:flex;gap:0;list-style:none;margin:0 0 clamp(2rem,4vw,3rem);padding:0;
+.bsteps{display:flex;gap:0;list-style:none;margin:0 0 clamp(1.25rem,2.5vw,1.75rem);padding:0;
   border-top:1px solid var(--rule-on-light)}
-.bsteps li{flex:1 1 0;display:flex;align-items:center;gap:.6em;padding:var(--s-3) 0 var(--s-2);
+.bsteps li{flex:1 1 0;display:flex;align-items:center;gap:.6em;padding:var(--s-2) 0;
   font:500 var(--t-eyebrow)/1 var(--font-body);letter-spacing:var(--track-eyebrow);
   text-transform:uppercase;color:var(--muted-on-light);position:relative}
 .bsteps li::after{content:'';position:absolute;left:0;top:-1px;height:1px;width:0;
@@ -1568,9 +1551,8 @@
 .bsteps li[aria-current]::after,.bsteps li.is-done::after{width:100%}
 .bsteps__n{font-variant-numeric:tabular-nums;color:var(--muted-on-light)}
 .bsteps li[aria-current] .bsteps__n,.bsteps li.is-done .bsteps__n{color:var(--accent-light)}
-.bform__live{margin:0 0 var(--s-3);font-size:var(--t-eyebrow);
-  letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--accent-light);
-  min-height:1.2em}
+.bform__live{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 .bform__hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
@@ -1587,7 +1569,7 @@
 
 .bpanel{border:0;margin:0;padding:0;min-width:0}
 .bpanel[hidden]{display:none}
-.bpanel legend{display:block;padding:0;margin:0 0 var(--s-4);width:100%}
+.bpanel legend{display:block;padding:0;margin:0 0 var(--s-3);width:100%}
 .bpanel__q{display:block;font-family:var(--font-display);font-weight:400;
   font-size:var(--t-3);line-height:1.1;letter-spacing:-.015em;text-wrap:balance}
 .bpanel__h{display:block;margin-top:var(--s-2);color:var(--muted-on-light);
@@ -1600,7 +1582,7 @@
    short group in practice — 4 + 3 + 4 does not divide. Stacked, the region
    headings also do more work: they read as the dividers of the list. */
 .bgrid{display:block}
-.bgroup + .bgroup{margin-top:var(--s-6)}
+.bgroup + .bgroup{margin-top:var(--s-4)}
 .bgroup__h{margin:0 0 var(--s-2);padding-bottom:var(--s-2);
   border-bottom:1px solid var(--rule-on-light);
   font:500 var(--t-eyebrow)/1 var(--font-body);
@@ -1609,8 +1591,8 @@
    explicit that self-identification is the whole game — she is looking for her own
    body, not reading a menu. Every photograph here is faceless and none reads as a
    result (assets/MANIFEST.md, design/procedure-photography.md). */
-.pcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));
-  gap:clamp(.75rem,1.6vw,1.15rem)}
+.pcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));
+  gap:clamp(.6rem,1.2vw,.9rem)}
 .pcard{position:relative;display:flex;flex-direction:column;gap:.65rem;cursor:pointer}
 .pcard input{position:absolute;opacity:0;width:1px;height:1px}
 .pcard__fig{position:relative;display:block;aspect-ratio:1/1;overflow:hidden;
@@ -1793,11 +1775,6 @@
 .bdone__fig img{display:block;width:100%;height:auto;border-radius:var(--r-sm)}
 .bdone p{margin:var(--s-3) 0 var(--s-4);color:var(--muted-on-light);line-height:1.7;max-width:52ch}
 
-.bwhy__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:clamp(2rem,5vw,4rem);align-items:start}
-.bwhy__body p{margin:0 0 var(--s-3);color:var(--muted-on-dark);line-height:1.7;max-width:var(--measure)}
-.bwhy__body p:last-child{margin-bottom:0}
-
 /* Motion is opt-in. Panels arrive rather than cut, and a brief row that has just
    been answered lifts once — short, eased, and gone (§4). */
 @media (prefers-reduced-motion:no-preference){
@@ -1818,15 +1795,10 @@
   .bvoice{max-width:46rem}
 }
 @media (max-width:60rem){
-  .bhero__grid{grid-template-columns:1fr;gap:var(--s-6)}
-  .bhero__fig{max-width:18rem}
-  .btrust{grid-template-columns:1fr;gap:var(--s-3)}
-  .btrust b{display:inline;font-size:var(--t-1);margin:0}
   .bdone__grid{grid-template-columns:1fr}
   .bdone__fig{order:-1;max-width:20rem}
 }
 @media (max-width:64rem){
-  .bwhy__grid{grid-template-columns:1fr}
   .bopts{grid-template-columns:1fr}
   .bfields{grid-template-columns:1fr}
 }

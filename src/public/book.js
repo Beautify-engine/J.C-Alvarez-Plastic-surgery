@@ -100,9 +100,7 @@
 
   function hintProcedures() {
     var n = picked().filter(function (i) { return !i.hasAttribute('data-exclusive'); }).length;
-    hint.textContent = n < 2 ? ''
-      : n + ' selected. He will talk through whether those are best done in one operation ' +
-            'or staged — that judgement is part of the consultation.';
+    hint.textContent = n < 2 ? '' : n + ' selected.';
   }
 
   /* ---- state ------------------------------------------------------------- */
