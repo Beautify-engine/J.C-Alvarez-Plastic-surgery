@@ -19,12 +19,21 @@
                       "J.C. Alvarez Plastic Surgery <consultations@…>"
    ========================================================================= */
 
+import { gate } from './gate.js';
+
 const ROUTE = '/api/consultation';
 const LIMIT = 8 * 1024;      /* a request this size is not a person */
 const MIN_SECONDS = 3;       /* nobody fills four questions faster */
 
 export default {
   async fetch(request, env) {
+    /* Spec-period gate, ahead of everything including the form endpoint and the
+       asset binding — see src/worker/gate.js. Returns null when the visitor has
+       already answered, so the only way past is an explicit null. Delete these
+       two lines on launch day. */
+    const locked = await gate(request, env);
+    if (locked) return locked;
+
     const url = new URL(request.url);
     if (url.pathname === ROUTE) return consultation(request, env, url);
     return env.ASSETS.fetch(request);

@@ -1,15 +1,11 @@
-// MOVED OUT OF THE REPO ROOT ON PURPOSE — 2026-08-31.
+// This project deploys as a WORKER with static assets, not as a Cloudflare Pages
+// project: src/worker/index.js handles every request and falls through to
+// env.ASSETS. So this file belongs at the repo root — Cloudflare needs it to
+// find the entry point — and Pages Functions never run here.
 //
-// At the root, Cloudflare treats this as a Workers project and runs
-// src/worker/index.js as the entry point. That silently disables Pages
-// Functions: functions/_middleware.js compiled fine and never ran, so the
-// password gate was bypassed and every patient photograph was served. Proven
-// locally — with this file at the root every route returned 200 without a
-// cookie; moved aside, the same requests returned 401.
-//
-// Keep it here unless the site is deliberately migrated to Workers. To use it
-// then:  npx wrangler deploy --config config/worker/wrangler.jsonc
-// and port functions/_middleware.js into the Worker first, or the gate is lost.
+// The spec-period password gate therefore lives in src/worker/gate.js and is
+// called from src/worker/index.js. Do not move it into functions/; that
+// directory does nothing on a Worker.
 
 {
   // Cloudflare Workers Static Assets config.
@@ -54,6 +50,14 @@
 
     // Any unmatched path renders 404.html with a real 404 status, rather than
     // Cloudflare's default error page.
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+
+    // Assets are served BEFORE the Worker runs unless this is set, which means
+    // the password gate in src/worker/gate.js never sees a request for a page or
+    // an image — it only saw /api/consultation. Verified locally: without this,
+    // every route returned 200 with no cookie. Remove it on launch day together
+    // with the gate; static-first is the faster default and the right one once
+    // the site is public.
+    "run_worker_first": true
   }
 }
