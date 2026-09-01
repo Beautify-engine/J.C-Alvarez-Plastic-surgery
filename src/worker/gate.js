@@ -71,29 +71,19 @@ async function hasValidSession(request, secret) {
 }
 
 function page({ error = false, missing = false } = {}) {
-  /* One person will ever read this screen: him. It is not a maintenance notice,
-     it is the first thing he sees when he opens the link — so its job is to make
-     him want to open the site, not to explain a lock.
+  /* One person will ever read this screen: him. Named at the top so it is
+     obviously his, then a plain instruction and nothing else in the way.
 
-     What earns that is specifics only someone who did the work would know: his
-     eleven procedures, his sixty-four documented cases, his forty-two talks, and
-     the fact that it is in Spanish because that is the language he records in.
-     Every number here is counted from the build itself (11 procedure pages, the
-     gallery's own "64 casos", the videos page's "42 videos") — nothing on this
-     screen is rounded up or guessed.
-
-     The password still gets its one sentence, because the reason for it is the
-     argument: his patients' photographs are already protected before he has
-     signed anything. */
+     The one line that stays is why it is locked, because that reason is worth
+     more than any sentence about care: his patients' photographs are already
+     behind a password before he has signed anything. */
   const body = missing
     ? `<h1>Sitio no configurado</h1>
        <p class="n">Falta la variable de entorno <code>SITE_PASSWORD</code>. El sitio no
        se sirve sin ella, a propósito: contiene fotografías de pacientes.</p>`
     : `<p class="k">Para el Dr. Julio Clavijo Alvarez</p>
-       <h1>Lo construimos entero antes de pedirle nada.</h1>
-       <p class="n">Sus once procedimientos, sus 64 casos y sus 42 charlas &mdash; en
-       español, como sus videos. Está detrás de una contraseña porque lleva
-       fotografías de sus pacientes, y eso no se publica sin su permiso.</p>
+       <h1>Introduzca su contraseña para ver el sitio.</h1>
+       <p class="n">Lleva contraseña porque incluye fotografías de sus pacientes.</p>
        <form method="POST">
          <label for="p">Contraseña</label>
          <input id="p" name="password" type="password" autocomplete="current-password"
@@ -118,9 +108,9 @@ function page({ error = false, missing = false } = {}) {
   main{width:100%;max-width:29rem}
   .k{margin:0 0 .75rem;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
     color:var(--accent)}
-  h1{font:400 2rem/1.12 ui-serif,Georgia,"Times New Roman",serif;margin:0 0 .75rem;
+  h1{font:400 1.9rem/1.18 ui-serif,Georgia,"Times New Roman",serif;margin:0 0 .75rem;
     letter-spacing:-.01em}
-  .n{color:var(--muted);margin:0 0 2rem;max-width:27rem}
+  .n{color:var(--muted);margin:0 0 2rem;max-width:24rem}
   label{display:block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;
     color:var(--muted);margin-bottom:.4rem}
   input{width:100%;padding:.8rem .9rem;font-size:1rem;color:var(--ink);
