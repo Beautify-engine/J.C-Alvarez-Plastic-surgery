@@ -1,6 +1,10 @@
 /* ============================================================================
    Spec-period access gate.
 
+   Called first from src/worker/index.js, before the consultation route and
+   before env.ASSETS. This site deploys as a Worker, not as Pages, so a
+   functions/_middleware.js would never execute — that was checked the hard way.
+
    CLAUDE.md §3: this deployment carries 192 real before-and-after photographs of
    his patients, and the engagement is unsigned. Their consent covers his own
    channels, not a third party republishing them somewhere new. So the preview is
@@ -16,16 +20,18 @@
    One prompt, then a cookie. He enters the password once and browses the whole
    site for SESSION_DAYS.
 
-   SETUP — Cloudflare dashboard → Settings → Environment variables:
-     SITE_PASSWORD   required. Set it for BOTH Production and Preview, or the
-                     preview URLs stay locked (which is the safe failure).
+   SETUP — Cloudflare dashboard → the Worker → Settings → Variables and Secrets:
+     SITE_PASSWORD   required, added as a SECRET (encrypted), not a plaintext
+                     variable. A plaintext value is readable by anyone with
+                     dashboard access and shows in the UI.
 
    If SITE_PASSWORD is unset the site refuses to serve rather than falling open.
    That is deliberate: a forgotten variable must not publish patient photographs.
 
-   DELETE THIS FILE ON LAUNCH DAY, once he has signed and the gallery is cleared
-   for public display — together with the noindex header in config/es/_headers
-   and config/es/robots.txt. All three exist for the same reason and end together.
+   ON LAUNCH DAY, once he has signed and the gallery is cleared for public
+   display, delete this file and its two lines in src/worker/index.js, together
+   with the noindex header in config/es/_headers and config/es/robots.txt. All
+   three exist for the same reason and end together.
    ========================================================================= */
 
 const COOKIE = "jca_preview";
@@ -129,14 +135,16 @@ function html(markup, status) {
   });
 }
 
-export async function onRequest(context) {
-  const { request, env, next } = context;
+/* Returns a Response to send instead of the site, or null to let the request
+   through. Null is the only way past, so a thrown error or a missing branch
+   fails closed rather than open. */
+export async function gate(request, env) {
   const secret = env.SITE_PASSWORD;
 
   // Fail closed. An unset variable must never mean "serve the patient gallery".
   if (!secret) return html(page({ missing: true }), 503);
 
-  if (await hasValidSession(request, secret)) return next();
+  if (await hasValidSession(request, secret)) return null;
 
   if (request.method === "POST") {
     const form = await request.formData().catch(() => null);
