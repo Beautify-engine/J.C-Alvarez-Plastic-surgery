@@ -71,19 +71,29 @@ async function hasValidSession(request, secret) {
 }
 
 function page({ error = false, missing = false } = {}) {
+  /* One person will ever read this screen: him. It is not a maintenance notice,
+     it is the first thing he sees when he opens the link, so it says who it is
+     for and why it is locked.
+
+     The reason is also the argument. He is being asked to trust a stranger with
+     his patients' photographs; the fact that they are behind a password before
+     he has signed anything is worth more here than any sentence about care. Say
+     it plainly and get out of the way. */
   const body = missing
     ? `<h1>Sitio no configurado</h1>
        <p class="n">Falta la variable de entorno <code>SITE_PASSWORD</code>. El sitio no
        se sirve sin ella, a propósito: contiene fotografías de pacientes.</p>`
-    : `<h1>Vista privada</h1>
-       <p class="n">Este sitio está en revisión y contiene fotografías de pacientes.
-       Introduzca la contraseña para continuar.</p>
+    : `<p class="k">Para el Dr. Julio Clavijo Alvarez</p>
+       <h1>Todavía no es público.</h1>
+       <p class="n">Esto es una propuesta de sitio web, hecha para su consulta.
+       Lleva contraseña por una razón concreta: incluye fotografías de sus pacientes,
+       y esas no van a una dirección abierta hasta que usted lo decida.</p>
        <form method="POST">
          <label for="p">Contraseña</label>
          <input id="p" name="password" type="password" autocomplete="current-password"
                 autofocus required aria-describedby="${error ? "err" : "hint"}">
          ${error ? '<p class="e" id="err" role="alert">Contraseña incorrecta.</p>'
-                 : '<p class="h" id="hint">Se le pedirá una sola vez en este dispositivo.</p>'}
+                 : '<p class="h" id="hint">Se la pedimos una sola vez en este dispositivo.</p>'}
          <button type="submit">Entrar</button>
        </form>`;
 
@@ -92,16 +102,19 @@ function page({ error = false, missing = false } = {}) {
   return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Vista privada — J.C. Alvarez Plastic Surgery</title>
+<title>Una propuesta para el Dr. Julio Clavijo Alvarez</title>
 <style>
   :root{--ink:#16232a;--paper:#f7f6f3;--accent:#35606f;--muted:#5b6f77;--line:#d6dfe2}
   *{box-sizing:border-box}
   body{margin:0;min-height:100vh;display:grid;place-items:center;padding:1.5rem;
     background:var(--paper);color:var(--ink);
     font:400 16px/1.55 ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif}
-  main{width:100%;max-width:26rem}
-  h1{font:400 1.75rem/1.15 ui-serif,Georgia,"Times New Roman",serif;margin:0 0 .5rem}
-  .n{color:var(--muted);margin:0 0 1.75rem}
+  main{width:100%;max-width:29rem}
+  .k{margin:0 0 .75rem;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent)}
+  h1{font:400 2rem/1.12 ui-serif,Georgia,"Times New Roman",serif;margin:0 0 .75rem;
+    letter-spacing:-.01em}
+  .n{color:var(--muted);margin:0 0 2rem;max-width:27rem}
   label{display:block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;
     color:var(--muted);margin-bottom:.4rem}
   input{width:100%;padding:.8rem .9rem;font-size:1rem;color:var(--ink);
