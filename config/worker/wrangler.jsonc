@@ -1,3 +1,16 @@
+// MOVED OUT OF THE REPO ROOT ON PURPOSE — 2026-08-31.
+//
+// At the root, Cloudflare treats this as a Workers project and runs
+// src/worker/index.js as the entry point. That silently disables Pages
+// Functions: functions/_middleware.js compiled fine and never ran, so the
+// password gate was bypassed and every patient photograph was served. Proven
+// locally — with this file at the root every route returned 200 without a
+// cookie; moved aside, the same requests returned 401.
+//
+// Keep it here unless the site is deliberately migrated to Workers. To use it
+// then:  npx wrangler deploy --config config/worker/wrangler.jsonc
+// and port functions/_middleware.js into the Worker first, or the gate is lost.
+
 {
   // Cloudflare Workers Static Assets config.
   //
