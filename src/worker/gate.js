@@ -72,29 +72,35 @@ async function hasValidSession(request, secret) {
 
 function page({ error = false, missing = false } = {}) {
   /* One person will ever read this screen: him. It is not a maintenance notice,
-     it is the first thing he sees when he opens the link, so it says who it is
-     for and why it is locked.
+     it is the first thing he sees when he opens the link — so its job is to make
+     him want to open the site, not to explain a lock.
 
-     The reason is also the argument. He is being asked to trust a stranger with
-     his patients' photographs; the fact that they are behind a password before
-     he has signed anything is worth more here than any sentence about care. Say
-     it plainly and get out of the way. */
+     What earns that is specifics only someone who did the work would know: his
+     eleven procedures, his sixty-four documented cases, his forty-two talks, and
+     the fact that it is in Spanish because that is the language he records in.
+     Every number here is counted from the build itself (11 procedure pages, the
+     gallery's own "64 casos", the videos page's "42 videos") — nothing on this
+     screen is rounded up or guessed.
+
+     The password still gets its one sentence, because the reason for it is the
+     argument: his patients' photographs are already protected before he has
+     signed anything. */
   const body = missing
     ? `<h1>Sitio no configurado</h1>
        <p class="n">Falta la variable de entorno <code>SITE_PASSWORD</code>. El sitio no
        se sirve sin ella, a propósito: contiene fotografías de pacientes.</p>`
     : `<p class="k">Para el Dr. Julio Clavijo Alvarez</p>
-       <h1>Todavía no es público.</h1>
-       <p class="n">Esto es una propuesta de sitio web, hecha para su consulta.
-       Lleva contraseña por una razón concreta: incluye fotografías de sus pacientes,
-       y esas no van a una dirección abierta hasta que usted lo decida.</p>
+       <h1>Lo construimos entero antes de pedirle nada.</h1>
+       <p class="n">Sus once procedimientos, sus 64 casos y sus 42 charlas &mdash; en
+       español, como sus videos. Está detrás de una contraseña porque lleva
+       fotografías de sus pacientes, y eso no se publica sin su permiso.</p>
        <form method="POST">
          <label for="p">Contraseña</label>
          <input id="p" name="password" type="password" autocomplete="current-password"
                 autofocus required aria-describedby="${error ? "err" : "hint"}">
          ${error ? '<p class="e" id="err" role="alert">Contraseña incorrecta.</p>'
                  : '<p class="h" id="hint">Se la pedimos una sola vez en este dispositivo.</p>'}
-         <button type="submit">Entrar</button>
+         <button type="submit">Ver el sitio <span aria-hidden="true">&rarr;</span></button>
        </form>`;
 
   /* Self-contained: no stylesheet, no font, no image. The gate must not depend on
@@ -126,7 +132,12 @@ function page({ error = false, missing = false } = {}) {
   button{margin-top:1.25rem;width:100%;padding:.85rem 1rem;border:0;cursor:pointer;
     background:var(--accent);color:var(--paper);font-size:.8125rem;font-weight:500;
     letter-spacing:.08em;text-transform:uppercase}
+  button{display:flex;align-items:center;justify-content:center;gap:.6em}
+  button span{transition:transform var(--m,180ms) ease}
   button:hover{background:var(--ink)}
+  button:hover span{transform:translateX(3px)}
+  @media(prefers-reduced-motion:reduce){button span{transition:none}
+    button:hover span{transform:none}}
   button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
   @media(prefers-color-scheme:dark){
